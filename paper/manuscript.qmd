@@ -1,0 +1,102 @@
+---
+title: "A family of accessibility measures"
+format: pdf
+---
+
+```{r knitr-setup, include=FALSE}
+knitr::opts_chunk$set(
+  echo = FALSE,
+  cache = FALSE,
+  warning = FALSE,
+  message = FALSE,
+  comment = '', 
+  out.width = "1\\linewidth")
+```
+
+```{r load-packages, include=FALSE, cache=FALSE}
+library(dplyr) # A Grammar of Data Manipulation
+library(fitdistrplus) # Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
+library(geomtextpath) # Curved Text in 'ggplot2'
+library(ggforce) # Accelerating 'ggplot2'
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(ggpmisc) # Miscellaneous Extensions to 'ggplot2'
+library(ggrepel) # Automatically Position Non-Overlapping Text Labels with 'ggplot2'
+library(ggspatial) # Spatial Data Framework for ggplot2
+library(gridExtra) # Miscellaneous Functions for "Grid" Graphics 
+library(here)
+
+# library(huxtable) # Easily Create and Style Tables for LaTeX, HTML and Other Formats
+# library(kableExtra) # Construct Complex Table with 'kable' and Pipe Syntax
+# library(patchwork) # The Composer of Plots
+# library(RColorBrewer) # ColorBrewer Palettes
+# library(sf) # Simple Features for R
+# library(scales) # Scale Functions for Visualization
+# library(shadowtext) # Shadow Text Grob and Layer
+# library(skimr) # Compact and Flexible Summaries of Data
+# library(spdep) # Spatial Dependence: Weighting Schemes, Statistics
+# library(tidyr) # Tidy Messy Data
+# library(tmap) # Thematic Maps
+```
+
+# Introduction
+
+<!--The inquiry into spatial interaction traces to Newts Universal Gravitation-->
+The inquiry into people's interaction in space has been a popular subject of investigation for over a century. From as far back as @careyPrinciplesSocialScience1858's sentiments on "man [being] the molecule of society [and their interaction being subject to] the direct ratio of the mass and the inverse one of distance" [pg. 41,43], the investigation has often been coloured by the relationship between a pair of masses $M_i$ and $M_j$ (quantity of people, opportunities, or other _scales_ of mass), their separation distances $D_{ij}$, and some proportionality constant $G$ to yield the force of attraction $F$, the features of Newton's Law of Universal Gravitation (1687) @eq-1:
+
+$$
+F_{ij} = G \frac{M_i M_j} {D_{ij}^{2}}
+$${#eq-1}
+
+
+<!--Using Newts Universal Gravitation: Ravenstein 1889 to Stewart 1948-->
+Over a century ago, @ravensteinLawsMigration1889's proposed "Laws to Migration" from the empirical analysis of migration flows in early British censuses. This empirical investigation ignited many others looking to formulate models of human interaction based on the physical gravitation law (@eq-1). Notably, @reilly1929methods formulated the law of retail gravitation  <!--I can find the original text of this online, only discussed by others as important-->, Zipf's $\frac{P_1P_2}{D}$ hypothesis holding in the case of intercity personal movement @zipfHypothesisIntercityMovement1946, goods movement by railways @zipfHypothesisCaseRailway1946, and information @zipfDeterminantsCirculationInformation1946, and @stewartDemographicGravitationEvidence1948 introduced principles of demographic gravitation. 
+
+<!--Hansen leans on Stewart's 1948 Population Potential measure. Two crucial things: 1) Stewart set the proportional constant to 1 *for future determination* and 2) Stewart suggests that keeping the exponent value of d_ij as 1 is sufficient. Hansen doesn't address the proportional constant of 1 explicitly in his application and picks an exponent of then 1 for d_ij as it fits empirically better: the issue of units are never addressed. -->
+Following this literature, accessibility as the  _"potential of opportunities for interaction"_ defined in @hansen1959 emerged. Today, @hansen1959 is frequently cited as the father of the term's scientific use [@reggianiGuestEditorialNew2011] and Hansen-type accessibility is commonly referred to today as the gravity-based accessibility measure. @hansen1959 borrowed the "population potential" formulation used in @stewartDemographicGravitationEvidence1948, which closely follows the Newtonian definition of energy potential, and applied it to measure potential of opportunities (for interaction) (@eq-2). ^[The integral of $F_{ij}$ (@eq-1) over distance $d_{ij}$: $U_{ij}=-G M_{i}M_{j} /d_{ij}$. The potential energy of one mass, say $M_i$, is hence $U_i = G M_j / d_{ij}$, when applied to population instead of mass this equation yields 'potential population'. @hansen1959 takes this equation and replaces $M_j$ with _opportunities_ to derive _opportunity potential_ or, as Hansen defines, _potential of opportunities for interaction_.] $S_ij$ is a relative measure of the accessibility at $i$ to an activity located at $j$, $O_j$ is the size of the activity at $j$ and $d_{ij}$ is the distance or travel time between $i$ and $j$ with $\beta$ describing the effect size. ^[Notably, @Hansen1959 finds that when the model is empirically calibrated, ${\beta}$ takes a value of between 0.5 to 3, not the value of 1 as consistent in the Newtonian potential energy relationship.]
+
+$$
+S_{ij} = O_j * d_{ij}^\beta \\
+$${#eq-2}
+
+Of important note, however is that @hansen1959's formulation omits a proportionality constant akin to the function of $G$ in @eq-1. Interestingly, as @hansen1959 draws from @stewartDemographicGravitationEvidence1948, @stewartDemographicGravitationEvidence1948 sets the proportionality constant to 1, stating _"the constant G is left for future determination: a suitable choice of other units can reduce it to unity"_. Without a proportionality constant, however, the units of $S_ij$ are unclear: the unit of 'potential of opportunity for interaction' is left free to change as $\beta$ is calibrated for the population center with no discussion of a constant to balance the units. @eq-3 is the form of gravity-based accessibility measure commonly presented today. It is re-written with $S_i$ being the relative measure of the accessibility at $i$ to all activities $j$, and instead of $d_{ij}^\beta$, $f(c_{ij})$ is any monotonically decreasing function of travel cost $c_{ij}$.
+
+$$
+S_{i} = \sum_j O_j * f(c_{ij})
+$${#eq-3}
+
+<!--Accessibility from Hansen to today: very diverse, hard to interpret, and its lack of concern for the proportionality constant.  Our answer: the proportionality constant.-->
+Since @hansen1959, accessibility analysis has been widely employed across planning disciplines, but to the authors knowledge, have not been concerned with explicitly determining a proportionality constant. The majority of studies develop on the breath of opportunity $O_j$ studied (i.e., work, shopping, schools, leisure ()) and their geographic case study selection, the accuracy of parameters that capture distance-decay $f(c_{ij})$ (), and additions to the opportunity $O_j$ attribute such as competitive demand considerations (). However, the difficulty in interpreting gravity-based accessibility's meaning as anything other than a relative index of potential interaction, plagues it to this day and contributes to resistance to its application in practice(). The quantity and variations on @eq-3 compounds this issue of interpretability across studies. A testament to this inconsistent interpretation are the unsettled classifications generated by influential review works of the accessibility literature; for instance, @handyMeasuringAccessibilityExploration1997 classifies studies into gravity- and utility-based measures, @geursAccessibilityEvaluationLanduse2004 introduces further classification by expanding categories into potential- (gravity), utility-, location-, and person- based measures with different components, and @wuUnifyingAccess2020 demonstrates that the concept can be re-unified into its main features: the relationship between travel-cost and corresponding reachable opportunities and demonstrates how previous classifications are special cases of travel-cost or opportunities constraints. From the initial Newtonian analogy, we interpret @wuUnifyingAccess2020's work as offering a positive contribution by circling back to re-unify mass $M$ and separation distance $D$; however, an important component is still missing - the proportionality constant $G$. The aim of this paper's focus is on the proportionality constant to re-unify accessibility research with its Newtonian gravitational roots.
+
+<!--To address our paper's aim: we referr to the gravity model of today (Wilson) as it is based in the same Newtonian gravitational analogy as accessibility as well as Paez et al. 2019 and Soukhov et al. 2023,2024 -->
+The aim of this work is to demonstrate the importance of the proportionality constant consideration within @eq-3 to balancing the units of accessibility into an interpretable value thereby clarifying its meaning. To address this answer this question, we need not reinvent the wheel, instead we refer to the general gravity model of today (@eq-4) as introduced in @wilson1971. The gravity model traces back to these early 20th century empirical investigations [@carrothersHistoricalReviewGravity1956; @griggRavensteinLawsMigration1977; @haynesGravitySpatialInteraction1985; @oshanSpatialStructureDebate2021]; it also retains the proportionality constant and the resulting output is a tangible unit. 
+
+$$
+T_{ij} = k P_i^{\lambda} P_j^{\alpha} d_{ij}^{\beta}
+$${#eq-4}
+
+<!--Explain the features of the gravity model of today (Wilson) -->
+Where $T_{ij}$ represents a $n$ x $m$ matrix of flows between $n$ origins $i$ and $m$ destinations $j$, $P$ are a vector of mass attributes at origin $i$ and $j$ and cost to overcome physical separation, and $d_{ij}$ is a $n$ x $m$ matrix. $d_{ij}$ is also frequently replaced by $f(c_{ij})$ in the literature, some function of $c_{ij}$ which decreases as $c_{ij}$ increases. Furthermore, the exponents are introduced to modulate the effect size of the variables, where $\lambda$ and $\alpha$ modulate $P$ and $\beta$ modulates $d$; when variables $T$, $P$ and $d$ are known, the exponents can be estimated to summarize the variable's effect size contribution to the known flows in the system. Finally and of most important note in this paper, $k$ is a scale parameter that makes the overall equation proportional to the rate characteristic of the modeled phenomenon. In other words, $T_{ij}$ explicitly measures _interaction_ as a unit of trips and the proportionality constant $k$ ensures the total sum of $T_{ij}$ represents the total flows in the data.
+
+<!-- reiterate the paper's aim-->
+This work aims to re-unify accessibility literature with its Newtonian roots by mapping it onto the family of gravity models. Not only to clarify accessibility's interpretation as a measure, but also to encourage future developments that draw from its physics roots, gravity modelling siblings, and spatial interaction history. We began by tracing the development of spatial interaction from @ravensteinLawsMigration1889 to it's split into accessibility research from @hansen1959 to today. In the following section, we will derive different types of accessibility measures, following the family of gravity models namely: non-constrained, constrained, unconstrained/Total constrained, singly constrained, composite singly constrained, doubly constrained. Then, we will provide empirical examples of the types of measures. Finally, we'll discuss the use of each measure and broadly the implications of ignoring the issue of proportionality in accessibility analysis.
+
+
+
+# A family of accessibility measures
+
+Derive the various accessibility measures. In my mind:
+•	Non-constrained: it does not include a single proportionality constant.
+•	Unconstrained/Total constrained: uses a single proportionality constant
+•	Singly constrained: spatial availability
+•	Composite singly constrained: Balanced floating catchment areas (not truly doubly constrained)
+•	Doubly constrained (only when the units of the marginals are the same, therefore of more limited application)
+
+# Examples
+
+Use the TTS2016R package to illustrate every measure.
+
+# Discussion
+
+When to use each of these measures?
+
+# Conclusions
