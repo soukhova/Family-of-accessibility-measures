@@ -1,6 +1,7 @@
 ---
 title: "A family of accessibility measures"
 format: pdf
+bibliography: bibliography.bib
 ---
 
 ```{r knitr-setup, include=FALSE}
