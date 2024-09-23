@@ -1,7 +1,9 @@
 ---
 title: "A family of accessibility measures"
 format: pdf
-bibliography: bibliography.bib
+bibliography: "`r system('kpsewhich ../bibliography/bibliography.bib', intern=TRUE)`"
+nocite: |
+  @careyPrinciplesSocialScience1858, @ravensteinLawsMigration1889, @ravensteinLawsMigration1885
 ---
 
 ```{r knitr-setup, include=FALSE}
@@ -42,24 +44,86 @@ library(here)
 # Introduction
 
 <!--The inquiry into spatial interaction traces to Newts Universal Gravitation-->
-The inquiry into people's interaction in space has been a popular subject of investigation for over a century. From as far back as @careyPrinciplesSocialScience1858's sentiments on "man [being] the molecule of society [and their interaction being subject to] the direct ratio of the mass and the inverse one of distance" [pg. 41,43], the investigation has often been coloured by the relationship between a pair of masses $M_i$ and $M_j$ (quantity of people, opportunities, or other _scales_ of mass), their separation distances $D_{ij}$, and some proportionality constant $G$ to yield the force of attraction $F$, the features of Newton's Law of Universal Gravitation (1687) @eq-1:
+The patterns of people's movement in space have been a subject of scientific inquiry for centuries. From as far back as 1858 with Carey's Principles of Social Science where he stated that "man [is] the molecule of society [and their interaction is subject to] the direct ratio of the mass and the inverse one of distance" [see McKean's -@mckeanManual1883 Manual of Social Science, pp. 37-38], investigations of how people interact in space has often been  explicitly coloured by the features of Newton's Law of Universal Gravitation, as posited in his _Principia Mathematica_ of 1687 (see @eq-grav-prop):
+
+$$
+F_{ij} \propto \frac{M_i M_j} {D_{ij}^{2}}
+$${#eq-grav-prop}
+
+@eq-grav-prop is one of the most famous equations in all of science, and it states that the force of attraction $F$ between a pair of bodies $i$ and $j$ is directly _proportional_ to the product of their masses $M_i$ and $M_j$, and inversely _proportional_ to the square of the distance between them $D_{ij}$. Direct proportionality only means that as the product of the masses increases, so does the force. Likewise, inversely proportional only means that as the distance increases, the force decreases. To actually quantify the force, an empirical factor is required to convert the expression for the proportionality into an equation, which ensures that the force $F$ matches empirical observations of the attraction between masses. Ultimately, the equation for the force is as seen in @eq-grav:
 
 $$
 F_{ij} = G \frac{M_i M_j} {D_{ij}^{2}}
-$${#eq-1}
+$${#eq-grav}
 
+\noindent where $G$ is a proportionality constant obtained empirically, and called _Cavendish gravitational constant_, after Henry Cavendish's experimental results of 1798--more than a century after Newton's _Principia_ was published--that brought it to within 1\% accuracy level.
 
 <!--Using Newts Universal Gravitation: Ravenstein 1889 to Stewart 1948-->
-Over a century ago, @ravensteinLawsMigration1889's proposed "Laws to Migration" from the empirical analysis of migration flows in early British censuses. This empirical investigation ignited many others looking to formulate models of human interaction based on the physical gravitation law (@eq-1). Notably, @reilly1929methods formulated the law of retail gravitation  <!--I can find the original text of this online, only discussed by others as important-->, Zipf's $\frac{P_1P_2}{D}$ hypothesis holding in the case of intercity personal movement @zipfHypothesisIntercityMovement1946, goods movement by railways @zipfHypothesisCaseRailway1946, and information @zipfDeterminantsCirculationInformation1946, and @stewartDemographicGravitationEvidence1948 introduced principles of demographic gravitation. 
+Following Carey, research into human spatial interaction continued apace in different contexts. In 1885 and 1889 Ravenstein (who appears to have been unaware of Carey's treatise) proposed his "Laws of Migration", based on his empirical analysis of migration flows in various countries. In these works, Ravenstein posited a directly proportional relationship with the size of the destination (i.e., centres of commerce and industry), and an inversely proportional relationship between the size of flows and separation between origin and destination, a clear similitude to gravitational laws. Other researchers kept discovering, seemingly independently, principles of human spatial interaction that resembled Newton's universal law of gravitation. For example, @reilly1929methods (who seems to have been unaware of Carey and Ravenstein) formulated a law of retail gravitation  <!--Rilley does not cite Newton, nor Carey, nor Ravenstein-->, expressed in terms of equal attraction to competing retail destinations. Later, Zipf (seemingly unaware of Carey, Ravenstein, and Rilley) proposed a $\frac{P_1P_2}{D}$ hypothesis for the case of goods movement by railways @zipfHypothesisCaseRailway1946, intercity personal movement @zipfHypothesisIntercityMovement1946,and information @zipfDeterminantsCirculationInformation1946. This hypothesis stated that the magnitude of flows was proportional to the product of the populations of settlements, and inversely proportional to the distance between them. 
+
+A common theme among these early researchers of human spatial interaction is that a proportionality constant is missing. Of the researchers cited here, only Reilly and Zipf expressed their hypotheses in mathematical terms. In this way, Reilly expressed his hypothesis as follows:
+$$
+B_a = \frac{(P_a\cdot P_T)^N}{D_{aT}^n}
+$${#eq-reilly}
+
+\noindent where $B_a$ is the businness drawn to $a$ from $T$, $P_a$ and $P_T$ are the populations of the two settlements, and $D_{aT}$ is the distance between them. Quantity $N$ was chosen by Reilly in a somewhat ad hoc fasion as 1, and he used empirical observations of shoppers to choose a value of $n = 2$. 
+
+Zipf, on the other hand, expressed his hypothesis as:
+$$
+C^2 = \frac{P_1\cdot P_2}{D}
+$${#eq-zipf}
+
+\noindent where $C$ is the volume of goods exchanged between $1$ and $2$, $P_1$ and $P_2$ are the populations of the two settlements, and  $D_{12}$ is the distance between them.
+
+After Carey, it is in Stewart's [-@stewartDemographicGravitationEvidence1948] work on the principles of demographic gravitation that we find the strongest connection yet to Newton's law (Stewart was a physicist, whereas Ravenstein, Reilly, and Zipf were social scientists), and also recognition of preceding research, as he cites Reilly and Zipf as predecessors in the analysis of human spatial interaction. Stewart appears to be the first author to express his theorized relationships for human spatial interaction with a proportionality constant, as follows:
+$$
+F = G\frac{(N_1\mu_1)(N_2\mu_2)}{d_{12}^2}
+$${#eq-stewart-force}
+
+\noindent where:
+
+- $F$ is the _demographic force_
+- $N_1$ and $N_2$ are the numbers of people of in groups 1 and 2
+- $\mu_1$ and $\mu_2$ are so-called _molecular weights_
+- $d_{12}^2$ is the distance between $1$ and $2$
+- And finally $G$, a constant that Stewart "left for future determination" [-@stewartDemographicGravitationEvidence1948, p. 34]
+
+In addition to demographic force, Stewart defined a measure of "population potential" of $2$ with respect to $1$ as follows:
+$$
+V_1 = G\frac{M_2}{d}
+$${#eq-stewart-population-potential}
+
+For a system with more than 2 population bodies, Stewart formulated the population potential at $i$ as:
+$$
+V_i = \int\frac{D}{r} ds
+$${#eq-stewart-population-potential-integral}
+
+\noindent where $D$ is population density over an infinitesimal area $ds$, and $r$ is the distance to $i$. In more contemporary terms, this could be rewritten as:
+$$
+V_i = \sum_j \frac{M_j}{d_{ij}}
+$${#eq-stewart-population-potential-sum}
+
+\noindent which astute readers will identify as our modern definition of accessibility.
+
+Stewart's formulation of demographic force, developed in the context of what he called "social physics" [@stewartPrinciples1947], was problematic and had issues with inconsistent mathematical notation [e.g., in Stewart's 1948 paper, $G$ is used as a proportionality constant on p. 34 and again for the demographic energy on p. 54], but perhaps more seriously, it was permeated by a view of humans as particles and afflicted by unmitigated racism (Stewart assumed that the "molecular weight" $\mu$ was one for the average American, but "presumably...much less than one" for an Australian Aboriginal; p. 34). Eventually, Stewart's ideas about "social physics" fell out of favor among social scientists, but not before influencing Walter G. Hansen, then a student of city and regional planning at Massachusetts Institute of Technology.
 
 <!--Hansen leans on Stewart's 1948 Population Potential measure. Two crucial things: 1) Stewart set the proportional constant to 1 *for future determination* and 2) Stewart suggests that keeping the exponent value of d_ij as 1 is sufficient. Hansen doesn't address the proportional constant of 1 explicitly in his application and picks an exponent other than 1 for d_ij as it fits empirically better: the issue of units are never addressed. -->
-Following this literature, accessibility as the  _"potential of opportunities for interaction"_ defined in @hansen1959 emerged. Today, @hansen1959 is frequently cited as the father of the term's scientific use [@reggianiGuestEditorialNew2011] and Hansen-type accessibility is commonly referred to today as the gravity-based accessibility measure. @hansen1959 borrowed the "population potential" formulation used in @stewartDemographicGravitationEvidence1948, which closely follows the Newtonian definition of energy potential, and applied it to measure potential of opportunities (for interaction) (@eq-2). ^[The integral of $F_{ij}$ (@eq-1) over distance $d_{ij}$: $U_{ij}=-G M_{i}M_{j} /d_{ij}$. The potential energy of one mass, say $M_i$, is hence $U_i = G M_j / d_{ij}$, when applied to population instead of mass this equation yields 'potential population'. @hansen1959 takes this equation and replaces $M_j$ with _opportunities_ to derive _opportunity potential_ or, as Hansen defines, _potential of opportunities for interaction_.] $S_ij$ is a relative measure of the accessibility at $i$ to an activity located at $j$, $O_j$ is the size of the activity at $j$ and $d_{ij}$ is the distance or travel time between $i$ and $j$ with $\beta$ describing the effect size. ^[Notably, @Hansen1959 finds that when the model is empirically calibrated, ${\beta}$ takes a value of between 0.5 to 3, not the value of 1 as consistent in the Newtonian potential energy relationship.]
+Hansen, was an engineer with the the Bureau of Roads in the United States, and preoccupied with transportation's power to shape land uses. As such, he was neither scientist nor social scientist, but rather an applied researcher. Hansen's [-@hansen1959] paper in the Journal of the American Planning Association was instrumental in shedding some of the less convincing, or frankly objectionable, aspects of "social physics", to recast accessibility not as a model of physics, but as a model useful to capture regularities in human spatial behavior. The result of this was accessibility as the  _"potential of opportunities for interaction"_. Today, @hansen1959 is frequently cited as the father of modern accessibility analysis [e.g., @reggianiGuestEditorialNew2011] and Hansen-type accessibility is commonly referred to today as the gravity-based accessibility measure. 
 
+In his work, @hansen1959 borrowed the idea of a "population potential" of @stewartDemographicGravitationEvidence1948, which closely follows the Newtonian definition of energy potential, and applied it to the measurement of the potential of opportunities. As noted above, the integral of $F_{ij}$ (@eq-grav-prop) over distance $d_{ij}$: $U_{ij}=-G M_{i}M_{j} /d_{ij}$. The potential energy of one mass, say $M_i$, is hence $U_i = G M_j / d_{ij}$, when applied to population instead of mass this equation yields "potential population". @hansen1959 took this equation and replaces $M_j$ with _opportunities_ to derive _opportunity potential_ or, as Hansen defines, _potential of opportunities for interaction_.]
+
+
+(@eq-2):
 $$
-S_{ij} = O_j * d_{ij}^\beta \\
-$${#eq-2}
+S_{ij} = O_j \cdot d_{ij}^\beta \\
+$${#eq-accessibility}
 
-Of important note, however is that @hansen1959's formulation omits a proportionality constant akin to the function of $G$ in @eq-1. Interestingly, as @hansen1959 draws from @stewartDemographicGravitationEvidence1948, @stewartDemographicGravitationEvidence1948 sets the proportionality constant to 1, stating _"the constant G is left for future determination: a suitable choice of other units can reduce it to unity"_. Without a proportionality constant, however, the units of $S_ij$ are unclear: the unit of 'potential of opportunity for interaction' is left free to change as $\beta$ is calibrated for the population center with no discussion of a constant to balance the units. @eq-3 is the form of gravity-based accessibility measure commonly presented today. It is re-written with $S_i$ being the relative measure of the accessibility at $i$ to all activities $j$, and instead of $d_{ij}^\beta$, $f(c_{ij})$ is any monotonically decreasing function of travel cost $c_{ij}$.
+ 
+$S_{ij}$ is a relative measure of the accessibility at $i$ to an activity located at $j$, $O_j$ is the size of the activity at $j$ and $d_{ij}$ is the distance or travel time between $i$ and $j$ with $\beta$ describing the effect size. ^[Notably, @Hansen1959 finds that when the model is empirically calibrated, ${\beta}$ takes a value of between 0.5 to 3, not the value of 1 as consistent in the Newtonian potential energy relationship.]
+
+
+
+Of note, however is that @hansen1959's formulation omits a proportionality constant akin to the function of $G$ in @eq-grav. Interestingly, as @hansen1959 draws from @stewartDemographicGravitationEvidence1948, @stewartDemographicGravitationEvidence1948 sets the proportionality constant to 1, stating _"the constant G is left for future determination: a suitable choice of other units can reduce it to unity"_. Without a proportionality constant, however, the units of $S_ij$ are unclear: the unit of 'potential of opportunity for interaction' is left free to change as $\beta$ is calibrated for the population center with no discussion of a constant to balance the units. @eq-3 is the form of gravity-based accessibility measure commonly presented today. It is re-written with $S_i$ being the relative measure of the accessibility at $i$ to all activities $j$, and instead of $d_{ij}^\beta$, $f(c_{ij})$ is any monotonically decreasing function of travel cost $c_{ij}$.
 
 $$
 S_{i} = \sum_j O_j * f(c_{ij})
