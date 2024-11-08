@@ -150,38 +150,74 @@ A testament to this inconsistent interpretation are the unsettled classification
 
 The aim of this paper's focus is on the proportionality constant. We wish to demonstrate the importance of transiting from proportionality to equality in @eq-accessibility-general, in order to balance the units of accessibility into more interpretable values with clear meanings. To address this matter, we need not reinvent the wheel: instead we refer to the spatial interaction model as developed by @wilson1971. In essence, in what follows, we reunite the accessibility indicators literature with the spatial interaction literature as developed by @wilson1971 based on entropy maximization concepts. Although Wilson's approach is based on a different conceptual foundation than the old reference to Newtonian gravity, the work succeeded at identifying the steps from proportionality to equality to yield variations of proportionality constants: including the one that eluded @stewartDemographicGravitationEvidence1948 and has been ignored in almost all subsequent accessibility research.
 
-# Gravity-based accessibility's sibling: Wilson's spatial interaction model
+# Gravity-based accessibility's cousin: Wilson's spatial interaction model
 
-Today's gravity-based accessibility measures (@eq-accessibility-general) share the same early 20th century Newtonian-based origins as the model's of Reilly, Zipf, and Stewart, versions of which continue to be extensively used [@ortuzar_2011_modelling;@wilson1971]. However, in some ways the gravity model and spatial interaction continued to evolve independently from @eq-accessibility-general, the former being developed into formalized transportation demand modelling practice to 'predict-and-provide', and the later taken up to describe land-use and transportation interactions by geography and social science-adjacent researchers and planners. <!-- Antonio, this is my sense at this point..?-->
+Today's gravity-based accessibility measures (@eq-accessibility-general) share the same early 20th century Newtonian-based origins as the model's of Reilly, Zipf, and Stewart, versions of which continue to be extensively used [@ortuzar_2011_modelling;@wilson1971]. However, in some ways the gravity model and spatial interaction continued to evolve independently from @eq-accessibility-general, the former being developed into formalized transportation demand modelling practice to 'predict-and-provide', and the later taken up to describe land-use and transportation interactions by geography and social science-adjacent researchers and planners.
 
 There are plenty of insights to be shared across these sibling branches; they are both spatial interaction models From the perspective of gravity-based accessibility measure, this paper's focus is on the proportionality constant of the spatial interaction model, which takes the following form after Wilson [-@wilson1971]: 
  
 $$
-T_{ij} = k O_i D_j f(c_{ij})
+T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 $${#eq-phys-gravity-model}
 
 
 <!--Explain the features of the gravity model of today (Wilson) -->
-Where $T_{ij}$ represents a $n$ x $m$ matrix of flows between an $n$ number of origins $i$ and an $m$ number of destinations $j$, $O_i$ and $D_j$ is a vector of mass attributes representing origin $i$ and destination $j$ respectively, and $f(c_{ij})$ is a $n$ x $m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In other words, $T_{ij}$ explicitly measures _interaction_ as a unit of trips and the single proportionality constant $k$ ensures the total sum of $T_{ij}$ represents the total flows in the data. It should be noted that the early analogy with the gravitational law proved too simplistic, and improvements to the gravity model (@eq-phys-gravity-model) are the use of total trip ends (number of originating trips from zone $i$ are $O_i$ and ending trips at zone $j$ are $D_j$) instead of total populations and separation distance calibrated by a power $n$ (such as $P_i$, $P_j$, and $n$ in @eq-zipf, @eq-reilly and @eq-stewart-force). Finally, and of most important note in this paper, $k$ is a scale parameter that makes the overall equation proportional to the rate characteristic of the modeled phenomenon.
-
-Traditionally, the development of the gravity model has put an emphasis on the interpretability of the resulting units [@kirbyNormalizingFactorsGravity1970; @wilsonSTATISTICALTHEORYSPATIAL1967;@wilson1971]. As such, @eq-phys-gravity-model can take account of any additional information that can be built into the model to constrain the _interaction_ variable $T_{ij}$. As mentioned, $T_ij$ is in the unit of trips, so additional knowledge can be the total trip flows $O_i$ originating at each $i$ and the total trip flows $D_j$ terminating at $j$. These pieces of information can constrain $T_{ij}$ as follows, ensuring it reflects this knowledge:
+Where $T_{ij}$ represents a $n$ x $m$ matrix of flows between an $n$ number of origins $i$ and an $m$ number of destinations $j$, $W_i^{(1)}$ and $W_j^{(2)}$ is a vector of mass attributes representing origin $i$ and destination $j$ respectively, and $f(c_{ij})$ is a $n$ x $m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In other words, $T_{ij}$ explicitly measures _interaction_ as a unit of trips and the single proportionality constant $k$ ensures the total sum of $T_{ij}$ represents the total flows in the data. It should be noted that the early analogy with the gravitational law proved too simplistic, and improvements to the gravity model (@eq-phys-gravity-model) are the use of total trip ends (number of originating trips from zone $i$ are $O_i$ and ending trips at zone $j$ are $D_j$) instead of total populations and separation distance calibrated by a power $n$ (such as $P_i$, $P_j$, and $n$ in @eq-zipf, @eq-reilly and @eq-stewart-force). Finally, and of most important note in this paper, $k$ is a scale parameter that makes the overall equation proportional to the rate characteristic of the modeled phenomenon.
 
 
-Total constrained:
+## Entropy maximising: the gravity-model as statistical averages
+
+Traditionally, the development of the gravity model has put an emphasis on the interpretability of the resulting units [@kirbyNormalizingFactorsGravity1970; @wilsonSTATISTICALTHEORYSPATIAL1967;@wilson1971]. But instead of relying on the heuristic Newtonian gravity analogy, entropy maximisation has emerged as a popular model building approach taken in the spatial interaction studies to generate the gravity model [@ortuzar_2011_modelling]. Namely, it is mathematically rigorousness and offers a sensible interpretation of the resulting model as a statistical averaging procedure [@wilson1971;@seniorGravityModellingEntropy1979].
+
+As such, @eq-phys-gravity-model can be derived to account for additional information to include constraints that reflect known information about the system and is mathematically rigorous. The interaction variable $T_ij$ is often in the unit of trips, so additional knowledge can be the total trip flows originating at each zone $W_i^{(1)}$ and the total trip flows terminating at zone $W_j^{(2)}$. These pieces of information can constrain $T_{ij}$ as follows.
+
+The total flow constraint: @eq-constraint0-gravitymodel, where the total number of flows in the region equals $T$. Along a similar region-wide perspective, the total flows multiplied by their travel cost in the region is constrained to equal $C$:
 $$
 \sum_i\sum_j T_{ij} = T
 $${#eq-constraint0-gravitymodel}
 
 $$
-\sum_j T_{ij} = O_i
+\sum_i\sum_j T_{ij} c_{ij} = C
+$${#eq-constraint0_5-gravitymodel}
+
+The production constraint: the sum of trips ending at each $j$ is equal to the total flow originating from each $i$:
+$$
+\sum_j T_{ij} = W_i^{(1)}
 $${#eq-constraint1-gravitymodel}
 
+The attraction constraint: the sum of trips starting at each $i$ is equal to the total flow ending at each $j$:
 $$
-\sum_i T_{ij} = D_j
+\sum_i T_{ij} = W_j^{(2)}
 $${#eq-constraint2-gravitymodel}
 
 
+The entropy maximation derivation is demonstrated in detail elsewhere (e.g., @ortuzar_2011_modelling, @wilsonSTATISTICALTHEORYSPATIAL1967). The basis of the approach is to accept that there are macro, meso, and micro states. In the case of trips being the interaction variable, a micro state is an individual trip maker, the meso state is the statistically representative zone representing a collection of indiivudal trip makers, and the macro state is the entire study region. Using these assumptions, we aim to find a set of $T_{ij}$ that maximizes the number of micro states in each meso state subject to some sensible macro-state constraints (@eq-constraint0_5-gravitymodel, @eq-constraint1-gravitymodel, and @eq-constraint2-gravitymodel). From this approach, the gravity model can be interpreted to say that given the total number of individual trips (micro level) statistically represented at origin and destination zones (meso level), the cost of travelling (micro level, represented at the meso level), and the fixed total cost of travelling in the region (number of trips and cost of travel at the macro level). There is then a most probable distribution of trips between zones (meso-states) that stasis all the macro-state constraints.
 
+Using these constraints, the gravity model @eq-phys-gravity-model is can now be distinguished into four general cases. These cases are presented in increase order of constraint restrictiveness and continued to be useful in classifying the gravity model in trip distribution modelling to this day [@ortuzar_2011_modelling]: 
+
+- The unconstrained case: neither @eq-constraint0_5-gravitymodel, @eq-constraint1-gravitymodel, or @eq-constraint2-gravitymodel hold;
+- The total constrained case: only @eq-constraint0-gravitymodel hold
+- The singly-constrained case: either @eq-constraint1-gravitymodel holds (origin-constrained) <!-- production--> or @eq-constraint2-gravitymodel holds (destination-constrained)<!-- attraction-->; 
+- The doubly-constrained case: both @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel hold simultaneously <!--production-attraction-->
+
+In each of these four cases, the single proportionality constant $k$ is replaced by balancing factors $A_i$, $B_j$, and $K$ as follows to ensure the case-specific constraints are satisfied:
+$$
+A_i = \frac{1}{\sum_j B_j W_j^{(2)} f(c_{ij})}
+$${#eq-bf-A-gravitymodel}
+
+$$
+B_j = \frac{1}{\sum_i A_i W_i^{(1)} f(c_{ij})}
+$${#eq-bf-B-gravitymodel}
+<!--PRETTY SURE YOU DON'T GET K FROM ENTROPY MAXIMAISATION...-->
+$$
+K = \frac{T}{\sum_i \sum_j W_i^{(1)} W_j^{(2)} f(c_{ij})}
+$${#eq-bf-K-gravitymodel}
+
+For the doubly-constrained case, $A_i$ and $B_j$ must be solved together along with $K$. For the singly-constrained cases, origin-constrained case replaces $B_j$ with 1 for all $j$ and $A_i$ is @eq-bf-A-gravitymodel, and the the destination-constrained case replaces $A_i$ with 1 for all $i$ and $B_j$ is @eq-bf-B-gravitymodel. For both singly-constrained cases, $K$ also holds. For the total constrained case, $A_i$ and $B_j$ are set to 1 and $K$ is the defining constraint. And for the unconstrained case, in a way, all other cases (the total constrained, singly-constrained and doubly-constrained cases) are simply constrained variations.
+
+The following are simple numerical examples of each case assuming the following $T_{ij}$ matrix and a $f(c_{ij}) = \frac{1}{c_{ij}}$.
+
+The variables:
 ```{r}
 T_1 <- matrix(c(95, 23, 42, 27, 378, 45, 38, 36, 106), ncol = 3, byrow = TRUE)
 
@@ -208,7 +244,9 @@ T <- sum(sum(T_1))
 T
 ```
 
-Unconstrained (note that there is no proportionality constant!):
+
+## Unconstrained interaction case
+
 $$
 \hat{T_{ij}} = \frac{O_i\cdot D_j}{C_ij}
 $$
@@ -226,7 +264,9 @@ colSums(T_unc)
 sum(sum(T_unc))
 ```
 
-Total flow constrained (needs a single/global proportionality constant):
+## Total constrained interaction case
+
+Needs a single/global proportionality constant.
 $$
 \hat{T_{ij}} = k\frac{O_i\cdot D_j}{C_{ij}}
 $$
@@ -348,62 +388,11 @@ sum(S_tot)
 
 
 
-Using these constraints, the gravity model @eq-phys-gravity-model is typically distinguished in four cases, cases that are mathematically and conceptually consistent, so they have continued to be useful in classifying the gravity model in trip distribution modelling to this day [@ortuzar_2011_modelling]: 
-
-- None of @eq-constraint0-gravitymodel, @eq-constraint1-gravitymodel, and @eq-constraint2-gravitymodel hold -- the unconstrained case;
-- Only @eq-constraint0-gravitymodel holds -- total flow constrained
-- @eq-constraint1-gravitymodel holds -- the production constrained case (origin-constrained, a singly-constrained case); 
-- @eq-constraint2-gravitymodel holds -- the attraction constrained case (destination-constrained, a singly-constrained case); 
-- @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel both hold simultaneously -- the production-attraction constrained case (doubly-constrained).
-
-In each of these four cases, the single proportionality constant $k$ is replaced by two sets of balancing factors $A_i$ and $B_j$ to ensure the case-specific constraints are satisfied. For the doubly-constrained case:  
-$$
-T_{ij} = A_i O_i B_j D_j f(c_{ij})
-$${#eq-doublyconstrained-gravitymodel}
-
-And the balancing factors equal:
-$$
-A_i = \frac{1}{\sum_j B_j D_j f(c_{ij})}
-$${#eq-bf-A-gravitymodel}
-
-$$
-B_j = \frac{1}{\sum_j A_i O_j f(c_{ij})}
-$${#eq-bf-B-gravitymodel}
-
-For the singly-constrained cases, origin-constrained case replaces $B_j$ with 1 for all $j$ and $A_i$ is @eq-bf-A-gravitymodel, and the the destination-constrained case replaces $A_i$ with 1 for all $i$ and $B_j$ is @eq-bf-B-gravitymodel. In a way, the singly-constrained and doubly-constrained cases are variants of the unconstrained case.
-
-## Entropy maximising: the gravity-model as statistical averages
-Instead of the Newtonian gravity analogy, entropy maximisation is a popular model building approach taken in the spatial interaction studies to generate the gravity model. Namely, it is mathetmatically regorouse and offers a sensible interpretation of the resulting mode as a statistical averaging procedure. This allows the measure to be effective in describing behaviour in large populations but less effective in smaller decision making units in the region of interest.
-
-The basis of the approach is to accept that there are macro, meso, and micro states -- where all micro states that are consistent with our information about macro states are equally likely to occur. For the _interaction_ variable of trips $T_{ij}$, as shown in @wilson1971, the number of micro states $W\{{T_{ij}}\}$ within a meso state $T_{ij}$ can be expressed as:
-$$ 
-W\{{T_{ij}}\} = \frac{T!}{\prod_{ij}T_{ij}!}
-$${#eq-micro-meso-states}
-<!--I LEFT OUT THE DERIVATION... NOT SURE IF ITS NECESSARY? -->
-Using the maximizing entropy approach, we must find a set of $T_{ij}$ that maximizes @eq-micro-meso-states subject to our sensible macro-state constraints @eq-constraint1-gravitymodel, @eq-constraint1-gravitymodel and the following on total cost $C$ constraint:
-$$
-\sum_{ij}T_{ij}c_{ij} = C
-$${#eq-constraint3-gravitymodel}
-
-The natural logarithm of @eq-micro-meso-states is maximized under @eq-constraint1-gravitymodel, @eq-constraint1-gravitymodel and @eq-constraint3-gravitymodel for mathematical convenience, as both $ln W$ and $T_{ij}$ share the same maximum [@wilson1971; @ortuzar_2011_modelling]. The result is:
-
-$$
-T_{ij} = A_i O_i B_j D_j exp(-\beta c_{ij})
-$${#eq-maxentropy-gravitymodel}
-
-Where,
-$$
-A_i = \frac{1}{\sum_j B_j D_j  \exp(- \beta c_{ij})}
-$${#eq-bf-maxentropy-A-gravitymodel}
-
-and
-$$
-B_j = \frac{1}{\sum_j A_i O_j  \exp(- \beta c_{ij})}
-$${#eq-bf-maxentropy-B-gravitymodel}
-
-Results of maximisation are identical to @eq-doublyconstrained-gravitymodel, @eq-bf-A-gravitymodel, and @eq-bf-B-gravitymodel except the general $f(c_{ij})$ is $exp(-\beta c_{ij})$. From this approach, the gravity model can be interpretted to say that given the total number of individual trips (micro level) statistically represented at origin and destination zones (meso level), the cost of travelling (micro level, represented at the meso level), and the fixed total cost of travelling in the region (number of trips and cost of travel at the macro level). There is then a most probable distribution of trips between zones (meso-states) that stasify all the macro-state constraints.
 
 # A family of accessibility measures
+
+Imagine if the interaction variable was in fact _potential_ interaction, and the units were trips but opportunities. We don't have to change much!
+
 
 Referring to the preceding section, the entropy maximizing method can be used to derive an equivalent family of measures, but for the case of accessibility where the _interaction_ variable is $V_{ij}$, represent _potential interaction_, i.e., the number of potential reachable opportunities. $T_{ij}$ in @eq-phys-gravity-model can be replaced with $V_{ij}$ and presented as follows: 
 
