@@ -1,0 +1,217 @@
+---
+title: "Bibliometrics"
+format: html
+---
+
+
+## Preliminaries
+
+The bibliographic data were pre-processed in notebook `data-raw/00-bibliometrics-prepare-data.qmd`. The output is a corpus with papers that cite Hansen, Wilson, or both.
+
+Also, a bibliometric coupling network was created that contains information about the  
+
+For this piece of analysis, we will use package [{bibliometrix}](https://www.bibliometrix.org/home/)
+
+```{r}
+#| label: load packages
+
+library(bibliometrix) # Comprehensive Science Mapping Analysis
+library(dplyr) # A Grammar of Data Manipulation
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(ggraph) # An Implementation of Grammar of Graphics for Graphs and Networks
+library(glue) # Interpreted String Literals
+library(here) # A Simpler Way to Find Your Files
+```
+
+## Load data
+
+Load data:
+```{r}
+load(glue::glue(here::here(),
+                "/data/corpus.rda"))
+```
+
+Bibliographical coupling based on cited sources (see https://www.bibliometrix.org/vignettes/Introduction_to_bibliometrix.html). The bibliographical coupling is stronger when documents cite more of the same sources. 
+
+To compute the bibliographical coupling, we need an "adjacency" matrix of the documents and their cited references. This can be obtained as the bipartite network of paper and citations (`CR` is the field with cited references in the corpus):
+```{r}
+A <- cocMatrix(corpus, 
+               Field = "CR", 
+               sep = ";")
+```
+
+The output of `cocMatrix` is a sparse adjacency matrix with sources cited by each document in the corpus. The product of $A$ and its transpose gives the bibliographical coupling by cited references:
+$$
+B = A\cdot A^T
+$$
+
+$B$ is a square symmetric matrix where element $b_{ij}$ is the total number of cited references in common between document $i$ and document $j$. A higher value of $b_{ij}$ indicates a stronger relationship between documents $i$ and $j$ (more references in common). A value of zero indicates no references in common. Calculate $B$:
+```{r}
+B <- tcrossprod(A)
+```
+
+Remove the diagonal (papers cited within a single source):
+```{r}
+B_nd <- B - Matrix::band(B, 0, 0)
+```
+
+Examine this matrix without the diagonal:
+```{r}
+B_nd[1:10, 1:10]
+```
+As desired, the diagonal is zeros.
+
+These matrices are sparse symmetric matrices of "adjacencies" between documents in the corpus. Convert `B` to an `igraph` network without the diagonal:
+```{r}
+coupling_net <- igraph::graph_from_adjacency_matrix(B, 
+                                            mode = "directed", 
+                                            weighted = TRUE,
+                                            diag = FALSE)
+```
+
+Remove objects from memory:
+```{r}
+rm(A)
+```
+
+For convenience, convert the [{igraph}](https://r.igraph.org) object to a [{tidygraph}](https://www.data-imaginist.com/posts/2017-07-07-introducing-tidygraph/) object:
+```{r}
+coupling_net <- tidygraph::as_tbl_graph(coupling_net)
+```
+
+Check the result:
+```{r}
+coupling_net
+```
+
+Add the `corpus` variable to `coupling_net`. Remember to activate the nodes.
+```{r}
+coupling_net <- coupling_net |>
+  tidygraph::activate("nodes") |>
+  left_join(tibble::rownames_to_column(corpus, 
+                                       var = "rowname") |> 
+              transmute(rowname, 
+                        corpus = corpus),
+            by = c("name" = "rowname"))
+```
+
+Check the object:
+```{r}
+coupling_net |>
+  tidygraph::activate("nodes") |>
+  as_tibble() |>
+  mutate(corpus = factor(corpus)) |>
+  summary()
+```
+
+Detect communities based on the bibliographic coupling. Set the random seed because depending on the seed, the algorithm fails to detect the communities:
+```{r}
+set.seed(979834789)
+#set.seed(97389)
+#set.seed(973899887)
+
+
+coupling_net <- coupling_net |>
+  mutate(community = as.factor(tidygraph::group_infomap(weights = weight)))
+```
+
+Check the results:
+```{r}
+coupling_net |> 
+  tidygraph::activate("nodes") |> 
+  as_tibble() |> 
+  summary()
+```
+
+Create a layout for plotting the results:
+```{r}
+layout <- create_layout(coupling_net,
+                        layout = "stress",
+                        weights = weight)
+```
+
+Plot:
+```{r}
+ggplot(data = layout) +
+  geom_point(aes(x = x,
+                 y = y,
+                 shape = corpus,
+                 color = corpus),
+             size = 3,
+             alpha = 0.7) +
+  geom_point(data = layout |>
+               filter(corpus == "Both"),
+             aes(x = x,
+                 y = y),
+             shape = 1,
+             size = 3) +
+  geom_point(data = layout |>
+               filter(corpus == "Wilson"),
+             aes(x = x,
+                 y = y),
+             shape = 0,
+             size = 3,
+             alpha = 0.5) +
+  
+  theme_void()
+```
+
+Center of mass of Hansen:
+```{r}
+layout |>
+  filter(corpus == "Hansen") |>
+  summarize(x = mean(x),
+            y = mean(y))
+```
+
+Center of mass of Wilson:
+```{r}
+layout |>
+  filter(corpus == "Wilson") |>
+  summarize(x = mean(x),
+            y = mean(y))
+```
+
+Matrix `B` has the coupling.
+
+Extract the row names by corpus:
+```{r}
+hansen_names <- rownames(corpus |>
+                           filter(corpus == "Hansen"))
+
+wilson_names <- rownames(corpus |>
+                           filter(corpus == "Wilson"))
+
+both_names <- rownames(corpus |>
+                           filter(corpus == "Both"))
+```
+
+Subset `B` to look at the patterns of coupling. These give the coupling within the group of documents that cite only Hanson or only Wilson, and the coupling between the papers that cite only Hanson and only Wilson:
+```{r}
+hansen_to_wilson <- B_nd[hansen_names, wilson_names]
+
+hansen_to_hansen <- B_nd[hansen_names, hansen_names]
+
+wilson_to_wilson <- B_nd[wilson_names, wilson_names]
+
+both_to_both <- B_nd[both_names, both_names]
+
+both_to_hansen <- B_nd[both_names, hansen_names]
+
+both_to_wilson <- B_nd[both_names, wilson_names]
+```
+
+The number of common citations per pair of documents can be calculated as the sum of all common citations in the matrix, divided by the number of pair-paper combinations:
+```{r}
+sum(sum(B_nd))/(dim(B_nd)[1] * (dim(B_nd)[2]))
+sum(sum(both_to_both))/(dim(both_to_both)[1] * (dim(both_to_both)[2]))
+sum(sum(hansen_to_hansen))/(dim(hansen_to_hansen)[1] * (dim(hansen_to_hansen)[2]))
+sum(sum(wilson_to_wilson))/(dim(wilson_to_wilson)[1] * (dim(wilson_to_wilson)[2]))
+sum(sum(both_to_hansen))/(dim(both_to_hansen)[1] * dim(both_to_hansen)[2])
+sum(sum(both_to_wilson))/(dim(both_to_wilson)[1] * dim(both_to_wilson)[2])
+sum(sum(hansen_to_wilson))/(dim(hansen_to_wilson)[1] * dim(hansen_to_wilson)[2])
+```
+
+From this we see that the coupling within the whole corpus is on average 1.18 (the number of sources that are typically cited in common by pair of documents). The coupling tends to be stronger for documents in the corpus that cite both Hansen and Wilson. The coupling is weakest between documents that cite only Hansen and only Wilson.
+
+

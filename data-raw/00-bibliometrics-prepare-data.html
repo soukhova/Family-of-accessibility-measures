@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Bibliometrics</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="00-bibliometrics-prepare-data_files/libs/clipboard/clipboard.min.js"></script>
+<script src="00-bibliometrics-prepare-data_files/libs/quarto-html/quarto.js"></script>
+<script src="00-bibliometrics-prepare-data_files/libs/quarto-html/popper.min.js"></script>
+<script src="00-bibliometrics-prepare-data_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="00-bibliometrics-prepare-data_files/libs/quarto-html/anchor.min.js"></script>
+<link href="00-bibliometrics-prepare-data_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="00-bibliometrics-prepare-data_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="00-bibliometrics-prepare-data_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="00-bibliometrics-prepare-data_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="00-bibliometrics-prepare-data_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Bibliometrics</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="motivation" class="level2">
+<h2 class="anchored" data-anchor-id="motivation">Motivation</h2>
+<p>In the paper we make the argument that research on accessibility diverged from research on spatial interaction modelling, especially after Wilson’s landmark paper “A family of spatial interaction models”, and that this is one of the reasons was the notion of proportionality constants that vanished between Stewart and Hansen was never fully recovered, despite being key to Wilson’s approach to spatial interaction.</p>
+<p>Out of curiosity, it would be interesting to see how often Wilson is cited in the literature on accessibility, and how much overlap there is with citations to Hansen.</p>
+<p>To this end, we completed a search using the Web of Science Core Collection. We used the “CITED REFERENCES” function, and searched by DOI, as follows:</p>
+<ul>
+<li>Hansen WG (1959) How Accessibility Shapes Land Use. doi:10.1080/01944365908978307</li>
+<li>Wilson AG (1971) A Family of Spatial Interaction Models, and Associated Developments. doi:10.1068/a030001</li>
+</ul>
+<p><img src="00-WoS-search.png" class="img-fluid"></p>
+<p>The search was conducted on November 9, 2024.</p>
+<p>This search retrieved 2,134 documents that cite Hansen’s paper and 368 documents that cite Wilson’s paper.</p>
+<p>The documents that cite these two papers were downloaded (in the case of Hanson in batches, because of a limit of 500 documents per export). The records were exported EndNote Desktop format, and the Record Contents were “Full Record and Cited References”.</p>
+<p>The resulting files were saved to folder <code>data-raw/</code>:</p>
+<ul>
+<li>hansen_01.ciw (records 1-500)</li>
+<li>hansen_01.ciw (records 501-1000)</li>
+<li>hansen_01.ciw (records 1001-1500)</li>
+<li>hansen_01.ciw (records 1501-2000)</li>
+<li>hansen_01.ciw (records 2001-2134)</li>
+<li>wilson.ciw (records 1-368)</li>
+</ul>
+</section>
+<section id="preliminaries" class="level2">
+<h2 class="anchored" data-anchor-id="preliminaries">Preliminaries</h2>
+<p>For this piece of analysis, we will use package <a href="https://www.bibliometrix.org/home/">{bibliometrix}</a></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(bibliometrix) <span class="co"># Comprehensive Science Mapping Analysis</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: package 'bibliometrix' was built under R version 4.4.2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Please note that our software is open source and available for use, distributed under the MIT license.
+When it is used in a publication, we ask that authors properly cite the following reference:
+
+Aria, M. &amp; Cuccurullo, C. (2017) bibliometrix: An R-tool for comprehensive science mapping analysis, 
+                        Journal of Informetrics, 11(4), pp 959-975, Elsevier.
+
+Failure to properly cite the software is considered a violation of the license.
+                        
+For information and bug reports:
+                        - Take a look at https://www.bibliometrix.org
+                        - Send an email to info@bibliometrix.org   
+                        - Write a post on https://github.com/massimoaria/bibliometrix/issues
+                        
+Help us to keep Bibliometrix and Biblioshiny free to download and use by contributing with a small donation to support our research team (https://bibliometrix.org/donate.html)
+
+                        
+To start with the Biblioshiny app, please digit:
+biblioshiny()</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr) <span class="co"># A Grammar of Data Manipulation</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2) <span class="co"># Create Elegant Data Visualisations Using the Grammar of Graphics</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggraph) <span class="co"># An Implementation of Grammar of Graphics for Graphs and Networks</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(glue) <span class="co"># Interpreted String Literals</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'glue'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:bibliometrix':
+
+    trim</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(here) <span class="co"># A Simpler Way to Find Your Files</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>here() starts at /home/antonio-paez/antonio-rogue/Cases-2024/Family-of-accessibility-measures</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(stringr) <span class="co"># Simple, Consistent Wrappers for Common String Operations</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="read-the-bibliometric-data" class="level2">
+<h2 class="anchored" data-anchor-id="read-the-bibliometric-data">Read the bibliometric data</h2>
+<p>Read the bibliography that cites Hanson and collect in a single data frame:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>hansen_01 <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="at">file =</span> glue<span class="sc">::</span><span class="fu">glue</span>(here<span class="sc">::</span><span class="fu">here</span>(),</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"/data-raw/hansen_01.ciw"</span>),</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">dbsource =</span> <span class="st">"wos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your wos collection into a bibliographic dataframe
+
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>hansen_02 <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="at">file =</span> glue<span class="sc">::</span><span class="fu">glue</span>(here<span class="sc">::</span><span class="fu">here</span>(),</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"/data-raw/hansen_02.ciw"</span>),</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">dbsource =</span> <span class="st">"wos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your wos collection into a bibliographic dataframe
+
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>hansen_03 <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="at">file =</span> glue<span class="sc">::</span><span class="fu">glue</span>(here<span class="sc">::</span><span class="fu">here</span>(),</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"/data-raw/hansen_03.ciw"</span>),</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">dbsource =</span> <span class="st">"wos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your wos collection into a bibliographic dataframe
+
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>hansen_04 <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="at">file =</span> glue<span class="sc">::</span><span class="fu">glue</span>(here<span class="sc">::</span><span class="fu">here</span>(),</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"/data-raw/hansen_04.ciw"</span>),</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">dbsource =</span> <span class="st">"wos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your wos collection into a bibliographic dataframe
+
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb22"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>hansen_05 <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="at">file =</span> glue<span class="sc">::</span><span class="fu">glue</span>(here<span class="sc">::</span><span class="fu">here</span>(),</span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>                                          <span class="st">"/data-raw/hansen_05.ciw"</span>),</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>                        <span class="at">dbsource =</span> <span class="st">"wos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your wos collection into a bibliographic dataframe
+
+
+Warning:
+In your file, some mandatory metadata are missing. Bibliometrix functions may not work properly!
+
+Please, take a look at the vignettes:
+- 'Data Importing and Converting' (https://www.bibliometrix.org/vignettes/Data-Importing-and-Converting.html)
+- 'A brief introduction to bibliometrix' (https://www.bibliometrix.org/vignettes/Introduction_to_bibliometrix.html)
+
+
+Missing fields:  DE 
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb24"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>hansen <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(hansen_01,</span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>                    hansen_02,</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>                    hansen_03,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>                    hansen_04,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>                    hansen_05)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Read the bibliography that cites Wilson:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>wilson <span class="ot">&lt;-</span> <span class="fu">convert2df</span>(<span class="at">file =</span> glue<span class="sc">::</span><span class="fu">glue</span>(here<span class="sc">::</span><span class="fu">here</span>(),</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>                                       <span class="st">"/data-raw/wilson.ciw"</span>),</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>                     <span class="at">dbsource =</span> <span class="st">"wos"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Converting your wos collection into a bibliographic dataframe
+
+Done!
+
+
+Generating affiliation field tag AU_UN from C1:  Done!</code></pre>
+</div>
+</div>
+<p>Bibliometric analysis of the two sets of references:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>hansen_results <span class="ot">&lt;-</span> <span class="fu">biblioAnalysis</span>(hansen)</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>wilson_results <span class="ot">&lt;-</span> <span class="fu">biblioAnalysis</span>(wilson)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Retrieve the documents cited in the two sets of references:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>hansen_citations <span class="ot">&lt;-</span> <span class="fu">citations</span>(hansen, </span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>                              <span class="at">field =</span> <span class="st">"article"</span>, </span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sep =</span> <span class="st">";"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>wilson_citations <span class="ot">&lt;-</span> <span class="fu">citations</span>(wilson, </span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>                              <span class="at">field =</span> <span class="st">"article"</span>, </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a>                              <span class="at">sep =</span> <span class="st">";"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>As expected, the most cited paper in the <code>hansen</code> corpus is Hansen, since the corpus was selected by this criterion. At most, the number of citations to another article could have been a tie, but it is not close:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb29"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(hansen_citations<span class="sc">$</span>Cited[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                                                                                                    [,1]
+HANSEN WG, 1959, J AM I PLANNERS, V25, P73, DOI 10.1080/01944365908978307                                                           2026
+GEURS K.T., 2004, JOURNAL OF TRANSPORT GEOGRAPHY, V12, P127, DOI 10.1016/J.JTRANGEO.2003.10.005, DOI 10.1016/J.JTRANGEO.2003.10.005  680
+HANDY SL, 1997, ENVIRON PLANN A, V29, P1175, DOI 10.1068/A291175                                                                     403
+KWAN MP, 1998, GEOGR ANAL, V30, P191, DOI 10.1111/J.1538-4632.1998.TB00396.X                                                         220
+INGRAM DR, 1971, REG STUD, V5, P101, DOI 10.1080/09595237100185131                                                                   214
+LUO W, 2003, ENVIRON PLANN B, V30, P865, DOI 10.1068/B29120                                                                          205
+MORRIS JM, 1979, TRANSPORT RES A-POL, V13, P91, DOI 10.1016/0191-2607(79)90012-8                                                     195
+PÁEZ A, 2012, J TRANSP GEOGR, V25, P141, DOI 10.1016/J.JTRANGEO.2012.03.016                                                          184
+WACHS M, 1973, SOCIO ECON PLAN SCI, V7, P437, DOI 10.1016/0038-0121(73)90041-4                                                       168
+SHEN Q, 1998, ENVIRON PLANN B, V25, P345, DOI 10.1068/B250345                                                                        161</code></pre>
+</div>
+</div>
+<p>The next most cited paper after Hansen is Geurs (2004) with 680 citations.</p>
+<p>Again, as expected, the most cited paper in the <code>wilson</code> corpus is Wilson, since the corpus was selected by this criterion. At most, the number of citations to another article could have been a tie, but it is not close:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="fu">cbind</span>(wilson_citations<span class="sc">$</span>Cited[<span class="dv">1</span><span class="sc">:</span><span class="dv">10</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                                                                                                                    [,1]
+WILSON AG, 1971, ENVIRON PLANN, V3, P1, DOI 10.1068/A030001                                                                          334
+HANSEN WG, 1959, J AM I PLANNERS, V25, P73, DOI 10.1080/01944365908978307                                                             76
+ALAN WILSON A., 1970, ENTROPY IN URBAN AND REGIONAL MODELLING                                                                         54
+WILSON AG, 1967, TRANSPORT RES, V1, P253, DOI 10.1016/0041-1647(67)90035-4                                                            52
+FOTHERINGHAM AS., 1989, SPATIAL INTERACTION                                                                                           39
+FOTHERINGHAM AS, 1983, ENVIRON PLANN A, V15, P15, DOI 10.1068/A150015                                                                 37
+GEURS K.T., 2004, JOURNAL OF TRANSPORT GEOGRAPHY, V12, P127, DOI 10.1016/J.JTRANGEO.2003.10.005, DOI 10.1016/J.JTRANGEO.2003.10.005   37
+HANDY SL, 1997, ENVIRON PLANN A, V29, P1175, DOI 10.1068/A291175                                                                      33
+SHEN Q, 1998, ENVIRON PLANN B, V25, P345, DOI 10.1068/B250345                                                                         32
+INGRAM DR, 1971, REG STUD, V5, P101, DOI 10.1080/09595237100185131                                                                    25</code></pre>
+</div>
+</div>
+<p>The next most cited paper is Hansen, with 76 citations.</p>
+<p>Add a column to the data frames to uniquely identify the documents in each corpus:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a>hansen <span class="ot">&lt;-</span> hansen <span class="sc">|&gt;</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">HUID =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>(),</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a>         <span class="at">HUID =</span> <span class="fu">paste0</span>(<span class="st">"HUID"</span>, HUID))</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>wilson <span class="ot">&lt;-</span> wilson <span class="sc">|&gt;</span></span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">WUID =</span> <span class="dv">1</span><span class="sc">:</span><span class="fu">n</span>(),</span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a>         <span class="at">WUID =</span> <span class="fu">paste0</span>(<span class="st">"WUID"</span>, WUID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Identify the overlap between the two corpora; these are all papers that cite both Hansen and Wilson:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb34"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>both <span class="ot">&lt;-</span> hansen <span class="sc">|&gt;</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">transmute</span>(AU,</span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>            DI, </span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a>            HUID) <span class="sc">|&gt;</span></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">inner_join</span>(wilson <span class="sc">|&gt;</span></span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>               <span class="fu">transmute</span>(AU,</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a>                         DI, </span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>                         WUID),</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>             <span class="at">by =</span> <span class="fu">c</span>(<span class="st">"AU"</span>, <span class="st">"DI"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Obtain the full corpora of documents that cite both Hansen and Wilson:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb35"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a>both_temp <span class="ot">&lt;-</span> hansen <span class="sc">|&gt;</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(HUID <span class="sc">%in%</span> both<span class="sc">$</span>HUID) <span class="sc">|&gt;</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">corpus =</span> <span class="st">"Both"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Remove the papers that cite both documents from the Hansen and Wilson corpora:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>hansen <span class="ot">&lt;-</span> hansen <span class="sc">|&gt;</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(HUID <span class="sc">%in%</span> both<span class="sc">$</span>HUID))</span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>wilson <span class="ot">&lt;-</span> wilson <span class="sc">|&gt;</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(<span class="sc">!</span>(WUID <span class="sc">%in%</span> both<span class="sc">$</span>WUID))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Find duplicates:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb37"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb37-1"><a href="#cb37-1" aria-hidden="true" tabindex="-1"></a>hansen_items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rn =</span> <span class="fu">rownames</span>(hansen))</span>
+<span id="cb37-2"><a href="#cb37-2" aria-hidden="true" tabindex="-1"></a>wilson_items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rn =</span> <span class="fu">rownames</span>(wilson))</span>
+<span id="cb37-3"><a href="#cb37-3" aria-hidden="true" tabindex="-1"></a>both_items <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(<span class="at">rn =</span> <span class="fu">rownames</span>(both))</span>
+<span id="cb37-4"><a href="#cb37-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb37-5"><a href="#cb37-5" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(hansen_items, wilson_items, <span class="at">by =</span> <span class="st">"rn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>                                  rn
+1 MERLIN LA, 2020, J TRANSP LAND USE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb39"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(hansen_items, both_items, <span class="at">by =</span> <span class="st">"rn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] rn
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="fu">inner_join</span>(wilson_items, both_items, <span class="at">by =</span> <span class="st">"rn"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] rn
+&lt;0 rows&gt; (or 0-length row.names)</code></pre>
+</div>
+</div>
+<p>Merlin 2020 is duplicated in the <code>wilson</code> and <code>hansen</code> tables. Remove it from <code>hansen</code>:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>hansen <span class="ot">&lt;-</span> hansen <span class="sc">|&gt;</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(DI <span class="sc">!=</span> <span class="st">"10.5198/jtlu.2020.1626"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Add a column to identify the corpus and bind the data frames (and drop the unique identifiers now that they accomplished their purpose):</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb44"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>corpus <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(hansen <span class="sc">|&gt;</span></span>
+<span id="cb44-2"><a href="#cb44-2" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">corpus =</span> <span class="st">"Hansen"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-3"><a href="#cb44-3" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(<span class="sc">-</span>HUID) <span class="sc">|&gt;</span></span>
+<span id="cb44-4"><a href="#cb44-4" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(corpus, <span class="fu">everything</span>()),</span>
+<span id="cb44-5"><a href="#cb44-5" aria-hidden="true" tabindex="-1"></a>                    wilson <span class="sc">|&gt;</span></span>
+<span id="cb44-6"><a href="#cb44-6" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">corpus =</span> <span class="st">"Wilson"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-7"><a href="#cb44-7" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(<span class="sc">-</span>WUID) <span class="sc">|&gt;</span></span>
+<span id="cb44-8"><a href="#cb44-8" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(corpus, <span class="fu">everything</span>()),</span>
+<span id="cb44-9"><a href="#cb44-9" aria-hidden="true" tabindex="-1"></a>                    both_temp <span class="sc">|&gt;</span></span>
+<span id="cb44-10"><a href="#cb44-10" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">mutate</span>(<span class="at">corpus =</span> <span class="st">"Both"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb44-11"><a href="#cb44-11" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(<span class="sc">-</span><span class="fu">c</span>(HUID)) <span class="sc">|&gt;</span></span>
+<span id="cb44-12"><a href="#cb44-12" aria-hidden="true" tabindex="-1"></a>                      <span class="fu">select</span>(corpus, <span class="fu">everything</span>()))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Save corpus; <code>coupling_net</code> is pretty heavy and it can be recreated from the corpus:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb45"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(corpus,</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">file =</span> glue<span class="sc">::</span><span class="fu">glue</span>(here<span class="sc">::</span><span class="fu">here</span>(),</span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a>                       <span class="st">"/data/corpus.rda"</span>),</span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">compress =</span> <span class="st">"xz"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

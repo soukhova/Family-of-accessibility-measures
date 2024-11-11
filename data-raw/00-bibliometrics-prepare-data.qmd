@@ -1,0 +1,199 @@
+---
+title: "Bibliometrics"
+format: html
+---
+
+## Motivation
+
+In the paper we make the argument that research on accessibility diverged from research on spatial interaction modelling, especially after Wilson's landmark paper "A family of spatial interaction models", and that this is one of the reasons was the notion of proportionality constants that vanished between Stewart and Hansen was never fully recovered, despite being key to Wilson's approach to spatial interaction.
+
+Out of curiosity, it would be interesting to see how often Wilson is cited in the literature on accessibility, and how much overlap there is with citations to Hansen.
+
+To this end, we completed a search using the Web of Science Core Collection. We used the "CITED REFERENCES" function, and searched by DOI, as follows:
+
+- Hansen WG (1959) How Accessibility Shapes Land Use. doi:10.1080/01944365908978307 
+- Wilson AG (1971) A Family of Spatial Interaction Models, and Associated Developments. doi:10.1068/a030001
+
+![](00-WoS-search.png)
+
+The search was conducted on November 9, 2024.
+
+This search retrieved 2,134 documents that cite Hansen's paper and 368 documents that cite Wilson's paper.
+
+The documents that cite these two papers were downloaded (in the case of Hanson in batches, because of a limit of 500 documents per export). The records were exported EndNote Desktop format, and the Record Contents were "Full Record and Cited References".
+
+The resulting files were saved to folder `data-raw/`:
+
+- hansen_01.ciw (records 1-500)
+- hansen_01.ciw (records 501-1000)
+- hansen_01.ciw (records 1001-1500)
+- hansen_01.ciw (records 1501-2000)
+- hansen_01.ciw (records 2001-2134)
+- wilson.ciw (records 1-368)
+
+## Preliminaries
+
+For this piece of analysis, we will use package [{bibliometrix}](https://www.bibliometrix.org/home/)
+
+```{r}
+#| label: load packages
+
+library(bibliometrix) # Comprehensive Science Mapping Analysis
+library(dplyr) # A Grammar of Data Manipulation
+library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
+library(ggraph) # An Implementation of Grammar of Graphics for Graphs and Networks
+library(glue) # Interpreted String Literals
+library(here) # A Simpler Way to Find Your Files
+library(stringr) # Simple, Consistent Wrappers for Common String Operations
+```
+
+## Read the bibliometric data
+
+Read the bibliography that cites Hanson and collect in a single data frame:
+```{r}
+hansen_01 <- convert2df(file = glue::glue(here::here(),
+                                          "/data-raw/hansen_01.ciw"),
+                        dbsource = "wos")
+
+hansen_02 <- convert2df(file = glue::glue(here::here(),
+                                          "/data-raw/hansen_02.ciw"),
+                        dbsource = "wos")
+
+hansen_03 <- convert2df(file = glue::glue(here::here(),
+                                          "/data-raw/hansen_03.ciw"),
+                        dbsource = "wos")
+
+hansen_04 <- convert2df(file = glue::glue(here::here(),
+                                          "/data-raw/hansen_04.ciw"),
+                        dbsource = "wos")
+
+hansen_05 <- convert2df(file = glue::glue(here::here(),
+                                          "/data-raw/hansen_05.ciw"),
+                        dbsource = "wos")
+
+hansen <- bind_rows(hansen_01,
+                    hansen_02,
+                    hansen_03,
+                    hansen_04,
+                    hansen_05)
+```
+
+Read the bibliography that cites Wilson:
+```{r}
+wilson <- convert2df(file = glue::glue(here::here(),
+                                       "/data-raw/wilson.ciw"),
+                     dbsource = "wos")
+```
+
+Bibliometric analysis of the two sets of references:
+```{r}
+hansen_results <- biblioAnalysis(hansen)
+wilson_results <- biblioAnalysis(wilson)
+```
+
+Retrieve the documents cited in the two sets of references:
+```{r}
+hansen_citations <- citations(hansen, 
+                              field = "article", 
+                              sep = ";")
+
+wilson_citations <- citations(wilson, 
+                              field = "article", 
+                              sep = ";")
+```
+
+As expected, the most cited paper in the `hansen` corpus is Hansen, since the corpus was selected by this criterion. At most, the number of citations to another article could have been a tie, but it is not close:
+```{r}
+cbind(hansen_citations$Cited[1:10])
+```
+
+The next most cited paper after Hansen is Geurs (2004) with 680 citations.
+
+Again, as expected, the most cited paper in the `wilson` corpus is Wilson, since the corpus was selected by this criterion. At most, the number of citations to another article could have been a tie, but it is not close:
+```{r}
+cbind(wilson_citations$Cited[1:10])
+```
+
+The next most cited paper is Hansen, with 76 citations.
+
+Add a column to the data frames to uniquely identify the documents in each corpus:
+```{r}
+hansen <- hansen |>
+  mutate(HUID = 1:n(),
+         HUID = paste0("HUID", HUID))
+
+wilson <- wilson |>
+  mutate(WUID = 1:n(),
+         WUID = paste0("WUID", WUID))
+```
+
+Identify the overlap between the two corpora; these are all papers that cite both Hansen and Wilson:
+```{r}
+both <- hansen |>
+  transmute(AU,
+            DI, 
+            HUID) |>
+  inner_join(wilson |>
+               transmute(AU,
+                         DI, 
+                         WUID),
+             by = c("AU", "DI"))
+```
+
+Obtain the full corpora of documents that cite both Hansen and Wilson:
+```{r}
+both_temp <- hansen |>
+  filter(HUID %in% both$HUID) |>
+  mutate(corpus = "Both")
+```
+
+Remove the papers that cite both documents from the Hansen and Wilson corpora:
+```{r}
+hansen <- hansen |>
+  filter(!(HUID %in% both$HUID))
+
+wilson <- wilson |>
+  filter(!(WUID %in% both$WUID))
+```
+
+Find duplicates:
+```{r}
+hansen_items <- data.frame(rn = rownames(hansen))
+wilson_items <- data.frame(rn = rownames(wilson))
+both_items <- data.frame(rn = rownames(both))
+
+inner_join(hansen_items, wilson_items, by = "rn")
+inner_join(hansen_items, both_items, by = "rn")
+inner_join(wilson_items, both_items, by = "rn")
+```
+
+Merlin 2020 is duplicated in the `wilson` and `hansen` tables. Remove it from `hansen`:
+```{r}
+hansen <- hansen |>
+  filter(DI != "10.5198/jtlu.2020.1626")
+```
+
+Add a column to identify the corpus and bind the data frames (and drop the unique identifiers now that they accomplished their purpose):
+```{r}
+corpus <- bind_rows(hansen |>
+                      mutate(corpus = "Hansen") |>
+                      select(-HUID) |>
+                      select(corpus, everything()),
+                    wilson |>
+                      mutate(corpus = "Wilson") |>
+                      select(-WUID) |>
+                      select(corpus, everything()),
+                    both_temp |>
+                      mutate(corpus = "Both") |>
+                      select(-c(HUID)) |>
+                      select(corpus, everything()))
+```
+
+Save corpus; `coupling_net` is pretty heavy and it can be recreated from the corpus:
+```{r}
+save(corpus,
+     file = glue::glue(here::here(),
+                       "/data/corpus.rda"),
+     compress = "xz")
+```
+
