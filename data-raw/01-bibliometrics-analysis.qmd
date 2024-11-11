@@ -21,6 +21,7 @@ library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graph
 library(ggraph) # An Implementation of Grammar of Graphics for Graphs and Networks
 library(glue) # Interpreted String Literals
 library(here) # A Simpler Way to Find Your Files
+library(tidytext)
 ```
 
 ## Load data
@@ -214,4 +215,28 @@ sum(sum(hansen_to_wilson))/(dim(hansen_to_wilson)[1] * dim(hansen_to_wilson)[2])
 
 From this we see that the coupling within the whole corpus is on average 1.18 (the number of sources that are typically cited in common by pair of documents). The coupling tends to be stronger for documents in the corpus that cite both Hansen and Wilson. The coupling is weakest between documents that cite only Hansen and only Wilson.
 
+Who are the authors in that niche that cites both Wilson and Hansen, and what is the temporal pattern of publication?
+```{r}
+corpus |> 
+  filter(corpus == "Both") |> 
+  select(AU, PY) |> arrange(PY)
+```
+
+<!--
+```{r}
+CS <- conceptualStructure(corpus,
+                          field="DE",
+                          method="MCA",
+                          minDegree=4, 
+                          clust=5, 
+                          stemming = TRUE,
+                          labelsize = 10,
+                          documents = 10)
+```
+
+-->
+
+```{r}
+corpus |> tibble::rownames_to_column(var = "rownames") |> select(rownames, AB) |> unnest_tokens(word, input = "AB")
+```
 
