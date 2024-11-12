@@ -16,16 +16,8 @@ knitr::opts_chunk$set(
 
 ```{r load-packages, include=FALSE, cache=FALSE}
 library(dplyr) # A Grammar of Data Manipulation
-library(fitdistrplus) # Help to Fit of a Parametric Distribution to Non-Censored or Censored Data
-library(geomtextpath) # Curved Text in 'ggplot2'
-library(ggforce) # Accelerating 'ggplot2'
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
-library(ggpmisc) # Miscellaneous Extensions to 'ggplot2'
-library(ggrepel) # Automatically Position Non-Overlapping Text Labels with 'ggplot2'
-library(ggspatial) # Spatial Data Framework for ggplot2
-library(gridExtra) # Miscellaneous Functions for "Grid" Graphics 
-library(here)
-
+library(flextable)
 # library(huxtable) # Easily Create and Style Tables for LaTeX, HTML and Other Formats
 # library(kableExtra) # Construct Complex Table with 'kable' and Pipe Syntax
 # library(patchwork) # The Composer of Plots
@@ -37,6 +29,11 @@ library(here)
 # library(spdep) # Spatial Dependence: Weighting Schemes, Statistics
 # library(tidyr) # Tidy Messy Data
 # library(tmap) # Thematic Maps
+# library(ggpmisc) # Miscellaneous Extensions to 'ggplot2'
+# library(ggrepel) # Automatically Position Non-Overlapping Text Labels with 'ggplot2'
+# library(ggspatial) # Spatial Data Framework for ggplot2
+# library(gridExtra) # Miscellaneous Functions for "Grid" Graphics 
+# library(here)
 ```
 
 # Introduction
@@ -215,186 +212,312 @@ $${#eq-bf-K-gravitymodel}
 
 For the doubly-constrained case, $A_i$ and $B_j$ must be solved together along with $K$. For the singly-constrained cases, origin-constrained case replaces $B_j$ with 1 for all $j$ and $A_i$ is @eq-bf-A-gravitymodel, and the the destination-constrained case replaces $A_i$ with 1 for all $i$ and $B_j$ is @eq-bf-B-gravitymodel. For both singly-constrained cases, $K$ also holds. For the total constrained case, $A_i$ and $B_j$ are set to 1 and $K$ is the defining constraint. And for the unconstrained case, in a way, all other cases (the total constrained, singly-constrained and doubly-constrained cases) are simply constrained variations.
 
-The following are simple numerical examples of each case assuming the following $T_{ij}$ matrix and a $f(c_{ij}) = \frac{1}{c_{ij}}$.
-
-The variables:
+The following are simple numerical examples of each case assuming the following 1) $T_{ij}$ trip ends matrix, 2) $C_{ij}$ travel cost matrix, and 3) an assumed travel impedance function of $f(c_{ij}) = \frac{1}{c_{ij}}$. For all cases, we look to estimate each $T_{ij}$ value using these three inputs, we present the known trip matrix and the trip ends below:
 ```{r}
-T_1 <- matrix(c(95, 23, 42, 27, 378, 45, 38, 36, 106), ncol = 3, byrow = TRUE)
+known_trip_matrix <- matrix(c(95,23,42, 27,378,45, 38,36,106), ncol = 3, byrow = TRUE)
+#unknowns <- matrix(c(rep(NA,9)), ncol=3, byrow=TRUE)
+W_i <- known_trip_matrix |> rowSums()
+W_j <- known_trip_matrix |> colSums()
+T <- ifelse(sum(W_i)==sum(W_j), sum(W_j),NA)
+knowns_longer <- cbind(known_trip_matrix,W_i)
+knowns_longer <- rbind(knowns_longer,cbind(t(W_j),T))
 
-T_1
+rownames(knowns_longer) <- c("1","2","3", "TOTAL") 
+colnames(knowns_longer) <- c("1","2","3", "TOTAL")
+
+knowns_longer #|> as.data.frame() |> round() |> gt(rownames_to_stub=TRUE)
 ```
 
+And the matrix of cost of travel from $i$ (rows) to $j$ (columns) is as follows:
 ```{r}
 C <- matrix(c(2, 15, 5, 15, 2, 10, 5, 10, 2), ncol = 3, byrow = TRUE)
-
-C
+C_longer <-C
+rownames(C_longer) <- c("1","2","3") 
+colnames(C_longer) <- c("1","2","3") 
+C_longer #|> as.data.frame() |> gt(rownames_to_stub=TRUE)
 ```
 
-```{r}
-O_i <- rowSums(T_1)
-D_j <- colSums(T_1)
+### Unconstrained interaction case
 
-O_i
-D_j
-```
-
-```{r}
-T <- sum(sum(T_1))
-
-T
-```
-
-
-## Unconstrained interaction case
+$k$ can be understood as being set to 1, so the model looks as follows, with no constraints and the trip matrix is as follows. For example, $T_{1,1} = 160*160*\frac{1}{2}$
 
 $$
-\hat{T_{ij}} = \frac{O_i\cdot D_j}{C_ij}
-$$
-
-```{r}
-T_unc <- O_i %*% t(D_j) / C
-
-T_unc
-```
-
-If we do the sums over rows, columns and all:
-```{r}
-rowSums(T_unc)
-colSums(T_unc)
-sum(sum(T_unc))
-```
-
-## Total constrained interaction case
-
-Needs a single/global proportionality constant.
-$$
-\hat{T_{ij}} = k\frac{O_i\cdot D_j}{C_{ij}}
-$$
-
-```{r}
-k <- T/sum(sum(T_unc))
-k
-```
-
-```{r}
-T_tot <- k * T_unc
-
-T_tot
-```
-
-Let's check those marginals and total:
-```{r}
-rowSums(T_tot)
-colSums(T_tot)
-sum(sum(T_tot))
-```
-
-Destination constrained:
-$$
-\hat{T_{ij}} = \frac{B_j\cdot O_i\cdot D_j}{C_{ij}}
+T_{ij} = W_i^{(1)} W_j^{(2)} f(c_{ij})
 $$
 ```{r}
-B_j <- colSums(T_1)/colSums(T_unc)
+T_unc <- W_i %*% t(W_j) / C
 
-B_j <- matrix(rep(B_j, 3), ncol = 3, byrow = TRUE)
+W_i_unc <- T_unc |> rowSums()
+W_j_unc <- T_unc |> colSums()
+T_TOTAL_unc <- ifelse(sum(W_i_unc|>round())==sum(W_j_unc|>round()), sum(T_unc), NA)
+T_unc_longer <- cbind(T_unc,W_i_unc)
+T_unc_longer <- rbind(T_unc_longer, cbind(t(W_j_unc),T_TOTAL_unc))
 
-B_j
+rownames(T_unc_longer) <- c("1","2","3", "TOTAL") 
+colnames(T_unc_longer) <- c("1","2","3", "TOTAL")
+
+T_unc_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
-```{r}
-T_dest <- B_j * T_unc
+As we can surmise, the trip ends do not add up to anything we know -- they do not add up to the known trip ends. Instead, they take on the assumptions of all balancing factors $k$ being equal to 1. When would this happen? It's hard to say... as the balancing factors themselves do not have practical meaning; what has meaning are the constraints. By satisfying the constraints, the model gains meaning. In this way, the resulting unconstrained interaction matrix is simply an expression of the magnitude of interaction of $W_i$ to $W_j$ assuming $f(c_{ij})$. In the context of spatial interaction modelling, this model is not entirely useful; it is in units of 'trips' but trips that satisify the macro constraint of $k$ equaling 1, which is practically meaningless.  
 
-T_dest
-```
+### Total constrained interaction case
 
-Let's check those marginals and total:
-```{r}
-rowSums(T_dest)
-colSums(T_dest)
-sum(sum(T_dest))
-```
-
-Origin constrained:
+In the total constrained case, $k$ is replaced with $K$ (@eq-bf-K-gravitymodel satisfying only constraint @eq-constraint0-gravitymodel) so the model looks as follows:
 $$
-\hat{T_{ij}} = \frac{A_i\cdot O_i\cdot D_j}{C_{ij}}
+T_{ij}' = K W_i^{(1)} W_j^{(2)} f(c_{ij})
+$$
+\where Solved for our example, $K$ is equal to the total number of known trips divided by the sum of all the unconstrained trips made:
+$$
+K = \frac{T}{\sum_{i}\sum_{j} W_i^{(1)} W_j^{(2)} f(c_{ij})}\\
+K = \frac{T}{\frac{W_1^{(1)}W_1^{(2)}}{c_{1,1}}+\frac{W_2^{(1)}W_1^{(2)}}{c_{2,1}}+\frac{W_3^{(1)}W_1^{(2)}}{c_{3,1}}+\frac{W_1^{(1)}W_2^{(2)}}{c_{1,2}} +... \frac{W_3^{(1)}W_3^{(2)}}{c_{3,3}}
+}\\
+K = \frac{790}{166443} \\
+K = 0.00474636
 $$
 
 ```{r}
-A_i <- rowSums(T_1)/rowSums(T_unc)
+K <- T/sum(sum(T_unc))
+T_tot <- K * T_unc
 
-A_i <- matrix(rep(A_i, 3), ncol = 3, byrow = FALSE)
+W_i_tot <- T_tot |> rowSums()
+W_j_tot <- T_tot |> colSums()
+T_TOTAL_tot <- ifelse(sum(W_i_tot|>round())==sum(W_j_tot|>round()), sum(T_tot), NA)
+T_tot_longer <- cbind(T_tot,W_i_tot)
+T_tot_longer <- rbind(T_tot_longer, cbind(t(W_j_tot),T_TOTAL_tot))
 
-A_i
+rownames(T_tot_longer) <- c("1","2","3", "TOTAL") 
+colnames(T_tot_longer) <- c("1","2","3", "TOTAL")
+
+T_tot_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
+While we can see that the total trips `r T` results, the total trip ends are not equal to the known trip ends as these constraints are not specified and thus not satisfied by the model.
 
-```{r}
-T_orig <- A_i * T_unc
+### Singly-constrained
 
-T_orig
-```
+Two versions of this case, either origin-constrained or destination-constrained. 
 
-Let's check those marginals and total:
-```{r}
-rowSums(T_orig)
-colSums(T_orig)
-sum(sum(T_orig))
-```
-
-
-Now how does this translate to accessibility?
-
-Opportunities (say, grocery stores):
-```{r}
-D_j <- c(7, 3, 2)
-```
-
-Unconstrained accessibility (no proportionality constant):
+For the origin-constrained model, where $k$ is replaced with $A_i$ (@eq-bf-A-gravitymodel satisfying only constraint @eq-constraint1-gravitymodel and implicitly @eq-constraint0-gravitymodel), the model looks as follows:
 $$
-S_i = \sum_j\frac{D_j}{C_{ij}}
+T_{ij}^{''(1)} = A_i W_i^{(1)} W_j^{(2)} f(c_{ij})
 $$
-
-```{r}
-S_i <- (1/C) %*% D_j
-```
-
-These numbers are proportional to the accessibility (i.e., higher or lower), but are not scaled to number of stores. Check the sum:
-```{r}
-sum(S_i)
-```
-
-Total flow constrained accessibility, needs a balancing factor:
-```{r}
-k <- sum(D_j)/sum(S_i)
-
-k
-```
-
-Total flow constrained accessibility:
-Unconstrained accessibility (no proportionality constant):
+\where In our example, $A_i$ is:
 $$
-S_i = k\sum_j\frac{D_j}{C_{ij}}
+A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}\\
+A_1 = \frac{1}{W_1^{(2)} f(c_{1,1}) + W_2^{(2)} f(c_{1,2}) + W_3^{(2)} f(c_{1,3})}\\
+...\\
+A_1 = \frac{1}{160/2+437/15+193/5} =0.006768953 \\
+A_2 = \frac{1}{160/15+437/2+193/10} =0.004024685 \\
+A_3 = \frac{1}{160/5+437/10+193/2} =0.005807201 
 $$
 
 ```{r}
-S_tot <- k * S_i
+A_i <- 1/t((matrix(W_j))) %*% (1/C)
+#A_i <- rowSums(known_trip_matrix)/rowSums(T_unc) #our answer with knowns
+A_i<- diag(A_i|> as.numeric(), nrow=3, ncol=3)
 
-S_tot
+T_orig <-  A_i%*%T_unc
+
+W_i_orig <- T_orig |> rowSums()
+W_j_orig <- T_orig |> colSums()
+T_TOTAL_orig <- ifelse(sum(W_i_orig)==sum(W_j_orig), sum(T_orig), NA)
+T_orig_longer <- cbind(T_orig,W_i_orig)
+T_orig_longer <- rbind(T_orig_longer, cbind(t(W_j_orig),T_TOTAL_orig))
+
+rownames(T_orig_longer) <- c("1","2","3", "TOTAL") 
+colnames(T_orig_longer) <- c("1","2","3", "TOTAL")
+
+T_orig_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
-Now check the sum:
+We can see that the $W_i^{(1)}$ values are equal to the trip ends, but not $W_j^{(2)}$ values. 
+
+Similarly, the singly-constrained case can be flipped to be origin-constrained (@eq-bf-B-gravitymodel satisfying only constraint @eq-constraint1-gravitymodel and implicitly @eq-constraint0-gravitymodel):
+$$
+T_{ij}^{''(2)} = B_j W_i^{(1)} W_j^{(2)} f(c_{ij})
+$$
+\where $B_j$ is, and equal to:
+$$
+B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}\\
+$$
 ```{r}
-sum(S_tot)
+B_j <- 1/(t(matrix(W_i))) %*% (1/C) 
+
+B_j <- matrix(B_j) |> t()
+B_j_longer <- B_j
+colnames(B_j_longer) <- c("1","2","3")
+B_j_longer  #|> as.data.frame()  |> gt()
+#B_j <- colSums(known_trip_matrix)/colSums(T_unc) #our answer with knowns
+```
+
+And trips are:
+```{r}
+B_j <- diag(B_j|> as.numeric(), nrow=3, ncol=3)
+
+T_dest <-  (B_j)%*%t(T_unc) |> t()
+
+W_i_dest <- T_dest |> rowSums()
+W_j_dest <- T_dest |> colSums()
+T_TOTAL_dest <- ifelse(sum(W_i_dest)==sum(W_j_dest), sum(T_dest), NA)
+T_dest_longer <- cbind(T_dest,W_i_dest)
+T_dest_longer <- rbind(T_dest_longer, cbind(t(W_j_dest),T_TOTAL_dest))
+
+rownames(T_dest_longer) <- c("1","2","3", "TOTAL") 
+colnames(T_dest_longer) <- c("1","2","3", "TOTAL")
+
+T_dest_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+```
+
+And as we can observe, the $W_j^{(2)}$ values are equal to the known trip ends, while $W_i^{(1)}$ is not.
+
+### Doubly-constrained case
+
+The parameter $k$ is replaced with both $A_i$ and $B_j$ (@eq-bf-A-gravitymodel and @eq-bf-B-gravitymodel satisfying all three constraints @eq-constraint1-gravitymodel,  @eq-constraint2-gravitymodel and implicitly @eq-constraint0-gravitymodel), the model looks as follows:
+$$
+T_{ij}^{'''} = A_i B_j W_i^{(1)} W_j^{(2)} f(c_{ij})
+$$
+\where In our example, $A_i$ and $B_j$ is:
+$$
+A_i = \frac{1}{\sum_j B_j W_j^{(2)} f(c_{ij})}\\
+B_j = \frac{1}{\sum_i A_i W_i^{(1)} f(c_{ij})}
+$$
+```{r}
+doubly_constrained_gravity_model <- function(
+    #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R
+  O,  # Origin production weights vector
+  D,  # Destination attraction weights vector
+  impedance_matrix,  # the resulting travel cost impedance matrix
+  error_threshold = 0.001,  # Error threshold for stopping condition
+  improvement_threshold = 1e-6  # Improvement threshold for stopping condition
+) {
+  
+  # Normalize O and D
+  sum_O <- sum(O)
+  sum_D <- sum(D)
+  cat("Checking production, attraction balancing:\n")
+  cat("Production: ", sum_O, "\n")
+  cat("Attraction: ", sum_D, "\n")
+  
+  if (sum_O != sum_D) {
+    cat("Productions and attractions do not balance, scaling to match.\n")
+    if (sum_O < sum_D) {
+      O <- O * (sum_D / sum_O)
+    } else {
+      D <- D * (sum_O / sum_D)
+    }
+  } else {
+    cat("Production, attraction balancing OK.\n")
+  }
+  
+  n <- length(O)  # Number of i
+  T <- sum(O)  # Total trips
+  Ai <- rep(1, n)  # Initialize Ai
+  Bj <- rep(1, n)  # Initialize Bj
+  
+  previous_error <- Inf
+  iteration_count <- 0
+  stop_reason <- ""
+  
+  while (TRUE) {
+    iteration_count <- iteration_count + 1
+    
+    # Update Ai
+    for (i in 1:n) {
+      Ai[i] <- 1 / (sum(Bj * D * impedance_matrix[i, ]) + 1e-9)
+    }
+    
+    # Update Bj
+    Bj_new <- rep(1, n)
+    for (j in 1:n) {
+      Bj_new[j] <- 1 / (sum(Ai * O * impedance_matrix[, j]) + 1e-9)
+    }
+    
+    # Calculate Tij
+    Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix
+    
+    # Print Ai and Bj for this iteration
+    cat("\nIteration:", iteration_count, "\n")
+    cat("Ai:", round(Ai, 3), "\n")
+    cat("Bj:", round(Bj_new, 3), "\n")
+    
+    # Calculate error
+    error <- (sum(abs(O - rowSums(Tij))) + sum(abs(D - colSums(Tij)))) / T
+    
+    # Calculate change in error
+    error_change <- abs(previous_error - error)
+    
+    # Check stopping conditions
+    if (error < error_threshold) {
+      stop_reason <- "Error threshold met"
+      break
+    } else if (error_change < improvement_threshold) {
+      stop_reason <- "Slow improvement"
+      break
+    }
+    
+    previous_error <- error
+    Bj <- Bj_new
+  }
+  
+  # report stopping condition and final error threshold
+  cat("\nStopping Condition: ", stop_reason, "\n")
+  cat(sprintf("Final Error: %.3f%%\n", error * 100))
+  
+  return(list(Ai = Ai, Bj = Bj, Tij = Tij))
+}
+
+dc_results <- doubly_constrained_gravity_model(O=W_i, D=W_j, impedance_matrix = 1/C)
+```
+
+The $A_i$ and $B_j$ matrices:
+```{r}
+A_i_doubly <- dc_results$Ai
+B_j_doubly <- dc_results$Bj
+
+A_i_doubly |> matrix()
+B_j_doubly |> matrix() |> t()
+```
+
+The trip matrix (notice, all trip ends are equivalent to the known trip ends)
+```{r}
+T_doubly <- dc_results$Tij
+
+W_i_doubly <- T_doubly |> rowSums()
+W_j_doubly <- T_doubly |> colSums()
+T_TOTAL_dest <- ifelse(sum(W_i_doubly)==sum(W_j_doubly), sum(T_doubly), NA)
+T_doubly_longer <- cbind(T_doubly,W_i_dest)
+T_doubly_longer <- rbind(T_doubly_longer, cbind(t(W_j_doubly),T_TOTAL_dest))
+
+rownames(T_doubly_longer) <- c("1","2","3", "TOTAL") 
+colnames(T_doubly_longer) <- c("1","2","3", "TOTAL")
+
+T_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
 
+### Mean absolute percentage error (MAPE) between all cases
+
+```{r}
+#unconstrained
+((sum(abs(W_i_unc - rowSums(known_trip_matrix))) + sum(abs(W_j_unc - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
+
+#total constrained
+((sum(abs(W_i_tot - rowSums(known_trip_matrix))) + sum(abs(W_j_tot - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
+
+#singly-constrained (orig)
+((sum(abs(W_i_orig - rowSums(known_trip_matrix))) + sum(abs(W_j_orig - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
+
+#singly-constrained (dest)
+((sum(abs(W_i_dest - rowSums(known_trip_matrix))) + sum(abs(W_j_dest - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
+
+#doubly-constrained (dest)
+((sum(abs(W_i_doubly - rowSums(known_trip_matrix))) + sum(abs(W_j_doubly - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
+```
 
 
 # A family of accessibility measures
 
-Imagine if the interaction variable was in fact _potential_ interaction, and the units were trips but opportunities. We don't have to change much!
-
-
-Referring to the preceding section, the entropy maximizing method can be used to derive an equivalent family of measures, but for the case of accessibility where the _interaction_ variable is $V_{ij}$, represent _potential interaction_, i.e., the number of potential reachable opportunities. $T_{ij}$ in @eq-phys-gravity-model can be replaced with $V_{ij}$ and presented as follows: 
+Imagine if the interaction variable was in fact _potential_ interaction, and the units were trips but opportunities. We don't have to change much! Referring to the preceding section, the entropy maximizing method can be used to derive an equivalent family of measures, but for the case of accessibility where the _interaction_ variable is $V_{ij}$, represent _potential interaction_, i.e., the number of potential reachable opportunities. $T_{ij}$ in @eq-phys-gravity-model can be replaced with $V_{ij}$ and presented as follows: 
 
 $$
 V_{ij} = k O_i D_j f(c_{ij})
@@ -426,9 +549,54 @@ For all FIVE cases, @eq-constraint3-access holds <!--in the event C is known, it
 - @eq-constraint1-access and @eq-constraint2-access both hold simultaneously -- the production-attraction constrained case (doubly-constrained).
 - @eq-constraint1-access or @eq-constraint2-access partly hold -- hybrid production constrained case <!-- (could be repeated for attraction constrained case... and doubly constrained case)-->
 
-Using the maximizing entropy approach... <!--DESCRIBING WHAT EACH MICRO/MESO/MACRO STATE IS HERE IN RELATION TO ACCESSIBILITY--> For each case...
 
-## Unconstrained case
+
+
+Now how does this translate to accessibility?
+
+Opportunities (say, grocery stores):
+```{r}
+D_j <- c(7, 3, 2)
+```
+
+## Unconstrained accessibility 
+(no proportionality constant):
+$$
+S_i = \sum_j\frac{D_j}{C_{ij}}
+$$
+
+```{r}
+S_i <- (1/C) %*% D_j
+```
+
+These numbers are proportional to the accessibility (i.e., higher or lower), but are not scaled to number of stores. Check the sum:
+```{r}
+sum(S_i)
+```
+
+##Total flow constrained accessibility, needs a balancing factor:
+```{r}
+k <- sum(D_j)/sum(S_i)
+
+k
+```
+
+## Unconstrained accessibility (no proportionality constant):
+$$
+S_i = k\sum_j\frac{D_j}{C_{ij}}
+$$
+
+```{r}
+S_tot <- k * S_i
+
+S_tot
+```
+
+Now check the sum:
+```{r}
+sum(S_tot)
+```
+
 
 Neither @eq-constraint1-access or @eq-constraint2-access hold, so $V_ij'$ has no opportunity constraints!  
 
@@ -437,6 +605,11 @@ V_{ij}' = k O_i D_j f(c_{ij})
 $${#eq-access-unconstrained}
 
 Where $k$ is two sets of balancing factors, $A_i'$ and $B_j'$, and both are equal to 1. 
+
+
+
+
+
 
 
 ## Singly-constrained case (origin-constrained)
