@@ -162,8 +162,7 @@ $${#eq-phys-gravity-model}
 Where $T_{ij}$ represents a $n$ x $m$ matrix of flows between an $n$ number of origins $i$ and an $m$ number of destinations $j$, $W_i^{(1)}$ and $W_j^{(2)}$ is a vector of mass attributes representing origin $i$ and destination $j$ respectively, and $f(c_{ij})$ is a $n$ x $m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In other words, $T_{ij}$ explicitly measures _interaction_ as a unit of trips and the single proportionality constant $k$ ensures the total sum of $T_{ij}$ represents the total flows in the data. It should be noted that the early analogy with the gravitational law proved too simplistic, and improvements to the gravity model (@eq-phys-gravity-model) are the use of total trip ends (number of originating trips from zone $i$ are $O_i$ and ending trips at zone $j$ are $D_j$) instead of total populations and separation distance calibrated by a power $n$ (such as $P_i$, $P_j$, and $n$ in @eq-zipf, @eq-reilly and @eq-stewart-force). Finally, and of most important note in this paper, $k$ is a scale parameter that makes the overall equation proportional to the rate characteristic of the modeled phenomenon.
 
 
-## Entropy maximising: the gravity-model as statistical averages
-
+**Entropy maximising: the gravity-model as statistical averages:**
 Traditionally, the development of the gravity model has put an emphasis on the interpretability of the resulting units [@kirbyNormalizingFactorsGravity1970; @wilsonSTATISTICALTHEORYSPATIAL1967;@wilson1971]. But instead of relying on the heuristic Newtonian gravity analogy, entropy maximisation has emerged as a popular model building approach taken in the spatial interaction studies to generate the gravity model [@ortuzar_2011_modelling]. Namely, it is mathematically rigorousness and offers a sensible interpretation of the resulting model as a statistical averaging procedure [@wilson1971;@seniorGravityModellingEntropy1979].
 
 As such, @eq-phys-gravity-model can be derived to account for additional information to include constraints that reflect known information about the system and is mathematically rigorous. The interaction variable $T_ij$ is often in the unit of trips, so additional knowledge can be the total trip flows originating at each zone $W_i^{(1)}$ and the total trip flows terminating at zone $W_j^{(2)}$. These pieces of information can constrain $T_{ij}$ as follows.
@@ -237,7 +236,7 @@ colnames(C_longer) <- c("1","2","3")
 C_longer #|> as.data.frame() |> gt(rownames_to_stub=TRUE)
 ```
 
-### Unconstrained interaction case
+## Unconstrained interaction case
 
 $k$ can be understood as being set to 1, so the model looks as follows, with no constraints and the trip matrix is as follows. For example, $T_{1,1} = 160*160*\frac{1}{2}$
 
@@ -261,7 +260,7 @@ T_unc_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 
 As we can surmise, the trip ends do not add up to anything we know -- they do not add up to the known trip ends. Instead, they take on the assumptions of all balancing factors $k$ being equal to 1. When would this happen? It's hard to say... as the balancing factors themselves do not have practical meaning; what has meaning are the constraints. By satisfying the constraints, the model gains meaning. In this way, the resulting unconstrained interaction matrix is simply an expression of the magnitude of interaction of $W_i$ to $W_j$ assuming $f(c_{ij})$. In the context of spatial interaction modelling, this model is not entirely useful; it is in units of 'trips' but trips that satisify the macro constraint of $k$ equaling 1, which is practically meaningless.  
 
-### Total constrained interaction case
+## Total constrained interaction case
 
 In the total constrained case, $k$ is replaced with $K$ (@eq-bf-K-gravitymodel satisfying only constraint @eq-constraint0-gravitymodel) so the model looks as follows:
 $$
@@ -293,7 +292,7 @@ T_tot_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 While we can see that the total trips `r T` results, the total trip ends are not equal to the known trip ends as these constraints are not specified and thus not satisfied by the model.
 
-### Singly-constrained
+## Singly-constrained
 
 Two versions of this case, either origin-constrained or destination-constrained. 
 
@@ -370,7 +369,7 @@ T_dest_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 
 And as we can observe, the $W_j^{(2)}$ values are equal to the known trip ends, while $W_i^{(1)}$ is not.
 
-### Doubly-constrained case
+## Doubly-constrained case
 
 The parameter $k$ is replaced with both $A_i$ and $B_j$ (@eq-bf-A-gravitymodel and @eq-bf-B-gravitymodel satisfying all three constraints @eq-constraint1-gravitymodel,  @eq-constraint2-gravitymodel and implicitly @eq-constraint0-gravitymodel), the model looks as follows:
 $$
@@ -495,12 +494,24 @@ T_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
 
-### Mean absolute percentage error (MAPE) between all cases
+## Mean absolute percentage error (MAPE) between all cases
 
 ```{r}
 #unconstrained
 ((sum(abs(W_i_unc - rowSums(known_trip_matrix))) + sum(abs(W_j_unc - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
 
+#unconstrained -- rescaled!
+W_i_unc_rescaled <- T_unc |> scales::rescale() |> rowSums()
+W_j_unc_rescaled <- T_unc |> scales::rescale() |> colSums()
+
+W_i_rescaled <- known_trip_matrix |> scales::rescale() |> rowSums()
+W_j_rescaled <- known_trip_matrix |> scales::rescale() |> colSums()
+
+((sum(abs(W_i_unc_rescaled - W_i_rescaled)) + sum(abs(W_j_unc_rescaled - W_j_rescaled))) / T) |> scales::percent(0.01)
+```
+
+
+```{r}
 #total constrained
 ((sum(abs(W_i_tot - rowSums(known_trip_matrix))) + sum(abs(W_j_tot - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
 
@@ -514,129 +525,140 @@ T_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ((sum(abs(W_i_doubly - rowSums(known_trip_matrix))) + sum(abs(W_j_doubly - colSums(known_trip_matrix)))) / T) |> scales::percent(0.01)
 ```
 
+- doubly c is lowest error
+- singly constrained error is mid
+- total constrained has high error
+- notably, unconstrained unscaled is obviously much higher in error - there are no constraints! But if you scale the matrices, the error is both low (interesting!! why is this?). However as mentioned, the unconstrained case is hard to interpret literally -- in what situations would k=1..? 
 
 # A family of accessibility measures
 
 Imagine if the interaction variable was in fact _potential_ interaction, and the units were trips but opportunities. We don't have to change much! Referring to the preceding section, the entropy maximizing method can be used to derive an equivalent family of measures, but for the case of accessibility where the _interaction_ variable is $V_{ij}$, represent _potential interaction_, i.e., the number of potential reachable opportunities. $T_{ij}$ in @eq-phys-gravity-model can be replaced with $V_{ij}$ and presented as follows: 
 
 $$
-V_{ij} = k O_i D_j f(c_{ij})
+V_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 $${#eq-access}
 
-Where $V_{ij}$ represents a $n$ x $m$ matrix of potential reachable opportunities between an $n$ number of origins $i$ and an $m$ number of destinations $j$, $O_i$ and $D_j$ is a vector of mass attributes representing origin $i$ and destination $j$ respectively, and $f(c_{ij})$ is a $n$ x $m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In other words, $V_{ij}$ explicitly measures _potential interaction_ as a unit of number of potentially reachable opportunities and the single proportionality constant $k$ ensures the total sum of $V_{ij}$ represents the total potential reachable opportunities in the data. Finally, and of most important note in this paper, $k$ is a scale parameter that makes the overall equation proportional to the rate characteristic of the modeled phenomenon.
+Where $V_{ij}$ consists of the same variables, however $V_{ij}$ explicitly measures _potential interaction_ as a unit of number of potentially reachable opportunities and the single proportionality constant $k$ ensures the total sum of $V_{ij}$ represents the total potential reachable opportunities in the data.
 
-Like with @eq-phys-gravity-model, we distinguish @eq-access into FIVE cases based on versions of the gravity-model building constraints (@eq-constraint1-gravitymodel,  @eq-constraint2-gravitymodel, and @eq-constraint3-gravitymodel). To inform each case of @eq-access with constraints that reflect knowledge of the macro-state, the total trip flow $O_i$ originating at each $i$ and the total trip flows $D_j$ terminating at $j$ are used. These pieces of information can constrain $V_{ij}$ as follows, ensuring it reflects this macro-level knowledge, i.e., the sum of the number of potential reachable opportunities. 
-
-$$
-\sum_j V_{ij} = O_i
-$${#eq-constraint1-access}
-\noindent Where sum of all potentially reachable opportunities for all $j$ zones in the region is equal to the opportunities originating $O_i$ at each $i$ in the region.
+Like with @eq-phys-gravity-model, we distinguish @eq-access into four cases based on versions of the gravity-model building constraints (@eq-constraint1-gravitymodel,  @eq-constraint2-gravitymodel, and @eq-constraint3-gravitymodel) to reflect macro-level knowledge, i.e., the sum of the number of potential reachable opportunities. 
 
 $$
-\sum_i V_{ij} = D_j
-$${#eq-constraint2-access}
-\noindent Where sum of all potentially reachable opportunities for all $i$ zones in the region is equal to the opportunities ending $D_i$ at each $j$ in the region.
+\sum_i\sum_j V_{ij} = V
+$${#eq-constraint0-access}
 
 $$
-\sum_{i}\sum_{j} V_{ij} c_{ij} = C
-$${#eq-constraint3-access}
+\sum_i\sum_j V_{ij} c_{ij} = C
+$${#eq-constraint0_5-access}
 \noindent Where the sum of the travel cost of each potentially reached opportunity in the region is equal to a total travel cost $C$.
 
-For all FIVE cases, @eq-constraint3-access holds <!--in the event C is known, it could be used to identify parameters in f(c_ij)... though model calibration is probably a better idea. --> but are differentiated like:
-- neither @eq-constraint1-access or @eq-constraint2-access hold -- the unconstrained case;
-- @eq-constraint1-access holds -- the production constrained case (origin-constrained, a singly-constrained case); 
-- @eq-constraint2-access holds -- the attraction constrained case (destination-constrained, a singly-constrained case); 
-- @eq-constraint1-access and @eq-constraint2-access both hold simultaneously -- the production-attraction constrained case (doubly-constrained).
-- @eq-constraint1-access or @eq-constraint2-access partly hold -- hybrid production constrained case <!-- (could be repeated for attraction constrained case... and doubly constrained case)-->
+$$
+\sum_j V_{ij} = W_i^{(1)}
+$${#eq-constraint1-access}
+\noindent Where sum of all potentially reachable opportunities for all $j$ zones in the region is equal to the production weight at each $i$ in the region.
 
+$$
+\sum_i V_{ij} = W_j^{(2)}
+$${#eq-constraint2-access}
+\noindent Where sum of all potentially reachable opportunities for all $i$ zones in the region is equal to the attraction weight at each $j$ in the region.
 
+All four <!--five?--> cases are differentiated like:
+- The unconstrained case: neither @eq-constraint0_5-gravitymodel, @eq-constraint1-gravitymodel, or @eq-constraint2-gravitymodel hold;
+- The total constrained case: only @eq-constraint0-gravitymodel hold
+- The singly-constrained case: either @eq-constraint1-gravitymodel holds (origin-constrained) <!-- production--> or @eq-constraint2-gravitymodel holds (destination-constrained)<!-- attraction-->; 
+- The doubly-constrained case: both @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel hold simultaneously <!--production-attraction-->
+- HYBRID CASE: @eq-constraint1-access or @eq-constraint2-access partly hold -- hybrid production constrained case <!-- (could be repeated for attraction constrained case... and doubly constrained case)-->
 
+We can use the same trip matrix, but reformulate its meaning. Let's say $W_i^{(1)}$ is population at $i$ who seek opportunities, lets recast this variable as $P_i$. Then let's say $W_j^{(2)}$ are the opportunities being sought, recast to $O_j$. For this simple example, we can say that the opportunities are the population's jobs. In our region, each person has a job -- but we only know at an aggregate how many people are at each $i$, the jobs that are located at $j$ and the travel cost ($C$ and associated travel propensity $1/C$). (let's pretend our 'known_trip_matrix' is unknown).
 
-Now how does this translate to accessibility?
-
-Opportunities (say, grocery stores):
 ```{r}
-D_j <- c(7, 3, 2)
+known_trip_matrix <- matrix(c(95,23,42, 27,378,45, 38,36,106), ncol = 3, byrow = TRUE)
+#unknowns <- matrix(c(rep(NA,9)), ncol=3, byrow=TRUE)
+W_i <- known_trip_matrix |> rowSums()
+W_j <- known_trip_matrix |> colSums()
+T <- ifelse(sum(W_i)==sum(W_j), sum(W_j),NA)
+knowns_longer <- cbind(known_trip_matrix,W_i)
+knowns_longer <- rbind(knowns_longer,cbind(t(W_j),T))
+
+rownames(knowns_longer) <- c("1","2","3", "TOTAL") 
+colnames(knowns_longer) <- c("1","2","3", "TOTAL")
+
+knowns_longer #|> as.data.frame() |> round() |> gt(rownames_to_stub=TRUE)
+```
+
+And the matrix of cost of travel from $i$ (rows) to $j$ (columns) is as follows:
+```{r}
+C <- matrix(c(2, 15, 5, 15, 2, 10, 5, 10, 2), ncol = 3, byrow = TRUE)
+C_longer <-C
+rownames(C_longer) <- c("1","2","3") 
+colnames(C_longer) <- c("1","2","3") 
+C_longer #|> as.data.frame() |> gt(rownames_to_stub=TRUE)
 ```
 
 ## Unconstrained accessibility 
-(no proportionality constant):
+(no proportionality constant, k=1, no constraints hold - hard to interpret):
 $$
-S_i = \sum_j\frac{D_j}{C_{ij}}
+S_{ij} = P_i O_j f(c_{ij})
 $$
-
-```{r}
-S_i <- (1/C) %*% D_j
-```
-
-These numbers are proportional to the accessibility (i.e., higher or lower), but are not scaled to number of stores. Check the sum:
-```{r}
-sum(S_i)
-```
-
-##Total flow constrained accessibility, needs a balancing factor:
-```{r}
-k <- sum(D_j)/sum(S_i)
-
-k
-```
-
-## Unconstrained accessibility (no proportionality constant):
+In practice, $S_i$ is calculated for each $i$ so:
 $$
-S_i = k\sum_j\frac{D_j}{C_{ij}}
+S_{i} = P_i \sum_j O_j f(c_{ij})
+$$
+These numbers are proportional to the accessibility (i.e., higher or lower), but are not scaled to number opportunities (jobs).
+
+Looks like Hansen, but multiplied by P_i. 
+
+## Total flow constrained accessibility
+
+This needs a balancing factor, $k$ is replaced with $K$:
+$$
+S_{ij}' = K P_i O_j f(c_{ij})\\
+S_{i}' = K P_i \sum_j O_j f(c_{ij})
 $$
 
-```{r}
-S_tot <- k * S_i
+This approach is not seen in accessibility literature...
 
-S_tot
-```
+## Singly-constrained case 
 
-Now check the sum:
-```{r}
-sum(S_tot)
-```
-
-
-Neither @eq-constraint1-access or @eq-constraint2-access hold, so $V_ij'$ has no opportunity constraints!  
-
+Similarly, singly-constrained can be either origin-constrained $V_i''^{(1)}$ or destination-constrained $V_i''^{(2)}$. For the origin- and destination- constrained versions, $k$ is replaced with $A_i$ and $B_j$ respectively:
 $$
-V_{ij}' = k O_i D_j f(c_{ij})
-$${#eq-access-unconstrained}
+V_{ij}''^{(1)} = A_i P_i O_j f(c_{ij})\\
+V_{ij}''^{(2)} = B_j P_i O_j f(c_{ij})\\
 
-Where $k$ is two sets of balancing factors, $A_i'$ and $B_j'$, and both are equal to 1. 
+V_{i}''^{(1)} = A_i P_i \sum_j O_j f(c_{ij})\\
+V_{i}''^{(2)} = P_i \sum_j B_j O_j f(c_{ij})\\
 
+$${#eq-access-singlyconstrained-origin}
 
-
-
-
-
-
-## Singly-constrained case (origin-constrained)
-
-Spatial availability; origin-constrained. 
-
-Origins in human spatial interaction: "intervening opportunities and competing migrants" @stoufferInterveningOpportunitiesTheory1940 and @stoufferINTERVENINGOPPORTUNITIESCOMPETING1960, "axiomatically"  @weibull_axiomatic_1976, "for multiple-modes, as a rate" @shen1998; for multiple-modes, as the number of opportunities" @soukhovMultimodalSpatialAvailability2024
-
+\noindent Where $A_i$ and $B_j$ are:
 $$
-V_{ij}'' = k O_i D_j f(c_{ij})
-$${#eq-access-singlyconstrained}
+A_i = \frac{1}{\sum_j O_j f(c_{ij})}\\
+B_j = \frac{1}{\sum_i P_i f(c_{ij})}\\
+$$
+For the origin-constrained, $V_{i}''^{(1)}$ are the number of opportunities (like jobs) that can be reached at $i$, and $V_{i}''^{(2)}$ are the number of opportunities (like people) that can be reached at $i$
 
-<!--HOW DO WE FIT OUR EXISTING CONSTRAINTS INTO THESE BALANCING FACTORS..? $k O_i f(c_{ij}) = the balancing factors..?-->
+
+In terms of origin-constrained -- spatial availability is explicitly so [@soukhovIntroducingSpatialAvailability2023;@soukhovMultimodalSpatialAvailability2024]. Other literature also demonstrates this constraint implicitly through its analytical formulation; for instance the Intervening Opportunities model [@stoufferInterveningOpportunitiesTheory1940; @stoufferINTERVENINGO PPORTUNITIESCOMPETING1960] "axiomatically" @weibull_axiomatic_1976, competition consideration but as a per population rate [@shen1998], FCA methods in general []. 
+
+Regarding destination-constrained, has it's origins are in retail models. e.g., decision model for shops to optimally spatially locate to maximise their potential consumer interaction. Starting with reilly's law of gravitational retail (1931), formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. 
+
+For instance, the most recent example spatial availability is formulated like so:
 $$
 V_{ij}'' = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
 $$
-Population balancing factor:
+Where the $F^p_{ij}$ Population balancing factor is:
 $$
 F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i=1}^K P_{i\in r}^\alpha}
 $$
-Travel cost balancing factor:
+And the $F^c_{ij}$ travel cost balancing factor:
 $$
 F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^K f(c_{ij})}
 $$
-## Singly-constrained case (destination-constrained)
+It can be reformulated to fit into the singly-constrained (origin case) gravity model as the denominators in both those balancing factors cancel out:
+$$
+V_{ij}'' = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}\\
 
-Origins are in retail models, decision model for shops to optimally spatially locate to max. their potential consumer interaction. Starting with reilly's law of gravitational retail (1931), formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. Spatial availability as another example.
+V_{ij}''^{(1)} =O_j \frac{1}{\sum_j O_j f(c_{ij})} P_i  f(c_{ij})\\
+$$
 
 ## Doubly constrained case (origin-destination constrained)
 
@@ -645,7 +667,7 @@ ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAc
 
 
 ## Hybrid singly-constrained case: 
-<!--NOTE TO SELF: where does E2SFCA and 3SFCA fit??-->
+<!--NOTE TO SELF: where does E2SFCA and 3SFCA fit?? Maybe here-->
 Balanced floating catchment areas (not truly doubly constrained)
 
 # Empirical examples
@@ -679,3 +701,9 @@ When to use each of these measures?
 -->
 
 <!-- (cool paper that explores this @kirbyNormalizingFactorsGravity1970 - he "shows that the Ai and Bj balancing factors are the mean values of the inverse of the function e^-N*F(c_ij) calculated by summing the function over i values for Ai factors and over j values for Bj factors." -->
+
+
+<!--TO DISCUSS:
+-- should we use entropy maximisation to actually derive the models? I'm hazy on that.
+  -- relatedly, in the unconstrained case... is k=1 or does k just not exist..? I assume k=1 and say that the interpretation in reality is confusing. a consistent derivation of all cases can help address this.
+  -- constraint 0 or 0.5..? a consistent derivation of all cases should help address this. -->
