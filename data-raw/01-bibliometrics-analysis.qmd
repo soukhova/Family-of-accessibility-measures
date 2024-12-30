@@ -153,8 +153,8 @@ ggplot(data = layout) +
              shape = 0,
              size = 3,
              alpha = 0.5) +
-  
   theme_void()
+ggsave("Han_Wilson_bib_coupling_plot.png")
 ```
 
 Center of mass of Hansen:
@@ -217,9 +217,12 @@ From this we see that the coupling within the whole corpus is on average 1.18 (t
 
 Who are the authors in that niche that cites both Wilson and Hansen, and what is the temporal pattern of publication?
 ```{r}
-corpus |> 
+both_Han_Wilson <- 
+  corpus |> 
   filter(corpus == "Both") |> 
-  select(AU, PY) |> arrange(PY)
+  select(AU, PY, TI) |> arrange(PY)
+
+write.csv(both_Han_Wilson, file = "both_Han_Wilson.csv")
 ```
 
 <!--
