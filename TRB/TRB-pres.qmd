@@ -2,6 +2,12 @@
 title: "Family of accessibility measures"
 format: revealjs
 ---
+```{r}
+library(here)
+library(knitr)
+library(glue)
+```
+
 
 ## BIGGER QUESTIONS:
 - why and/or when did accessibility diverge from spatial interaction modelling?
@@ -33,8 +39,11 @@ $ T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})$
 
 - Wilson contributed this, but it never made it back to accessibility. Accessibility has continued to evolve independently. 
 
-## Skip over
-(plot of how accessibility research interacts with gravity modelling)
+Plot of how accessibility research (cites Hansen) interacts with gravity modelling (cites Wilson):
+```{r}
+include_graphics(glue(here(), "/data-raw/Han_Wilson_bib_coupling_plot.png"))
+```
+
 
 ## A family of accessibility measures
 
