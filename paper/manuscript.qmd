@@ -747,6 +747,12 @@ V_orig_longer #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 # References
 
 <!-- 
+## QUESTIONS:
+- what does k=1 mean? What does assuming k=1, so the units can be kept mean for the model? Is it meaningless?
+- not sure if the singly-constrained (PRODUCTION case) makes sense.. It sort of does..? I believe this needs to be figured out before the doubly constrained case. Pi needs to be integrated somehow. 
+- doubly constrained still needs to be solved.
+
+
 ## next steps
 - grocery stores for example; maybe 2 grids?
 - bibliometric analysis 
