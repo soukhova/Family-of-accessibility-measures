@@ -1,5 +1,5 @@
 ---
-title: "A family of accessibility measures"
+title: "A family of accessibility measures (bringing balance back?)"
 format: pdf
 bibliography: "`r system('kpsewhich ../bibliography/bibliography.bib', intern=TRUE)`"
 ---
@@ -18,6 +18,9 @@ knitr::opts_chunk$set(
 library(dplyr) # A Grammar of Data Manipulation
 library(ggplot2) # Create Elegant Data Visualisations Using the Grammar of Graphics
 library(flextable)
+library(knitr)
+library(glue)
+library(here)
 # library(huxtable) # Easily Create and Style Tables for LaTeX, HTML and Other Formats
 # library(kableExtra) # Construct Complex Table with 'kable' and Pipe Syntax
 # library(patchwork) # The Composer of Plots
@@ -74,7 +77,7 @@ $$
 B_a = \frac{(P_a\cdot P_T)^N}{D_{aT}^n}
 $${#eq-reilly}
 
-\noindent where $B_a$ is the amount of business drawn to $a$ from $T$, $P_a$ and $P_T$ are the populations of the two settlements, and $D_{aT}$ is the distance between them. Quantity $N$ was chosen by Reilly in a somewhat _ad hoc_ fashion as 1, and he used empirical observations of shoppers to choose a value of $n = 2$. 
+\noindent Where $B_a$ is the amount of business drawn to $a$ from $T$, $P_a$ and $P_T$ are the populations of the two settlements, and $D_{aT}$ is the distance between them. Quantity $N$ was chosen by Reilly in a somewhat _ad hoc_ fashion as 1, and he used empirical observations of shoppers to choose a value of $n = 2$. 
 
 Zipf, on the other hand, wrote his hypothesis in mathematical form as:
 $$
@@ -181,7 +184,7 @@ $$
 $${#eq-constraint2-gravitymodel}
 
 
-The entropy maximization derivation is demonstrated in detail elsewhere (e.g., @ortuzar_2011_modelling, @wilsonSTATISTICALTHEORYSPATIAL1967). The basis of the approach is to accept that there are macro, meso, and micro states. In the case of trips being the interaction variable, a micro state is an individual trip maker, the meso state is the statistically representative zone representing a collection of individual trip makers, and the macro state is the entire study region. Using these assumptions, a set of $T_{ij}$ that maximizes the number of micro states in each meso state subject to some sensible macro-state constraints (@eq-constraint0_5-gravitymodel, @eq-constraint1-gravitymodel, and @eq-constraint2-gravitymodel). From this approach, the gravity model can be interpreted as the given the total number of individual trips (micro level) statistically represented at origin and destination zones (meso level), the cost of travelling (micro level, represented at the meso level), and the fixed total cost of travelling in the region (number of trips and cost of travel at the macro level). There is then a most probable distribution of trips between zones (meso-states) that stasis all the macro-state constraints.
+The entropy maximization derivation is demonstrated in detail elsewhere (e.g., @ortuzar_2011_modelling, @wilsonSTATISTICALTHEORYSPATIAL1967). The basis of the approach is to accept that there are macro, meso, and micro states. In the case of trips being the interaction variable, a micro state is an individual trip maker, the meso state is the statistically representative zone representing a collection of individual trip makers, and the macro state is the entire study region. Using these assumptions, a set of $T_{ij}$ that maximizes the number of micro states in each meso state subject to some sensible macro-state constraints (@eq-constraint0-gravitymodel, @eq-constraint1-gravitymodel, and @eq-constraint2-gravitymodel). From this approach, the gravity model can be interpreted as the given the total number of individual trips (micro level) statistically represented at origin and destination zones (meso level), the cost of travelling (micro level, represented at the meso level), and the fixed total cost of travelling in the region (number of trips and cost of travel at the macro level). There is then a most probable distribution of trips between zones (meso-states) that stasis all the macro-state constraints.
 
 Using these constraints, the gravity model @eq-phys-gravity-model is distinguished into four general cases. These cases are presented in increasing order of constraint restrictiveness and continued to be useful in classifying the gravity model in trip distribution modelling to this day [@ortuzar_2011_modelling]: 
 
@@ -229,7 +232,7 @@ In papers after @fotheringhamSpatialCompetitionAgglomeration1985, Hansen is typi
 
 Othertimes, Wilson and Hansen measures were progressively incorrectly conflated throughout the years [ @giuliano2010accessibility; @grengs2010intermetropolitan; @grengs2010job; @grengs2012equity; @levine2012does; @levinson2012positive; @tong2015transportation; @liu2015spatial; @he2017measuring; @wuUnifyingAccess2020; @ng2022reflection; @naqavi2023mobility; @suel2024measuring] - indeed they both measure spatial interaction so are somewhat related, but they are not the same. They are also co-cited to refer to the concept of 'gravity' in models [@liu2004accessibility; @dai2017visualization; @shen2019segregation; @chia2020extending]
 
-And finally, Wilson's balancing factors are interpreted as inverse Hansen-type accessibility, especially in the context of competition [@vickermanAccessibilityAttractionPotential1974a; @karstEvaluationAccessibilityImpacts2003;@geurs2006accessibility; @willigers2007accessibility;@el2011place; @curtis2010planning; @manaugh2012makes; @chen2013regional; @alonso2014labour; @albacete2017measuring; @sahebgharani2019computing; @mayaud2019future; @allenMeasureCompetitiveAccess2020; @levinsonGeneralTheoryAccess2020; @marwal2022literature; @su2023untangling]. This interpretation is fraut, upon considering @fotheringhamSpatialCompetitionAgglomeration1985's demonstration, which many of these works do not contend with. 
+And finally, Wilson's balancing factors are interpreted as inverse Hansen-type accessibility, especially in the context of competition [@vickermanAccessibilityAttractionPotential1974; @karstEvaluationAccessibilityImpacts2003;@geurs2006accessibility; @willigers2007accessibility;@el2011place; @curtis2010planning; @manaugh2012makes; @chen2013regional; @alonso2014labour; @albacete2017measuring; @sahebgharani2019computing; @mayaud2019future; @allenMeasureCompetitiveAccess2020; @levinsonGeneralTheoryAccess2020; @marwal2022literature; @su2023untangling]. This interpretation is fraut, upon considering @fotheringhamSpatialCompetitionAgglomeration1985's demonstration, which many of these works do not contend with. 
 
 THE SPATIAL STRUCTURE DEBATE: @oshanSpatialStructureDebate2021
 
@@ -261,12 +264,17 @@ In this context, accessibility is our _interaction_ variable of choice, so $T_{i
 <!-- W_i^{(1)} enters through k.. it is a quality of the destination -->
 
 $$
-V_{ij} = k W_j^{(2)} f(c_{ij})
+V_{ij} = k W_j^{(2)} f(c_{ij}) = k O_j f(c_{ij})
 $${#eq-access}
 
-Where $V_{ij}$ consists of the same variables, however $V_{ij}$ explicitly measures _potential interaction_ as a unit of number of potentially reachable opportunities and the single proportionality constant $k$ ensures the total sum of $V_{ij}$ represents the total potential reachable opportunities in the data. Accessibility is also most often presented as a locational measure, the value of $V_i$ is of most interest, e.g., the number of potentially reachable opportunities at a zone. 
+Where $V_{ij}$ consists of the same variables, however $V_{ij}$ explicitly measures _potential interaction_ as a unit of number of potentially reachable opportunities and the single proportionality constant $k$ ensures the total sum of $V_{ij}$ represents the total potential reachable opportunities in the data. Notably, the mass vectors $W_i^{(1)}$ and $W_j^{(2)}$ are replaced by $P_i$ and $O_j$, representing the weight of the origin (population) and destination (opportunities), the weights common in accessibility literature. As accessibility is the sum of opportunities for a $j$ from $i$, when the mass of the origin ($P_i$) is relevant, it enters @eq-access through the $k$ constant. Accessibility is also most often presented as a locational measure, so the value of $V_i$ is of most interest, e.g., the number of potentially reachable opportunities at a zone:
 
-Like with @eq-phys-gravity-model, we distinguish @eq-access into four cases based on versions of the gravity-model building constraints (@eq-constraint1-gravitymodel,  @eq-constraint2-gravitymodel, and @eq-constraint3-gravitymodel) to reflect macro-level knowledge, i.e., the sum of the number of potential reachable opportunities. 
+$$
+V_{i} = k \sum_j O_j f(c_{ij})
+$${#eq-access-sum}
+
+
+Like with @eq-phys-gravity-model, we distinguish @eq-access into four cases based on versions of the gravity-model building constraints (@eq-constraint0-access,  @eq-constraint1-access, and @eq-constraint2-access) to reflect macro-level knowledge, i.e., the sum of the number of potential reachable opportunities. 
 
 $$
 \sum_i\sum_j V_{ij} = V
@@ -284,23 +292,25 @@ $$
 $${#eq-constraint2-access}
 \noindent Where sum of all potentially reachable opportunities for all $i$ zones in the region is equal to the attraction weight at each $j$ in the region.
 
-All four <!--five?--> cases are differentiated like:
-- The unconstrained case: neither @eq-constraint0_5-gravitymodel, @eq-constraint1-gravitymodel, or @eq-constraint2-gravitymodel hold;
-- The total constrained case: only @eq-constraint0-gravitymodel hold
-- The singly-constrained case: either @eq-constraint1-gravitymodel holds (origin-constrained) <!-- production--> or @eq-constraint2-gravitymodel holds (destination-constrained)<!-- attraction-->; 
-- The doubly-constrained case: both @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel hold simultaneously <!--production-attraction-->
-- HYBRID CASE: @eq-constraint1-access or @eq-constraint2-access partly hold -- hybrid production constrained case <!-- (could be repeated for attraction constrained case... and doubly constrained case)-->
+All four cases are differentiated like:
+- The unconstrained case: neither @eq-constraint0-access, @eq-constraint1-access, or @eq-constraint2-access hold;
+- The total constrained case: only @eq-constraint0-access hold
+- The singly-constrained case: either @eq-constraint1-access holds (origin-constrained) <!-- production--> or @eq-constraint2-access holds (destination-constrained)<!-- attraction-->; 
+- The doubly-constrained case: both @eq-constraint1-access and @eq-constraint2-access hold simultaneously <!--production-attraction-->
 
-We can use the same trip matrix, but reformulate its meaning. Let's say $W_i^{(1)}$ is population at $i$ who seek opportunities, lets recast this variable as $P_i$. Then let's say $W_j^{(2)}$ are the opportunities being sought, recast to $O_j$. For this simple example, we can say that the opportunities are the population's jobs. In our region, each person has a job -- but we only know at an aggregate how many people are at each $i$, the jobs that are located at $j$ and the travel cost ($C$ and associated travel propensity $1/C$). (let's pretend our 'known_trip_matrix' is unknown).
+<!-- - HYBRID CASE: @eq-constraint1-access or @eq-constraint2-access partly hold -- hybrid production constrained case <!-- (could be repeated for attraction constrained case... and doubly constrained case)-->
 
+Like gravity model problem, we can solve these cases using spatial weights matrix and travel cost matrix, but with alternative meanings. $P_i$ (our $W_i^{(1)}$) is population at $i$ who seek opportunities. $O_j$ (our $W_j^{(2)}$) are the opportunities being sought. For this simple example, we can say that the opportunities are the population's jobs. In our region, each person has a job - but we only know at an aggregate how many people are at each $i$, the jobs that are located at $j$ and the travel cost $c_{ij}$. We assume the the travel impedance ($f(c_{ij})$) is the associated travel propensity of $f(c_{ij}) = 1/C$. 
+
+The following is the known accessibility matrix. The $V_{ij}$, the number of jobs spatially accessible at $i$ from destination $j$. The TOTALs are the $V_i$ and $V_j$, the total number of jobs spatially available at $i$ and the number of jobs spatially available from $j$.
 ```{r}
-known_trip_matrix <- matrix(c(95,23,42, 27,378,45, 38,36,106), ncol = 3, byrow = TRUE)
+known_matrix <- matrix(c(95,23,42, 27,378,45, 38,36,106), ncol = 3, byrow = TRUE)
 #unknowns <- matrix(c(rep(NA,9)), ncol=3, byrow=TRUE)
-W_i <- known_trip_matrix |> rowSums()
-W_j <- known_trip_matrix |> colSums()
-T <- ifelse(sum(W_i)==sum(W_j), sum(W_j),NA)
-knowns_longer <- cbind(known_trip_matrix,W_i)
-knowns_longer <- rbind(knowns_longer,cbind(t(W_j),T))
+P_i <- known_matrix |> rowSums()
+O_j <- known_matrix |> colSums()
+V <- ifelse(sum(P_i)==sum(O_j), sum(O_j),NA)
+knowns_longer <- cbind(known_matrix,P_i)
+knowns_longer <- rbind(knowns_longer,cbind(t(O_j),T))
 
 rownames(knowns_longer) <- c("1","2","3", "TOTAL") 
 colnames(knowns_longer) <- c("1","2","3", "TOTAL")
@@ -319,73 +329,263 @@ C_longer #|> as.data.frame() |> gt(rownames_to_stub=TRUE)
 
 ### Unconstrained accessibility 
 
-- No proportionality constant, $k$ is set to 1, so no constraints hold, making the interpretation of the units meaningless so the value's magnitude can only be interpreted:
+This accessibility is standard practice. There is no explicit consideration of a proportionality constant ($k$). We can presume it is still set to 1 as @stewartPrinciples1947. No constraints hold, making the interpretation of the units of $V_{ij}$ simply some magnitude of $O_j$ weighted by some $f(c_ij)$, and $V_{i}$ the sum of these values for each $j$. $V_i$ reflects the magnitude of opportunity accessibility but it is not scaled to equal the number opportunities $O$ and/or population $P$.
 $$
-V_{ij} = k O_j f(c_{ij})
-$$
-
-- In practice, $V_i$ is also calculated for each $i$. When thinking about the interpretation of the value, how many opportunities can be visited for each $i$, the $P_i$ is also set to 1:
-$$
+V_{ij} = O_j f(c_{ij})\\ 
 V_{i} = \sum_j O_j f(c_{ij})
 $$
-These numbers are proportional to the accessibility (i.e., higher or lower), but are not scaled to number opportunities (jobs).
 
-Looks like Hansen, but multiplied by P_i. 
+Each origin (row) all the opportunities at each destination are available. Likewise, each destination (column) offers all opportunities to each origin: 
+```{r}
+O_P_unc <- t(matrix(rep(O_j, 3), 3, 3))
+O_P_unc_longer <- O_P_unc
+rownames(O_P_unc_longer) <- c("1","2","3") 
+colnames(O_P_unc_longer) <- c("1","2","3")
+O_P_unc_longer
+```
+
+The resulting matrix of $V_{ij}$ along with the $V_i$ and $V_j$ totals for this example:
+```{r}
+V_unc <- O_P_unc / C
+
+P_i_unc <- V_unc |> rowSums()
+O_j_unc <- V_unc |> colSums()
+V_TOTAL_unc <- ifelse(sum(P_i_unc|>round())==sum(O_j_unc|>round()), sum(V_unc), NA)
+V_unc_longer <- cbind(V_unc,P_i_unc)
+V_unc_longer <- rbind(V_unc_longer, cbind(t(O_j_unc),V_TOTAL_unc))
+
+rownames(V_unc_longer) <- c("1","2","3", "TOTAL") 
+colnames(V_unc_longer) <- c("1","2","3", "TOTAL")
+
+V_unc_longer |> round(digits = 2) #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+```
+
+We'd report origin 1 as having 148 accessibility (i.e., $V_{i=1} = 148$), origin 2 as 248 accessibility, and origin 3 as 172 accessibility. The total accessibility in the region is 568 ($\sum_i V_{i} = 568$), not equal to any meaningful value. This value is not often reported in the accessibility literature for this reason. One could also report the accessibility values that destinations offers ($V_{j}$), namely destination 1 offers 123, destination 2 offer 291, and destination 3 offers 154. However, these values are also not reported in the literature currently... as they aren't constrained to match up to the number of opportunities at each j (i.e., 160, 437 and 193). Assuming $k=1$, $V_i$ and $V_j$ represent magnitudes of accessibility concepts, but in an unconstrained way. The population matrix is no incorporated in the $V_{ij}$ calculation, so $V_i$ cannot be directly compared to population. From a different perspective, $V_j$ values also cannot be compared to known $O_j$ values as the equation unconstrained. 
+
+OF NOTE: in the context of spatial interaction modelling, the unconstrained model is not often useful. While the resulting $T_{ij}$ values are in units of 'trips' - the assumption of $k$ equaling 1 is practically meaningless. 
+
+Accessibility, or the _potential_ for interaction is different than interaction ($V_{ij}$ vs. $T_{ij}$), namely since the number of opportunities that are accessible at an origin from a destination cannot be known in the same way as a trip from an origin to a destination. However, we would argue that getting closer to knowning this number and planning for it - is what accessibility research should strive to achieve. <!-- yeah? -->
+
 
 ### Total flow constrained accessibility
 
-This needs a balancing factor, $k$ is replaced with $K$:
+In the total constrained case, $k$ is replaced with $K$ (@eq-access satisfying only constraint @eq-constraint0-access) as follows for $V_{ij}$ and $V_{i}$:
 $$
-V_{ij}' = K P_i O_j f(c_{ij})\\
-V_{i}' = K P_i \sum_j O_j f(c_{ij})
+V_{ij}' = K O_j f(c_{ij})\\
+V_{i}' = K\sum_j O_j f(c_{ij})
 $$
 
-This approach is not seen in accessibility literature...
+Solved for our example, $K$ is equal to the total accessibility $V$, divided by the sum of the unconstrained accessibility:
+$$
+K = \frac{V}{\sum_{i}\sum_{j} O_j f(c_{ij})}\\
+K = \frac{V}{\frac{O_1}{c_{1,1}}+\frac{O_1}{c_{2,1}}+\frac{O_1}{c_{3,1}}+\frac{O_2}{c_{1,2}} +... \frac{O_3}{c_{3,3}}
+}\\
+K = \frac{790}{568.4} \\
+K = 1.389866
+$$
+
+```{r}
+K <- V/sum(V_unc)
+V_tot <- K * V_unc
+
+P_i_tot <- V_tot |> rowSums()
+D_j_tot <- V_tot |> colSums()
+V_TOTAL_tot <- ifelse(sum(P_i_tot)==sum(D_j_tot), sum(V_tot), NA)
+V_tot_longer <- cbind(V_tot,P_i_tot)
+V_tot_longer <- rbind(V_tot_longer, cbind(t(D_j_tot),V_TOTAL_tot))
+
+rownames(V_tot_longer) <- c("1","2","3", "TOTAL") 
+colnames(V_tot_longer) <- c("1","2","3", "TOTAL")
+
+V_tot_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+```
+
+While we can see that the 'number of potentially reachable opportunities' `r V` results, the total access at a each $i$ or $j$ is not equal to the known known total access ends (because these constraints are not specified and thus not satisfied by the model). This approach is not yet seen in accessibility literature, but could be an intelligible way to compare accessibility values ($V_i$ or $V_j$) without considering the population matrix. 
 
 ### Singly-constrained case 
 
-Similarly, singly-constrained can be either origin-constrained $V_i''^{(1)}$ or destination-constrained $V_i''^{(2)}$. For the origin- and destination- constrained versions, $k$ is replaced with $A_i$ and $B_j$ respectively:
-$$
-V_{ij}''^{(1)} = A_i O_j f(c_{ij})\\
-V_{ij}''^{(2)} = B_j O_j f(c_{ij})\\
+Similarly, singly-constrained can be either origin-constrained $V_i''^{(1)}$ or destination-constrained $V_i''^{(2)}$. For the origin- and destination- constrained versions, $k$ is replaced with $A_{ij}$ and $B_{ij}$ respectively (@eq-access enforcing constraint @eq-constraint1-access or @eq-constraint2-access, and implicitly @eq-constraint0-access):
 
+$$
+V_{ij}''^{(1)} = A_{ij} O_j f(c_{ij})\\
+V_{ij}''^{(2)} = B_{ij} O_j f(c_{ij})\\
 $${#eq-access-singlyconstrained-origin}
 
-\noindent Where $A_i$ and $B_j$ are:
+\noindent Where $A_{ij}$ and $B_{ij}$ are similar to the balancing factors of the gravity model for the singly-constrained cases, though with an addition to the numerator to maintain the associated enforcing constraints:
 $$
-A_i = \frac{1}{\sum_j O_j f(c_{ij})}\\
-B_j = \frac{1}{\sum_i P_i f(c_{ij})}\\
+A_{ij} = \frac{O_j}{\sum_j B_{ij} O_j f(c_{ij})}\\
+B_{ij} = \frac{P_i}{\sum_i A_{ij} P_i f(c_{ij})}\\
 $$
+In solving the origin-constrained $V_{ij}^{''(1)}$ case (e.g., @eq-constraint1-access of $\sum_j V_{ij} = P_i$ is enforced), $B_{ij} = 1$. In solving the destination-constrained $V_{ij}^{''(2)}$ case (e.g., @eq-constraint2-access of $\sum_i V_{ij} = O_j$ is enforced), $A_{ij} = 1$. 
 
+Solving for the destination-constrained case $V_{ij}^{''(2)}$ may be helpful in an example where the number of people seeking opportunities is known ($P_i$), along with the number of opportunities $O_j$ offered by a destination as in unconstrained and total accessibility. An example could be the number of people at each residence seeking hospital-beds (origin) and hospital-beds (opportunities) at each healthcare location (destination) to calculate the opportunity access at each origin. Another case could be calculating the opportunity access at each origin using the quantity of goods available to purchase (opportunities) at each commercial location (destination). 
 
+From our review, related versions of this defined destination-constrained accessibility are formulaically similar to retail accessibility models e.g., decision model for shops to optimally spatially locate to maximize their potential consumer interaction. Starting with reilly's law of gravitational retail [@reilly1929methods], formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. Other literature also demonstrates  similar _competition_ considerations through its analytical formulation; for instance, in the Intervening Opportunities model [@stoufferInterveningOpportunitiesTheory1940; @stoufferINTERVENINGOPPORTUNITIESCOMPETING1960] "axiomatically" @weibull_axiomatic_1976, and competition consideration expressed as a per population rate particularly in healthcare and job opportunity accessibility analysis [@shen1998], and 2FCA methods in general [@soukhovIntroducingSpatialAvailability2023]. Most of these works do not explicitly focus on balancing accessibility units; rather, they center on _competition_ considerations. We suspect this may be why they have been used in case studies examining access to opportunities that are inherently competitive or where the concept of supply and demand resonates. It was only until the recent work of [@soukhovIntroducingSpatialAvailability2023], where the units of accessibility given competition, e.g., the spatial availability, was introduced with the focus on both competition and balanced units. NOTE: See Appendix where I demonstrate how this destination-constrained case is equivalent to spatial availability
 
-In terms of origin-constrained -- ..? . 
+Returning to our simple example, the destination-constrained singly-constrained case would yield the following $B_{ij}$ values:
+$$
+B_{ij} = \frac{P_{i}}{\sum_i P_i f(c_{ij})}\\
+B_{1,1} = \frac{P_{i}}{P_1 f(c_{1,1}) + P_2 f(c_{1,2}) + P_3 f(c_{1,3})}\\
+...\\
+B_{1,1} = 160 *\frac{1}{160/2+450/15+180/5} = 1.09589 \\ 
+B_{2,1} = 450 *\frac{1}{160/2+450/15+180/5} =3.082192 \\
+B_{3,1} = 180 * \frac{1}{160/2+450/15+180/5} =1.232877 \\
+...\\
+B_{1,2} = 160 *\frac{1}{160/15+450/2+180/10} =0.630749 \\
+B_{2,2} = 450 *\frac{1}{160/15+450/2+180/10} =1.773982 \\
+B_{3,2} = 180 * \frac{1}{160/15+450/2+180/10} =0.7095926 \\
+...\\
+B_{1,3} = 160 *\frac{1}{160/5+450/10+180/2} = 0.9580838\\
+B_{2,3} = 450 *\frac{1}{160/5+450/10+180/2} = 2.694611  \\
+B_{3,3} = 180 *\frac{1}{160/5+450/10+180/2} = 1.077844 \\
+$$
+```{r}
+B_ij <- matrix(P_i) %*% (1/(t((matrix(P_i))) %*% (1/C))) 
+B_ij_longer <- B_ij
+rownames(B_ij_longer) <- c("1","2","3") 
+colnames(B_ij_longer) <- c("1","2","3") 
+B_ij_longer 
+```
 
-Regarding destination-constrained, has it's origins are in retail models. e.g., decision model for shops to optimally spatially locate to maximise their potential consumer interaction. Starting with reilly's law of gravitational retail (1931), formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. Spatial availability is explicitly also destination-constrained [@soukhovIntroducingSpatialAvailability2023;@soukhovMultimodalSpatialAvailability2024]. Other literature also demonstrates this constraint implicitly through its analytical formulation; for instance the Intervening Opportunities model [@stoufferInterveningOpportunitiesTheory1940; @stoufferINTERVENINGO PPORTUNITIESCOMPETING1960] "axiomatically" @weibull_axiomatic_1976, competition consideration but as a per population rate [@shen1998], FCA methods in general []
+$V_{ij}$ values:
+```{r}
+V_dest <- (B_ij) *(V_unc) # V_unc = (1/C)* t(matrix(rep(W_j, 3), 3, 3)) 
 
-For instance, the most recent example spatial availability is formulated like so:
-$$
-V_{ij}'' = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
-$$
-Where the $F^p_{ij}$ Population balancing factor is:
-$$
-F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i=1}^K P_{i\in r}^\alpha}
-$$
-And the $F^c_{ij}$ travel cost balancing factor:
-$$
-F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^K f(c_{ij})}
-$$
-It can be reformulated to fit into the singly-constrained (origin case) gravity model as the denominators in both those balancing factors cancel out:
-$$
-V_{ij}'' = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}\\
+P_i_dest <- V_dest |> rowSums()
+O_j_dest <- V_dest |> colSums()
 
-V_{ij}''^{(1)} =O_j \frac{1}{\sum_j O_j f(c_{ij})} P_i  f(c_{ij})\\
-$$
+V_TOTAL_dest <- ifelse(sum(P_i_dest)==sum(O_j_dest), sum(V_dest), NA)
+V_dest_longer <- cbind(V_dest,P_i_dest)
+V_dest_longer <- rbind(V_dest_longer, cbind(t(O_j_dest),V_TOTAL_dest))
+
+rownames(V_dest_longer) <- c("1","2","3", "TOTAL") 
+colnames(V_dest_longer) <- c("1","2","3", "TOTAL")
+
+V_dest_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+```
+
+The $O_j$ values are equal to the known opportunities, whereas the $P_i$ values are not. The total accessibility in the region is maintained at 790. Each $V_{ij}$ can be interpreted as the number of opportunities accessible from each destination by anyone in the region all weighted by travel cost of course. 
 
 ### Doubly constrained case (origin-destination constrained)
 
 (only when the units of the marginals are the same, therefore of more limited application)
 ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAccess2020
+<!-- this done'st work.. for now!-->
+```{r}
+doubly_constrained_gravity_model <- function(
+    #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R
+  P,  # Origin production weights vector (POPULATION)
+  O,  # Destination attraction weights vector (OPPORTUNITIES)
+  impedance_matrix,  # the resulting travel cost impedance matrix
+  error_threshold = 0.001,  # Error threshold for stopping condition
+  improvement_threshold = 1e-6  # Improvement threshold for stopping condition
+) {
+  
+  # Normalize O and D
+  sum_P <- sum(P)
+  sum_O <- sum(O)
+  cat("Checking population, opportunity balancing:\n")
+  cat("Population: ", sum_P, "\n")
+  cat("Opportunities: ", sum_O, "\n")
+  
+  if (sum_P != sum_O) {
+    cat("Population and opportunities do not balance, scaling to match.\n")
+    if (sum_P < sum_O) {
+      P <- P * (sum_O / sum_P)
+    } else {
+      O <- O * (sum_P / sum_O)
+    }
+  } else {
+    cat("Population, opportunities balancing OK.\n")
+  }
+  
+  n <- length(P)  # Number of i
+  V <- sum(P)  # Total access
+  Ai <- rep(1, n)  # Initialize Ai
+  Bj <- rep(1, n)  # Initialize Bj
+  
+  previous_error <- Inf
+  iteration_count <- 0
+  stop_reason <- ""
+  
+  while (TRUE) {
+    iteration_count <- iteration_count + 1
+    
+    # Update Ai
+    for (i in 1:n) {
+      Ai[i] <- 1 / (sum(Bj * O * impedance_matrix[i, ]) + 1e-9)
+    }
+    
+    # Update Bj
+    Bj_new <- rep(1, n)
+    for (j in 1:n) {
+      Bj_new[j] <- 1 / (sum(Ai * P * impedance_matrix[, j]) + 1e-9)
+    }
+    
+    # Calculate Vij
+    #Vij <- outer(Ai * P, Bj_new * O) * impedance_matrix
+    Vij <- Bj_new * Ai * O * impedance_matrix
+    
+    # Print Ai and Bj for this iteration
+    cat("\nIteration:", iteration_count, "\n")
+    cat("Ai:", round(Ai, 3), "\n")
+    cat("Bj:", round(Bj_new, 3), "\n")
+    
+    # Calculate error
+    error <- (sum(abs(P - rowSums(Vij))) + sum(abs(O - colSums(Vij)))) / V
+    
+    # Calculate change in error
+    error_change <- abs(previous_error - error)
+    
+    # Check stopping conditions
+    if (error < error_threshold) {
+      stop_reason <- "Error threshold met"
+      break
+    } else if (error_change < improvement_threshold) {
+      stop_reason <- "Slow improvement"
+      break
+    }
+    
+    previous_error <- error
+    Bj <- Bj_new
+  }
+  
+  # report stopping condition and final error threshold
+  cat("\nStopping Condition: ", stop_reason, "\n")
+  cat(sprintf("Final Error: %.3f%%\n", error * 100))
+  
+  return(list(Ai = Ai, Bj = Bj, Vij = Vij))
+}
+
+dc_results <- doubly_constrained_gravity_model(P=P_i, O=O_j, impedance_matrix = 1/C)
+dc_results$Vij
+```
+
+The $A_i$ and $B_j$ matrices:
+```{r}
+A_i_doubly <- dc_results$Ai
+B_j_doubly <- dc_results$Bj
+
+A_i_doubly |> matrix()
+B_j_doubly |> matrix() |> t()
+```
+
+The trip matrix (notice, all summed up opportunities and populations are equivalent to our knowns)
+```{r}
+V_doubly <- dc_results$Vij
+
+P_i_doubly <- V_doubly |> rowSums()
+O_j_doubly <- V_doubly |> colSums()
+V_TOTAL_dest <- ifelse(sum(P_i_doubly)==sum(O_j_doubly), sum(V_doubly), NA)
+V_doubly_longer <- cbind(V_doubly,P_i_dest)
+V_doubly_longer <- rbind(V_doubly_longer, cbind(t(O_j_doubly),V_TOTAL_dest))
+
+rownames(V_doubly_longer) <- c("1","2","3", "TOTAL") 
+colnames(V_doubly_longer) <- c("1","2","3", "TOTAL")
+
+V_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+```
+
 
 
 ### Hybrid singly-constrained case: 
@@ -403,7 +603,160 @@ When to use each of these measures?
 # Conclusions
 
 
+# APPENDIX (some musings...)
+
+## Singly-constrained case is spatial availability
+
+The destination-constrained case is also spatial availability, see below! As follows then, this case is also related to 2SFCA - if the value is divided by per capita (OR $P_i$ from the numerator in $B_{ij}$ is removed).
+
+Spatial availability is formulated like so:
+$$
+V_{ij}''^{(2)}  = O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}}
+$$
+It turns out that the denominators of the Population balancing factor $F^p_{ij} = \frac{P_{i\in r}^\alpha}{\sum_{i=1}^K P_{i\in r}^\alpha}$ and Travel cost balancing factor $F^c_{ij} = F^c_{ij} = \frac{f(c_{ij})}{\sum_{i=1}^K f(c_{ij})}$ cancel out, so spatial availability can be expressed as:
+$$
+V_{ij}''^{(2)} =O_j \frac{ P_i  f(c_{ij})}{\sum_i P_i f(c_{ij})}\\
+$$
+
+Reformatted in the general family of accessibility measure form, it looks like:
+$$
+V_{ij}''^{(2)} =k O_j f(c_{ij})\\
+V_{ij}''^{(2)} =\frac{ P_i}{\sum_i P_i f(c_{ij})} O_j f(c_{ij})\\
+V_{ij}''^{(2)} =  O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}} = O_j \frac{ P_i  f(c_{ij})}{\sum_i P_i f(c_{ij})}\\
+$$
+## Checking singly-constrained case against spatial availability
+```{r}
+sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
+
+  o_id <- rlang::enquo(o_id)
+  d_id <- rlang::enquo(d_id)
+  pop <- rlang::enquo(pop)
+  opp <- rlang::enquo(opp)
+  r <- rlang::enquo(r)
+  f <- rlang::enquo(f)
+
+  sum_pop <- x %>%
+    dplyr::distinct(!!o_id,
+                    .keep_all = TRUE) %>%
+    dplyr::mutate(sum_pop = !!r*(!!pop)^alpha) %>%
+    dplyr::pull(sum_pop) %>%
+    sum()
+
+  f_p <- dplyr::pull(x, !!r) * dplyr::pull(x, !!pop)^alpha / sum_pop
+
+  sum_impedance <- x %>%
+    dplyr::group_by(!!d_id) %>%
+    dplyr::summarize(sum_impedance = sum(!!f))
+
+  x <- x %>%
+    dplyr::left_join(sum_impedance,
+                     by = rlang::as_name(d_id))
+
+  f_c <- dplyr::pull(x, !!f) / x$sum_impedance
+
+  x$f_c <- f_c
+  x$f_p <- f_p
+
+  sum_pa <- x %>%
+    dplyr::group_by(!!d_id) %>%
+    dplyr::summarize(sum_pa= sum(f_p * f_c))
+
+  x <- x %>%
+    dplyr::left_join(sum_pa,
+                     by = rlang::as_name(d_id))
+  f_t <- (f_p * f_c) / dplyr::pull(x, sum_pa)
+
+  dplyr::pull(x, !!opp) * f_t
+}
+```
+
+
+```{r}
+
+df <- data.frame(i = c(1,1,1,2,2,2,3,3,3), 
+                 j= c(1,2,3,1,2,3,1,2,3),
+                 f = c(1/C[1,], 1/C[2,], 1/C[3,]),
+                 pop = c(P_i[1], P_i[1], P_i[1], P_i[2], P_i[2], P_i[2], P_i[3], P_i[3], P_i[3]),
+                 opp = c(O_j[1],O_j[2],O_j[3], O_j[1],O_j[2],O_j[3], O_j[1],O_j[2],O_j[3]),
+                 catch = c(1,1,1,1,1,1,1,1,1))
+
+calced <- sp_avail(df,
+                         o_id = i,
+                         d_id = j,
+                         pop = pop,
+                         opp = opp,
+                         r = catch,
+                         f = f)
+df$V_ij <- calced
+
+df |> group_by(j) |> summarise(V_j = sum(V_ij))
+```
+
+
+## Destination- (or ATTRACTION) constrained is the only singly-constrained case... population- (or PRODUCTION) constrained doesn't make sense!
+
+Then the origin-constrained (singly-constrained) case $V_{ij}^{(1)}$, no $P_i$ values are needed only $O_j$ values. Using this method, V_i values equal P_i values...? while O_j values are unconstrained. This case may be helpful in an example where the number of opportunities available to an origin is known and fixed. This could be a normative minimum threshold, such as 100 opportunities at each origin. 
+
+Returning to our simple example, the origin-constrained singly-constrained case would yield the following $A_{ij}$ values:
+$$
+A_{ij} = \frac{O_{j}}{\sum_j O_j f(c_{ij})}\\
+A_{1,1} = \frac{O_{j}}{O_1 f(c_{1,1}) + O_2 f(c_{1,2}) + O_3 f(c_{1,3})}\\
+...\\
+A_{1,1} = 160 *\frac{1}{160/2+437/15+193/5} = 1.083032 \\ 
+A_{2,1} = 160 *\frac{1}{160/15+437/2+193/10} =0.6439496 \\
+A_{3,1} = 160 * \frac{1}{160/5+437/10+193/2} =0.9291521 \\
+...\\
+A_{1,2} = 437 *\frac{1}{160/2+437/15+193/5} =2.958032 \\
+A_{2,2} = 437 *\frac{1}{160/15+437/2+193/10} =1.7587872 \\
+A_{3,2} = 437 * \frac{1}{160/5+437/10+193/2} =2.5377468 \\
+...\\
+A_{1,3} = 193 *\frac{1}{160/2+437/15+193/5} = 1.306408 \\
+A_{2,3} = 193 *\frac{1}{160/15+437/2+193/10} = 0.7767642 \\
+A_{3,3} = 193 *\frac{1}{160/5+437/10+193/2} = 1.1207898 \\
+$$
+
+```{r}
+A_ij <- matrix(O_j) %*% (1/(t((matrix(O_j))) %*% (1/C))) |> t()
+A_ij_longer <- A_ij
+rownames(A_ij_longer) <- c("1","2","3") 
+colnames(A_ij_longer) <- c("1","2","3") 
+A_ij_longer 
+```
+Starting off with this opportunity matrix, namely - at i=1, only a fixed number of opportunities are accessible to this origin. same for i=2, i=3.
+```{r}
+(matrix(rep(O_j, 3), 3, 3))
+```
+
+$V_{ij}$ values:
+```{r}
+V_orig <- (A_ij) * t(V_unc) # V_unc = (1/C)* t(matrix(rep(W_j, 3), 3, 3)) #if you transpose the matrix here, that's another way of generating the answer. 
+
+P_i_orig <- V_orig |> rowSums()
+O_j_orig<- V_orig |> colSums()
+V_TOTAL_orig <- ifelse(sum(P_i_orig)==sum(O_j_orig), sum(V_orig), NA)
+V_orig_longer <- cbind(V_orig,P_i_orig)
+V_orig_longer <- rbind(V_orig_longer, cbind(t(O_j_orig),V_TOTAL_orig))
+
+rownames(V_orig_longer) <- c("1","2","3", "TOTAL") 
+colnames(V_orig_longer) <- c("1","2","3", "TOTAL")
+
+V_orig_longer #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+```
+
+
 # References
+
+<!-- 
+## next steps
+- grocery stores for example; maybe 2 grids?
+- bibliometric analysis 
+- - draft of this end of jan 2025
+
+- (future) intervening opportunities ? radiation model - deep gravity
+- (future) accessibility pyramids 
+- (future) MAUP addressed
+- (future) comparing cities 
+-->
 
 <!--the benefits of this formulation, and the inclusion of the propoartionality constant has been imense for spatial interaction modelling. For instance, the identification of the conovlution of spatial autocorrelation and and distance-decay @griffithSpatialStructureSpatial2007 -->
 

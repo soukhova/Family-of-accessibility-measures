@@ -1,5 +1,5 @@
 ---
-title: "Family of accessibility measures"
+title: "Some musings Family of accessibility measures"
 format: revealjs
 ---
 ```{r}
@@ -8,18 +8,6 @@ library(knitr)
 library(glue)
 ```
 
-
-## BIGGER QUESTIONS:
-- why and/or when did accessibility diverge from spatial interaction modelling?
-- examples of accessibility measures in the literature that fit into our 4 cases?
-
-## PRESENTATION'S AGENDA:
-Accessibility’s relationship can be made into one of equality -- with balancing factors! Accessibility shares spatial interaction modeling’s roots.
-3.	A slide with 0) no constrained (Hansen, what we do now), 1) total constrained, 2) singly-constrained, 3) doubly constrained formulations
-4.	Calculated simple example of the 3 types of accessibility. Three visualisations: 1st are the Vij matrices, 2nd is a small grid aggregation, and 3rd is bigger grid aggregation.
-5.	Conclusions: 
-a.	With balancing factors values are interpretable: each spatial unit is ‘potential opportunities that can reached’ (of all the opportunities)
-b.	No treatment is needed to address MUAP across grid aggregations (?) 
 
 ## A vanishing constant
 
@@ -228,10 +216,10 @@ V_{ij}''^{(1)} = A_i * O_j f(c_{ij})\\
 V_{ij}''^{(2)} = B_j * O_j f(c_{ij})\\
 $${#eq-access-singlyconstrained-origin}
 
-\noindent Where $A_i$ and $B_j$ are:
+\noindent Where $A_i$ (A_i may not make sense..?) and $B_j$ are:
 $$
-A_i = \frac{1}{\sum_j O_j f(c_{ij})}\\
-B_j = \frac{1}{\sum_i P_i f(c_{ij})}\\
+A_i = \frac{O_j}{\sum_j O_j f(c_{ij})}\\
+B_j = \frac{P_i}{\sum_i P_i f(c_{ij})}\\
 $$
 At the zonal value:
 $$
@@ -271,7 +259,7 @@ V_{ij}^{'''} = A_i B_j * O_j f(c_{ij}) \\
 V_{i}^{'''} =  \sum_j A_i B_j * {O_j f(c_{ij})} \\
 $$
 
-\noindent Where $A_i$ and $B_j$ are:
+\noindent Where $A_i$ and $B_j$ are (this may not make sense..)
 $$
 A_{i} = \frac{1}{\sum_j B_{i} O_j f(c_{ij})}\\
 B_{j} = \frac{1}{\sum_i A_{i} P_i f(c_{ij})}\\
@@ -296,14 +284,6 @@ $$
 \sum_i V_{ij} = O_j
 $${#eq-constraint2-access}
 \noindent For destination-constrained ($V_{ij}''^{(2)}$), where sum of all potentially reachable opportunities for all $i$ zones in the region is equal to the attraction weight at each $j$ in the region.
-
-
-
-
-
-
-
-
 
 ## Synthetic example
 
@@ -357,9 +337,7 @@ colnames(V_unc_longer) <- c("1","2","3", "TOTAL")
 V_unc_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
-We'd report i=1 has 148, i=2 has 248, and i=3 has 172 accessibility. (implicitly, this is saying j=1 123,...)
-
-The sum of values at each origin or destination or overall, do not add up to anything we know. What we do know is that for the units to retain their meaning of 'number of potentially reachable opportunities', all balancing factors $k$ equal 1. When would this happen? It's hard to say... as the balancing factors themselves do not have practical meaning; what has meaning are the constraints. By satisfying the constraints, the model gains meaning. In this way, the resulting unconstrained interaction matrix is simply an expression of the magnitude of potential interaction with $O_j$ assuming $f(c_{ij})$. 
+We'd report i=1 has 148, i=2 has 248, and i=3 has 172 accessibility. The sum of values at each origin or destination or overall, do not add up to anything we know. What we do know is that for the units to retain their meaning of 'number of potentially reachable opportunities', all balancing factors $k$ equal 1. When would this happen? It's hard to say... as the balancing factors themselves do not have practical meaning; what has meaning are the constraints. By satisfying the constraints, the model gains meaning. In this way, the resulting unconstrained interaction matrix is simply an expression of the magnitude of potential interaction with $O_j$ assuming $f(c_{ij})$. 
 
 OF NOTE: in the context of spatial interaction modelling, the unconstrained model is not entirely useful - as the units of 'trips' -- but trips that satisfy the macro constraint of $k$ equaling 1, which is practically meaningless. 
 
@@ -399,7 +377,7 @@ While we can see that the 'number of potentially reachable opportunities' `r V` 
 
 Two versions of this case, either origin-constrained or destination-constrained. 
 
-For the destination-constrained model, where $k$ is replaced with $B_{ij}$ (@eq-bf-B-access satisfying only constraint @eq-constraint2-access  (e.g., $\sum_i V_{ij} = O_j$) and implicitly @eq-constraint0-access), the model looks as follows:
+For the destination-constrained model, where $k$ is replaced with $B_{ij}$ (@eq-bf-B-access satisfying only constraint @eq-constraint2-access (e.g., $\sum_i V_{ij} = O_j$) and implicitly @eq-constraint0-access), the model looks as follows:
 $$
 V_{ij}''^{(1)} = B_{ij} O_j f(c_{ij})\\
 $${#eq-access-singlyconstrained-origin}
@@ -467,7 +445,7 @@ A_i
 
 
 ```{r}
-V_orig <- (A_i) * (1/C)* (matrix(rep(W_i, 3), 3, 3))  # V_unc = (1/C)* t(matrix(rep(W_j, 3), 3, 3)) 
+V_orig <- (A_i) * (V_unc)  # V_unc = (1/C)* t(matrix(rep(W_j, 3), 3, 3)) 
 
 W_i_orig <- V_orig |> rowSums()
 W_j_orig <- V_orig |> colSums()
@@ -482,9 +460,8 @@ colnames(V_orig_longer) <- c("1","2","3", "TOTAL")
 V_orig_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
-And as we can observe, the $P_i$ values are equal to the known populations, while $O_j$ is not.
+And as we can observe, the $P_i$ values are equal to the known populations, while $O_j$ is not. (well.. this doesn't really happen, this A_i may not make sense)
 
-NOTE: This is also spatial availability -- except I switched $O_j$ for $P_i$. This is also related to retail modeling
 
 ## Case 4: Doubly-constrained case
 NOTE: This one needs work... right now, it's equal to doubly-constrained gravity model.
@@ -613,16 +590,3 @@ colnames(V_doubly_longer) <- c("1","2","3", "TOTAL")
 
 V_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
-
-## Case 5: Hybrid / partial constraints 
-
-
-## next steps
-- grocery stores for example; maybe 2 grids?
-- bibliometric analysis 
-- - draft of this end of jan 2025
-
-- (future) intervening opportunities ? radiation model - deep gravity
-- (future) accessibility pyramids 
-- (future) MAUP addressed
-- (future) comparing cities 
