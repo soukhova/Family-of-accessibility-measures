@@ -1,5 +1,5 @@
 ---
-title: "A family of accessibility measures (bringing balance back?)"
+title: "Accessibility, constraints and the family of spatial interaction models" #"A family of accessibility measures (bringing balance back?)"
 format: pdf
 bibliography: "`r system('kpsewhich ../bibliography/bibliography.bib', intern=TRUE)`"
 ---
@@ -47,7 +47,7 @@ Accessibility, a central concept in transport geography, planning, and engineeri
 <!-- Considering population-level methods in transportation and city planning research, accessibility measures have been used to tackle a wide variety of research questions. They have taken on numerous definitions and analytical expressions; from simpler cumulative opportunities measures, to measures considering more complex travel behaviour and trip weighting characteristics, measures of _potential of opportunities for interaction_ are varied. Summarizing these definitions across studies have been challenging; a testament to these unsettled classifications are present in influential accessibility review literature [@handyMeasuringAccessibilityExploration1997; @geursAccessibilityEvaluationLanduse2004; @wuUnifyingAccess2020; @millerAccessibilityMeasurementApplication2018]. -->
 
 <!-- PAPER'S AIM: improve interpretation of accessibility measure outputs. We do this by, 1) assuming accessibility is more complete understanding of mobiltiy, and connected them both mobility and accessibility are both based in the Netownian gravitational anology, lets introduce balancing factors like those  Gravity Model.   -->
-In adopting the perspective that accessibility is an evolution of mobility conceptually, this paper aims to re-unify accessibility measures with its spatial interaction-based roots. It proposes to do so by mapping accessibility onto Wilson's family of spatial interactions models [@wilson1971]. In this, we aim not only to clarify accessibility's interpretation as a measure of performance, but also to encourage future developments that draw from its gravity modelling siblings, and spatial interaction history. To this end, we begin by tracing the development of spatial interaction from @ravensteinLawsMigration1889 to its split into accessibility research from @hansen1959 to today. After this, we derive different types of accessibility measures, following the family of gravity models namely: unconstrained, total constrained, origin- and destination- constrained, composite destination-constrained, and doubly constrained. Then, we will provide empirical examples of the types of measures. Finally, we will discuss the use of each measure and broadly the implications of ignoring the role of constrains in accessibility analysis.
+In adopting the perspective that accessibility is an evolution of mobility conceptually, this paper aims to re-unify accessibility measures with its spatial interaction roots. It proposes to do so by mapping accessibility onto Wilson's family of spatial interactions models [@wilson1971]. In this, we aim not only to clarify accessibility's interpretation as a measure of performance, but also to encourage future developments that draw from its spatial interaction history. To this end, we begin by tracing the development of spatial interaction from @ravensteinLawsMigration1889 to its split into accessibility research from @hansen1959 to today. After this, we derive different types of accessibility measures, following the family of "spatial interaction models" (SIM) namely: unconstrained, total constrained, origin- and destination- constrained, composite destination-constrained, and doubly constrained. Then, we will provide empirical examples of the types of measures. Finally, we will discuss the use of each measure and broadly the implications of ignoring the role of constrains in accessibility analysis.
 
 # Background
 
@@ -151,20 +151,22 @@ As such, this paper's focus is on the proportionality constant. We wish to demon
 # Introducing a family of accessibility measures
 
 ## Gravity-based accessibility's cousin: Wilson's spatial interaction model
-
-Today's gravity-based accessibility measures (@eq-accessibility-general) share the same early 20th century Newtonian-based origins as the model's of Reilly, Zipf, and Stewart, versions of which continue to be extensively used [@ortuzar_2011_modelling;@wilson1971]. However, in some ways the gravity model and spatial interaction continued to evolve independently from @eq-accessibility-general, the former being developed into formalized transportation demand modelling practice to 'predict-and-provide', and the later taken up to describe land-use and transportation interactions by geography and social science-adjacent researchers and planners. From the perspective of gravity-based accessibility measure, this paper's focus is on the proportionality constant of the spatial interaction model, which takes the following form after Wilson [-@wilson1971]: 
- 
+<!--SUMMARY: State how accessibility has the same Newtonian roots as Wilsons' family of spatial interaction models. Introduce SIM's formulation. Emphasis the interpretation that comes from $k$. Emphasis how while SIM has Newtonian roots, its proportionality constant(s) are actually balancing factors derived via entropy-maximisation, obtaining the interaction variable as a statistical average. -->
+Today's gravity-based accessibility measures (@eq-accessibility-general) share the same early 20th century Newtonian-based origins as the model's of Reilly, Zipf, and Stewart, versions of which continue to be extensively used today in transportation demand modelling [@ortuzar_2011_modelling;@wilson1971]. However, in many ways these spatial interaction models (AKA gravity models) continued to evolve independently from accessibility (@eq-accessibility-general) as will be discussed next section. Our paper aims to demonstrate that Hansen-type accessibility can be interpreted as a SIM. This connection can enrich the accessibility literature by linking it to the extensive practical application of SIMs. This paper's focus is on how SIMs utilize "proportionality constants" and constraints to interpret results, and how Hansen-type accessibility can transit to _constrained_ accessibility. 
+To begin, the SIM as defined in Wilson [-@wilson1971], takes the following form: 
 $$
 T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 $${#eq-phys-gravity-model}
 
 
 <!--Explain the features of the gravity model of today (Wilson) -->
-Where $T_{ij}$ represents a $n$ x $m$ matrix of flows between an $n$ number of origins $i$ and an $m$ number of destinations $j$, $W_i^{(1)}$ and $W_j^{(2)}$ is a vector of mass attributes representing origin $i$ and destination $j$ respectively, and $f(c_{ij})$ is a $n$ x $m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In other words, $T_{ij}$ explicitly measures _interaction_ as a unit of trips and the single proportionality constant $k$ ensures the total sum of $T_{ij}$ represents the total flows in the data. It should be noted that the early analogy with the gravitational law proved too simplistic, and improvements to the gravity model (@eq-phys-gravity-model) are the use of total trip ends (number of originating trips from zone $i$ are $O_i$ and ending trips at zone $j$ are $D_j$) instead of total populations and separation distance calibrated by a power $n$ (such as $P_i$, $P_j$, and $n$ in @eq-zipf, @eq-reilly and @eq-stewart-force). Finally, and of most important note in this paper, $k$ is a scale parameter that makes the overall equation proportional to the rate characteristic of the modeled phenomenon.
+Where $T_{ij}$ represents a $n$ x $m$ matrix of flows between an $n$ number of origins $i$ and an $m$ number of destinations $j$, $W_i^{(1)}$ and $W_j^{(2)}$ is a vector of mass attributes representing origin $i$ and destination $j$ respectively, and $f(c_{ij})$ is a $n$ x $m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In other words, $T_{ij}$ explicitly measures _interaction_ as a unit of trips and the single proportionality constant $k$ ensures the total sum of $T_{ij}$ represents the total flows in the data. It should be noted that the early analogy with the gravitational law proved too simplistic, and improvements to the SIM (@eq-phys-gravity-model) are the use of total trip ends (number of originating trips from zone $i$ are $O_i$ and ending trips at zone $j$ are $D_j$) instead of total populations and separation distance calibrated by a power $n$ (such as $P_i$, $P_j$, and $n$ in @eq-zipf, @eq-reilly and @eq-stewart-force). Finally, and of most important note in this paper, $k$ is a scale parameter that makes the overall equation proportional to the rate characteristic of the modeled phenomenon.
 
-Traditionally, the development of the gravity model has put an emphasis on the interpretability of the resulting units [@kirbyNormalizingFactorsGravity1970; @wilsonSTATISTICALTHEORYSPATIAL1967;@wilson1971]. But instead of relying on the heuristic Newtonian gravity analogy, entropy maximisation has emerged as a popular model building approach taken in the spatial interaction studies to generate the gravity model [@ortuzar_2011_modelling]. Namely, it is mathematically rigorousness and offers a sensible interpretation of the resulting model as a statistical averaging procedure [@wilson1971;@seniorGravityModellingEntropy1979]. As such, @eq-phys-gravity-model can be derived to account for additional information to include constraints that reflect known information about the system and is mathematically rigorous. The interaction variable $T_ij$ is often in the unit of trips, so additional knowledge can be the total trip flows originating at each zone $W_i^{(1)}$ and the total trip flows terminating at zone $W_j^{(2)}$. These pieces of information can constrain $T_{ij}$ as follows.
+Traditionally, the development of the SIM has put an emphasis on the interpretability of the resulting units [@kirbyNormalizingFactorsGravity1970; @wilsonSTATISTICALTHEORYSPATIAL1967;@wilson1971]. But instead of relying on the heuristic Newtonian gravity analogy (e.g., some interaction between a mass at $i$ and a mass at $j$ seperated by some distance), entropy maximisation has emerged and continues to be a popular model building approach to generate the SIM [@ortuzar_2011_modelling]. 
 
-The total flow constraint: @eq-constraint0-gravitymodel, where the total number of flows in the region equals $T$: <!-- Along a similar region-wide perspective, the total flows multiplied by their travel cost in the region is constrained to equal $C$:-->
+Namely, the entropy maximisation approach achieves stable results as a statistical average that represents the population. The approach works with individual interaction, assesses their probability of making a particular journey given given zonal and regional constraints, and the resulting interaction from @eq-phys-gravity-model is a statistical average [@wilson1971;@seniorGravityModellingEntropy1979]. For instance, the interaction variable $T_ij$ is often in the unit of trips, so additional knowledge can be the total trip flows originating at each zone $W_i^{(1)}$ and the total trip flows terminating at zone $W_j^{(2)}$ can be integrated into zonal constraints as follows.
+
+The total flow constraint: @eq-constraint0-gravitymodel, where the total number of flows in the region equals $T$: <!--NOTE: in Wilson's entropy-max derivation, this is actually eq-constraint0_5-gravitymodel:-->
 $$
 \sum_i\sum_j T_{ij} = T
 $${#eq-constraint0-gravitymodel}
@@ -183,13 +185,12 @@ $$
 \sum_i T_{ij} = W_j^{(2)}
 $${#eq-constraint2-gravitymodel}
 
+The entropy maximization derivation is demonstrated in detail elsewhere (e.g., @ortuzar_2011_modelling, @wilsonSTATISTICALTHEORYSPATIAL1967). The approach is based on partition functions from statistical mechanics (the physics of gases), not Newtonian gravitation. In short, the approach accepts that there are macro, meso, and micro states. In the case of 'trips' being the interaction variable, a micro state is an individual trip maker, the meso state is the statistically representative zone representing a collection of individual trip makers, and the macro state is the entire study region. Using these assumptions, a set of $T_{ij}$ that maximizes the number of micro states in each meso state subject to some sensible macro-state constraints (@eq-constraint0-gravitymodel, @eq-constraint1-gravitymodel, and @eq-constraint2-gravitymodel). From this approach, the SIM can be interpreted as the given the total number of individual trips (micro level) statistically represented at origin and destination zones (meso level), the cost of travelling (micro level, represented at the meso level), and the fixed total cost of travelling in the region (number of trips and cost of travel at the macro level). There is then a most probable distribution of trips between zones (meso-states) that satisfies all the macro-state constraints.
 
-The entropy maximization derivation is demonstrated in detail elsewhere (e.g., @ortuzar_2011_modelling, @wilsonSTATISTICALTHEORYSPATIAL1967). The basis of the approach is to accept that there are macro, meso, and micro states. In the case of trips being the interaction variable, a micro state is an individual trip maker, the meso state is the statistically representative zone representing a collection of individual trip makers, and the macro state is the entire study region. Using these assumptions, a set of $T_{ij}$ that maximizes the number of micro states in each meso state subject to some sensible macro-state constraints (@eq-constraint0-gravitymodel, @eq-constraint1-gravitymodel, and @eq-constraint2-gravitymodel). From this approach, the gravity model can be interpreted as the given the total number of individual trips (micro level) statistically represented at origin and destination zones (meso level), the cost of travelling (micro level, represented at the meso level), and the fixed total cost of travelling in the region (number of trips and cost of travel at the macro level). There is then a most probable distribution of trips between zones (meso-states) that stasis all the macro-state constraints.
-
-Using these constraints, the gravity model @eq-phys-gravity-model is distinguished into four general cases. These cases are presented in increasing order of constraint restrictiveness and continued to be useful in classifying the gravity model in trip distribution modelling to this day [@ortuzar_2011_modelling]: 
+Using these constraints, the SIM @eq-phys-gravity-model is distinguished into four general cases. These cases are presented in increasing order of constraint restrictiveness and continued to be useful in classifying the SIM in trip distribution modelling to this day [@ortuzar_2011_modelling]: 
 
 - The unconstrained case: neither @eq-constraint0-gravitymodel, @eq-constraint1-gravitymodel, or @eq-constraint2-gravitymodel hold;
-- The total constrained case: only @eq-constraint0-gravitymodel hold
+- The total constrained case: only @eq-constraint0-gravitymodel hold <!--NOTE: not sure if this is consistent with entropy-maximisation?-->
 - The singly-constrained case: either @eq-constraint1-gravitymodel holds (origin-constrained) <!-- production--> or @eq-constraint2-gravitymodel holds (destination-constrained)<!-- attraction-->; 
 - The doubly-constrained case: both @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel hold simultaneously <!--production-attraction-->
 
@@ -201,16 +202,24 @@ $${#eq-bf-A-gravitymodel}
 $$
 B_j = \frac{1}{\sum_i A_i W_i^{(1)} f(c_{ij})}
 $${#eq-bf-B-gravitymodel}
-<!--PRETTY SURE YOU DON'T GET K FROM ENTROPY MAXIMAISATION...-->
+<!--NOTE: pretty sure K is not consistent with entropy-maximisation?-->
 $$
 K = \frac{T}{\sum_i \sum_j W_i^{(1)} W_j^{(2)} f(c_{ij})}
 $${#eq-bf-K-gravitymodel}
 
 For the doubly-constrained case, $A_i$ and $B_j$ must be solved together along with $K$. For the singly-constrained cases, origin-constrained case replaces $B_j$ with 1 for all $j$ and $A_i$ is @eq-bf-A-gravitymodel, and the the destination-constrained case replaces $A_i$ with 1 for all $i$ and $B_j$ is @eq-bf-B-gravitymodel. For both singly-constrained cases, $K$ also holds. For the total constrained case, $A_i$ and $B_j$ are set to 1 and $K$ is the defining constraint. And for the unconstrained case, all other cases (the total constrained, singly-constrained and doubly-constrained cases) are simply constrained variations.
 
-## Accessibilities' development seperate from the family of gravity models
+## Background on accessibilities' distinct development away from spatial interaction models
+<!--COME-BACK HERE-->
+<!--SUMMARY: Accessibility developed separate from SIM.
 
-Upon detailing the gravity model, we can now discuss how accessibility has been developed within that field and how it has not. Gravity modellers (interaction variable being trips, a model of spatial interaction - mobility) continued to use accessibility within transportation demand modelling. As succinctly summarized in @morrisAccessibilityIndicatorsTransport1979, "Mobility and accessibility together influence an individual’s capacity to travel in daily life". However, the gravity model literature that focuses on Hansen's accessibility is relatively scarce. To capture this sentiment, see @fig-Fig1 which demonstrates the bibliometric coupling of papers that cites @hansen1959, @wilson1971, and both @hansen1959 and @wilson1971. @fig-Fig1 is based on a SCOPUS search of papers that cite @hansen1959's DOI (2,134 documents) and another SCOPUS search of papers that cite @wilson1971's DOI (368 documents) conducted on November 9, 2024 and a bibliometric coupling matrix created using the {bibliometrix} R package [@bibliometrix2017].
+SIM focuses on trips and was institutionalized to develop the US Interstate highway systems. Many guidelines and practical training was done - a lot of funding. SIM development has integrated accessibility in a few ways: 1) within the SIM itself as a balancing factor, 2) as an additional independent variable in the SIM, 3) SIM and HAM in parallel in the context of location allocation problems and within the steps of transportation demand modelling (trip distribution or trip generation). 
+
+Accessibility research has separated SIM almost entirely. When Wilson is cited: 1) typically when using a different impedance function, 2) when using the SIM to predict trip flows for accessibility input or vice versa, 3) a few exceptional papers that interpret the doubly-constraints as an inverse HAM in the context of competitive accessibility, and 4) it was only until recently, that a singly-constrain was introduced in Soukhov et al. 2023.  -->
+
+The institutionalization of research on spatial interaction modelling was fueled by advancements in computer technologies and the substantive and unprecedented Federal-Aid Highway Act of 1956, which authorized $24.8 billion in spending at a 90% federal share from between 1957 to 1969 to begin and complete the US Interstate Highway System [@weinerUrbanTransportationPlanning2016]. This ambitious project went on to shape transportation planning practice globally []. Within the same time period, accessibility measures were not applied practically at such a large scale. Instead, accessibility measures were taken up to describe land-use and transportation interactions by geography and social science-adjacent researchers and planners; remaining more in theory than in practice.  However, due to growing critiques about traditional transportation modelling practice focus on  _mobility_, calls for a shift to accessibility are intensifying [@handy2020] and accessibility planning is beginning to be present in practice [] <!-- citation on where they are applied in practice? US guidelines. Netherlands. -->
+
+Despite the theoretical and observed reality that both mobility and accessibility influence an individual’s capacity to travel [@morrisAccessibilityIndicatorsTransport1979], SIM literature that focuses on Hansen's accessibility is relatively scarce in the literature. To capture this sentiment in the literature, @fig-Fig1 demonstrates the bibliometric coupling of papers that cites @hansen1959, @wilson1971, and both @hansen1959 and @wilson1971. @fig-Fig1 is based on a SCOPUS search of papers that cite @hansen1959's DOI (2,134 documents) and another SCOPUS search of papers that cite @wilson1971's DOI (368 documents) conducted on November 9, 2024 and a bibliometric coupling matrix created using the {bibliometrix} R package [@bibliometrix2017].
 
 ```{r plot-figure1, out.width=600, out.height=600}
 #| label: fig-Fig1
@@ -218,15 +227,13 @@ Upon detailing the gravity model, we can now discuss how accessibility has been 
 include_graphics(glue(here(), "/data-raw/Han_Wilson_bib_coupling_plot.png"))
 ```
 
-Many of the papers that cite both @hansen1959 and @wilson1971 (77 journal articles) are transportation modelling papers working on integrating accessibility within the gravity model (mobility). 
+Many of the papers that cite both @hansen1959 and @wilson1971 (77 journal articles) are transportation modelling papers working on integrating accessibility within the SIM or interpreting HAM within the SIM. For instance, @battyMethodResiduesUrban1976 states that the relationship between the SIM and HAM may be worth exploring. There is also a consistent acknowledgement in the literature that HAM and SIM are related. Specifically, that HAM are within the balancing factors of the SIM [@harrisEquilibriumValuesDynamics1978; @leonardiOptimumFacilityLocation1978; @fotheringhamSPATIALSTRUCTUREDISTANCE1981; @fotheringhamSpatialCompetitionAgglomeration1985]. Recognizing the balancing factors as HAM is a "common sense" approach at integrating accessibility in the SIM [@morrisAccessibilityIndicatorsTransport1979]. 
 
-For instance, @battyMethodResiduesUrban1976 states that the relationship between the gravity model and Hansen's original accessibility-potential model may be worth exploring... There is a consistent acknowledgement that these two models are related. Specifically, that the Hansen-type accessibility model is embedded within the balancing factors [@harrisEquilibriumValuesDynamics1978; @leonardiOptimumFacilityLocation1978; @fotheringhamSPATIALSTRUCTUREDISTANCE1981; @fotheringhamSpatialCompetitionAgglomeration1985]. This is a "common sense" approach at integrating accessibility [@morrisAccessibilityIndicatorsTransport1979]. 
+There are other approaches to consider accessibility with SIM beyond HAM which can be founded on micro-economic consumer behaviour [@morrisAccessibilityIndicatorsTransport1979]. For instance, others explore entropy maximizing solutions (Wilson's framework and hence the balancing factors defined as Hansen's accessibility) when considering demand behavior described by random utility choice models [@leonardiRandomUtilityDemand1984].
 
-Though there are other approaches to consider accessibility with spatial interaction modelling beyond Hansen founded on micro-economic consumer behaviour [@morrisAccessibilityIndicatorsTransport1979]. For instance, others explore entropy maximising solutions (Wilson's framework and hence the balancing factors defined as Hansen's accessibility) when considering demand behavior described by random utility choice models [@leonardiRandomUtilityDemand1984].
+Some work on location-allocation models also used both Hansen and Wilson. For instance, @leonardiOptimumFacilityLocation1978 and @beaumontLocationallocationProblemsPlane1981 define a location-allocation problem using the singly-constrained SIM, and then defines one using Hansen-type accessibility as the objective function subject. 
 
-Some work on location-allocation models also used both Hansen and Wilson. For instance, @leonardiOptimumFacilityLocation1978 and @beaumontLocationallocationProblemsPlane1981 define a location-allocation problem using the singly-constrained gravity model, and then defines one using Hansen-type accessibility as the objective function subject. 
-
-Then, @fotheringhamSpatialCompetitionAgglomeration1985 demonstrated that destination's accessibility should be explicitly specified within Wilson's framework, citing Hansen measure as convenient formulation. Without the consideration for accessibility explicitly, unexplained spatial pattern remains. This later came to be the 'competition destination' model, and is one of a few techniques to address spatial variation in gravity models. [@oshanSpatialStructureDebate2021]. Implicitly, we gather that at this point: it was understood balancing factors in the gravity model could not be understood as capturing accessibility. We also gather that in this moment of growing complexity of spatial interaction modelling, accessibility branched off and sprouted in the medium of budding GIS technology and the emergence of space-time dimensions [@millerMeasuringSpaceTimeAccessibility1999; @occelli2000revisiting]. With the possibility for showcasing complex GIS methodologies for varied case studies, accessibility became mature enough to branch off on its own. 
+Then, @fotheringhamSpatialCompetitionAgglomeration1985 demonstrated that destination's accessibility should be explicitly specified within Wilson's framework, citing Hansen measure as convenient formulation. Without the consideration for accessibility explicitly, unexplained spatial pattern remains. This later came to be the 'competition destination' model, and is one of a few techniques to address spatial variation in SIMs. [@oshanSpatialStructureDebate2021]. Implicitly, we gather that at this point: it was understood balancing factors in the SIM could not be understood as capturing accessibility. We also gather that in this moment of growing complexity of spatial interaction modelling, accessibility branched off and sprouted in the medium of budding GIS technology and the emergence of space-time dimensions [@millerMeasuringSpaceTimeAccessibility1999; @occelli2000revisiting]. With the possibility for showcasing complex GIS methodologies for varied case studies, accessibility became mature enough to branch off on its own. 
 
 In papers after @fotheringhamSpatialCompetitionAgglomeration1985, Hansen is typically cited as providing a definition of accessibility but how Wilson is cited changes through the years. Wilson is attributed for using different travel cost functions in depending on the context [@weibullNumericalMeasurementAccessibility1980; @handyMeasuringAccessibilityExploration1997; @kwan1998space; @shenLocationCharacteristicsInnercity1998;@ashiru2003space; @rau2012spatial; @pan2013impacts; @margaridacondecomelhoradoImpactMeasuringInternal2016; @caschili2015accessibility; @grengs2015nonwork; @pan2020measuring; @chia2020extending; @roblot2021participation; @sharifiasl2023incorporating; @kharel2024examining].
 
@@ -236,7 +243,7 @@ And finally, Wilson's balancing factors are interpreted as inverse Hansen-type a
 
 THE SPATIAL STRUCTURE DEBATE: @oshanSpatialStructureDebate2021
 
-Some papers also use gravity models to estimate trip or some other interaction flows alongside accessibility indicators [@clarke2002deriving; @grengs2004measuring; @turk2019socio] or integrate accessibility within the gravity model, in line with @fotheringhamSpatialCompetitionAgglomeration1985's demonstration and most often in context with retailing [@beckers2022incorporating].
+Some papers also use SIMs to estimate trip or some other interaction flows alongside accessibility indicators [@clarke2002deriving; @grengs2004measuring; @turk2019socio] or integrate accessibility within the SIM, in line with @fotheringhamSpatialCompetitionAgglomeration1985's demonstration and most often in context with retailing [@beckers2022incorporating].
 
 Hansen is a relatively straightforward simple application, while Wilon's contribution is methodological and dense - must be carefully read. Many takeaways can be drawn, so with accessibilities changing applications throughout the years -- different things about Wilon's contribution becomes relevant. The most contemprary connection between the two is in the relam of competitive accessibility -- in the interpretation of Wilson's balancing factors as a way to consider competition. We fit this contribution in this literature. Competition fits on a spectrum - by introducing balancing factors trips are _constrained_ to equal regional or zonal totals. This same application can be applied to accessibility.
 
@@ -250,18 +257,18 @@ Overall, work that cities Wilson is closer related to transportation demand mode
 
 However there are a few papers that are accessibility focused that focus on 
 
-<!-- REVIEW CSV OF PAPERS-->
+<!-- NOTE: you can validate SIM e.g., how well does the model predict a known Tij matrix? but what is a known Vij matrix, potential accessible opportunities at i for j? Harder to say. -->
+
+<!--NOTE: what about activity-based accessibility? Answer: it is individual utility based, unlike traditional SIM which is origin-destination based. -->
 
 There are plenty of insights to be shared across these sibling branches; they are both spatial interaction models. 
 
 
-## A family of accessibility measures
+## Defining accessibility constraints (a potential spatial interaction model?)
 
-Instead of the interaction variable being in the unit of trips, it is in the unit of potential interaction with opportunities. This focus is the preoccupation of accessibility measures. The same analytical framework to define the balancing factors $k$ can be used for the family of accessibility measures as in the family of gravity models, however with different interpretation. In this section, we explicitly define these cases. 
+Instead of an interaction variable as in the SIM (e.g., trips, spending, sales), we focus on _potential_ interaction (e.g., accessible opportunities). Potential interaction is the preoccupation of accessibility measures. The same analytical framework to define the balancing factors $k$ can be used for the family of accessibility measures as in the family of SIMs, however with different interpretation. In this section, we explicitly define these cases. 
 
 In this context, accessibility is our _interaction_ variable of choice, so $T_{ij}$ in @eq-phys-gravity-model is replaced with $V_{ij}$. As the interaction variable represents _potential_, i.e., the number of potential reachable opportunities, as opposed to trips:
-
-<!-- W_i^{(1)} enters through k.. it is a quality of the destination -->
 
 $$
 V_{ij} = k W_j^{(2)} f(c_{ij}) = k O_j f(c_{ij})
@@ -300,7 +307,7 @@ All four cases are differentiated like:
 
 <!-- - HYBRID CASE: @eq-constraint1-access or @eq-constraint2-access partly hold -- hybrid production constrained case <!-- (could be repeated for attraction constrained case... and doubly constrained case)-->
 
-Like gravity model problem, we can solve these cases using spatial weights matrix and travel cost matrix, but with alternative meanings. $P_i$ (our $W_i^{(1)}$) is population at $i$ who seek opportunities. $O_j$ (our $W_j^{(2)}$) are the opportunities being sought. For this simple example, we can say that the opportunities are the population's jobs. In our region, each person has a job - but we only know at an aggregate how many people are at each $i$, the jobs that are located at $j$ and the travel cost $c_{ij}$. We assume the the travel impedance ($f(c_{ij})$) is the associated travel propensity of $f(c_{ij}) = 1/C$. 
+Like the SIM, we can solve these cases using spatial weights matrix and travel cost matrix, but with alternative meanings. $P_i$ (our $W_i^{(1)}$) is population at $i$ who seek opportunities. $O_j$ (our $W_j^{(2)}$) are the opportunities being sought. For this simple example, we can say that the opportunities are the population's jobs. In our region, each person has a job - but we only know at an aggregate how many people are at each $i$, the jobs that are located at $j$ and the travel cost $c_{ij}$. We assume the the travel impedance ($f(c_{ij})$) is the associated travel propensity of $f(c_{ij}) = 1/C$. 
 
 The following is the known accessibility matrix. The $V_{ij}$, the number of jobs spatially accessible at $i$ from destination $j$. The TOTALs are the $V_i$ and $V_j$, the total number of jobs spatially available at $i$ and the number of jobs spatially available from $j$.
 ```{r}
@@ -375,7 +382,7 @@ V_{ij}' = K O_j f(c_{ij})\\
 V_{i}' = K\sum_j O_j f(c_{ij})
 $$
 
-Solved for our example, $K$ is equal to the total accessibility $V$, divided by the sum of the unconstrained accessibility:
+Solved for our example, $K$ is equal to the total accessibility $V$ (ALL THE OPPORTUNITIES, OR ALL THE DESTINATIONS), divided by the sum of the unconstrained accessibility:
 $$
 K = \frac{V}{\sum_{i}\sum_{j} O_j f(c_{ij})}\\
 K = \frac{V}{\frac{O_1}{c_{1,1}}+\frac{O_1}{c_{2,1}}+\frac{O_1}{c_{3,1}}+\frac{O_2}{c_{1,2}} +... \frac{O_3}{c_{3,3}}
@@ -404,25 +411,25 @@ While we can see that the 'number of potentially reachable opportunities' `r V` 
 
 ### Singly-constrained case 
 
-Similarly, singly-constrained can be either origin-constrained $V_i''^{(1)}$ or destination-constrained $V_i''^{(2)}$. For the origin- and destination- constrained versions, $k$ is replaced with $A_{ij}$ and $B_{ij}$ respectively (@eq-access enforcing constraint @eq-constraint1-access or @eq-constraint2-access, and implicitly @eq-constraint0-access):
+The singly-constrained case can be either origin-constrained $V_i''^{(1)}$ or destination-constrained $V_i''^{(2)}$. For the origin- and destination- constrained versions, $k$ is replaced with $A_{ij}$ and $B_{ij}$ respectively (@eq-access enforcing constraint @eq-constraint1-access or @eq-constraint2-access, and implicitly @eq-constraint0-access):
 
 $$
 V_{ij}''^{(1)} = A_{ij} O_j f(c_{ij})\\
 V_{ij}''^{(2)} = B_{ij} O_j f(c_{ij})\\
 $${#eq-access-singlyconstrained-origin}
 
-\noindent Where $A_{ij}$ and $B_{ij}$ are similar to the balancing factors of the gravity model for the singly-constrained cases, though with an addition to the numerator to maintain the associated enforcing constraints:
+\noindent Where $A_{ij}$ and $B_{ij}$ are similar to the balancing factors of the SIM for the singly-constrained cases, though with an addition to the numerator to maintain the associated enforcing constraints:
 $$
 A_{ij} = \frac{O_j}{\sum_j B_{ij} O_j f(c_{ij})}\\
 B_{ij} = \frac{P_i}{\sum_i A_{ij} P_i f(c_{ij})}\\
 $$
 In solving the origin-constrained $V_{ij}^{''(1)}$ case (e.g., @eq-constraint1-access of $\sum_j V_{ij} = P_i$ is enforced), $B_{ij} = 1$. In solving the destination-constrained $V_{ij}^{''(2)}$ case (e.g., @eq-constraint2-access of $\sum_i V_{ij} = O_j$ is enforced), $A_{ij} = 1$. 
 
-Solving for the destination-constrained case $V_{ij}^{''(2)}$ may be helpful in an example where the number of people seeking opportunities is known ($P_i$), along with the number of opportunities $O_j$ offered by a destination as in unconstrained and total accessibility. An example could be the number of people at each residence seeking hospital-beds (origin) and hospital-beds (opportunities) at each healthcare location (destination) to calculate the opportunity access at each origin. Another case could be calculating the opportunity access at each origin using the quantity of goods available to purchase (opportunities) at each commercial location (destination). 
+Solving for the destination-constrained case $V_{ij}^{''(2)}$ may be helpful in an example where the number of people seeking opportunities is known ($P_i$), along with the number of opportunities $O_j$ offered by a destination as in unconstrained and total accessibility. An example could be the number of people at each residence seeking hospital-beds (origin) and hospital-beds (opportunities) at each healthcare location (destination) to calculate the opportunity access at each origin. Another case could be calculating the opportunity access at each origin using the quantity of goods available to purchase (opportunities) at each commercial location (destination).
 
 From our review, related versions of this defined destination-constrained accessibility are formulaically similar to retail accessibility models e.g., decision model for shops to optimally spatially locate to maximize their potential consumer interaction. Starting with reilly's law of gravitational retail [@reilly1929methods], formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. Other literature also demonstrates  similar _competition_ considerations through its analytical formulation; for instance, in the Intervening Opportunities model [@stoufferInterveningOpportunitiesTheory1940; @stoufferINTERVENINGOPPORTUNITIESCOMPETING1960] "axiomatically" @weibull_axiomatic_1976, and competition consideration expressed as a per population rate particularly in healthcare and job opportunity accessibility analysis [@shen1998], and 2FCA methods in general [@soukhovIntroducingSpatialAvailability2023]. Most of these works do not explicitly focus on balancing accessibility units; rather, they center on _competition_ considerations. We suspect this may be why they have been used in case studies examining access to opportunities that are inherently competitive or where the concept of supply and demand resonates. It was only until the recent work of [@soukhovIntroducingSpatialAvailability2023], where the units of accessibility given competition, e.g., the spatial availability, was introduced with the focus on both competition and balanced units. NOTE: See Appendix where I demonstrate how this destination-constrained case is equivalent to spatial availability
 
-Returning to our simple example, the destination-constrained singly-constrained case would yield the following $B_{ij}$ values:
+Returning to our simple example, the opportunity-constrained singly-constrained case would yield the following $B_{ij}$ values:
 $$
 B_{ij} = \frac{P_{i}}{\sum_i P_i f(c_{ij})}\\
 B_{1,1} = \frac{P_{i}}{P_1 f(c_{1,1}) + P_2 f(c_{1,2}) + P_3 f(c_{1,3})}\\
@@ -447,7 +454,7 @@ colnames(B_ij_longer) <- c("1","2","3")
 B_ij_longer 
 ```
 
-$V_{ij}$ values:
+$V_{ij}''^{(2)}$ values:
 ```{r}
 V_dest <- (B_ij) *(V_unc) # V_unc = (1/C)* t(matrix(rep(W_j, 3), 3, 3)) 
 
@@ -466,77 +473,78 @@ V_dest_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 
 The $O_j$ values are equal to the known opportunities, whereas the $P_i$ values are not. The total accessibility in the region is maintained at 790. Each $V_{ij}$ can be interpreted as the number of opportunities accessible from each destination by anyone in the region all weighted by travel cost of course. 
 
-### Doubly constrained case (origin-destination constrained)
+Example of solving the population-constrained $V_i''^{(1)}$:
+<!--COMEBACKHERE-->
+
+### Doubly constrained case (population-opportunity constrained)
 
 (only when the units of the marginals are the same, therefore of more limited application)
 ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAccess2020
-<!-- this done'st work.. for now!-->
 ```{r}
 doubly_constrained_gravity_model <- function(
     #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R
-  P,  # Origin production weights vector (POPULATION)
-  O,  # Destination attraction weights vector (OPPORTUNITIES)
+  O,  # Origin production weights vector
+  D,  # Destination attraction weights vector
   impedance_matrix,  # the resulting travel cost impedance matrix
   error_threshold = 0.001,  # Error threshold for stopping condition
   improvement_threshold = 1e-6  # Improvement threshold for stopping condition
 ) {
-  
+
   # Normalize O and D
-  sum_P <- sum(P)
   sum_O <- sum(O)
-  cat("Checking population, opportunity balancing:\n")
-  cat("Population: ", sum_P, "\n")
-  cat("Opportunities: ", sum_O, "\n")
-  
-  if (sum_P != sum_O) {
-    cat("Population and opportunities do not balance, scaling to match.\n")
-    if (sum_P < sum_O) {
-      P <- P * (sum_O / sum_P)
+  sum_D <- sum(D)
+  cat("Checking production, attraction balancing:\n")
+  cat("Production: ", sum_O, "\n")
+  cat("Attraction: ", sum_D, "\n")
+
+  if (sum_O != sum_D) {
+    cat("Productions and attractions do not balance, scaling to match.\n")
+    if (sum_O < sum_D) {
+      O <- O * (sum_D / sum_O)
     } else {
-      O <- O * (sum_P / sum_O)
+      D <- D * (sum_O / sum_D)
     }
   } else {
-    cat("Population, opportunities balancing OK.\n")
+    cat("Production, attraction balancing OK.\n")
   }
-  
-  n <- length(P)  # Number of i
-  V <- sum(P)  # Total access
+
+  n <- length(O)  # Number of i
+  T <- sum(O)  # Total trips
   Ai <- rep(1, n)  # Initialize Ai
   Bj <- rep(1, n)  # Initialize Bj
-  
+
   previous_error <- Inf
   iteration_count <- 0
   stop_reason <- ""
-  
+
   while (TRUE) {
     iteration_count <- iteration_count + 1
-    
+
     # Update Ai
     for (i in 1:n) {
-      Ai[i] <- 1 / (sum(Bj * O * impedance_matrix[i, ]) + 1e-9)
+      Ai[i] <- 1 / (sum(Bj * D * impedance_matrix[i, ]) + 1e-9)
     }
-    
+
     # Update Bj
     Bj_new <- rep(1, n)
     for (j in 1:n) {
-      Bj_new[j] <- 1 / (sum(Ai * P * impedance_matrix[, j]) + 1e-9)
+      Bj_new[j] <- 1 / (sum(Ai * O * impedance_matrix[, j]) + 1e-9)
     }
-    
-    # Calculate Vij
-    #Vij <- outer(Ai * P, Bj_new * O) * impedance_matrix
-    Vij <- Bj_new * Ai * O * impedance_matrix
-    
+
+    # Calculate Tij
+    Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix #Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix -->
+
     # Print Ai and Bj for this iteration
     cat("\nIteration:", iteration_count, "\n")
     cat("Ai:", round(Ai, 3), "\n")
     cat("Bj:", round(Bj_new, 3), "\n")
-    
+
     # Calculate error
-    error <- (sum(abs(P - rowSums(Vij))) + sum(abs(O - colSums(Vij)))) / V
-    
+    error <- (sum(abs(O - rowSums(Tij))) + sum(abs(D - colSums(Tij)))) / T
+
     # Calculate change in error
     error_change <- abs(previous_error - error)
-    
+
     # Check stopping conditions
     if (error < error_threshold) {
       stop_reason <- "Error threshold met"
@@ -545,20 +553,20 @@ doubly_constrained_gravity_model <- function(
       stop_reason <- "Slow improvement"
       break
     }
-    
+
     previous_error <- error
     Bj <- Bj_new
   }
-  
+
   # report stopping condition and final error threshold
   cat("\nStopping Condition: ", stop_reason, "\n")
   cat(sprintf("Final Error: %.3f%%\n", error * 100))
-  
-  return(list(Ai = Ai, Bj = Bj, Vij = Vij))
+
+  return(list(Ai = Ai, Bj = Bj, Tij = Tij))
 }
 
-dc_results <- doubly_constrained_gravity_model(P=P_i, O=O_j, impedance_matrix = 1/C)
-dc_results$Vij
+dc_results <- doubly_constrained_gravity_model(O=P_i, D=O_j, impedance_matrix = 1/C)
+dc_results$Tij
 ```
 
 The $A_i$ and $B_j$ matrices:
@@ -572,12 +580,12 @@ B_j_doubly |> matrix() |> t()
 
 The trip matrix (notice, all summed up opportunities and populations are equivalent to our knowns)
 ```{r}
-V_doubly <- dc_results$Vij
+V_doubly <- dc_results$Tij
 
 P_i_doubly <- V_doubly |> rowSums()
 O_j_doubly <- V_doubly |> colSums()
 V_TOTAL_dest <- ifelse(sum(P_i_doubly)==sum(O_j_doubly), sum(V_doubly), NA)
-V_doubly_longer <- cbind(V_doubly,P_i_dest)
+V_doubly_longer <- cbind(V_doubly,P_i_doubly)
 V_doubly_longer <- rbind(V_doubly_longer, cbind(t(O_j_doubly),V_TOTAL_dest))
 
 rownames(V_doubly_longer) <- c("1","2","3", "TOTAL") 
@@ -790,7 +798,7 @@ V_orig_longer #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
   -- constraint 0 or 0.5..? a consistent derivation of all cases should help address this. -->
 
 
-<!--THE FOLLOWING ARE SOLVED EXAMPLES OF ALL FOUR CASES OF THE GRAVITY MODEL -->
+<!--THE FOLLOWING ARE SOLVED EXAMPLES OF ALL FOUR CASES OF THE SIM -->
 <!-- The following are simple numerical examples of each case assuming the following 1) $T_{ij}$ trip ends matrix, 2) $C_{ij}$ travel cost matrix, and 3) an assumed travel impedance function of $f(c_{ij}) = \frac{1}{c_{ij}}$. For all cases, we look to estimate each $T_{ij}$ value using these three inputs, we present the known trip matrix and the trip ends below: -->
 <!-- ```{r} -->
 <!-- known_trip_matrix <- matrix(c(95,23,42, 27,378,45, 38,36,106), ncol = 3, byrow = TRUE) -->
