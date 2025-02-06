@@ -251,6 +251,15 @@ And thirdly, accessibility-based literature cite @wilson1971's balancing factors
 Indeed, @hansen1959 offers a relatively straightforward and practical application of accessibility, while @wilson1971's contribution is methodological and dense. Accessibility-based literature that has flourished since the 1990s, sprouting from the rise of GIS technologies, the plethora of _bigger_ data and different qualities of opportunities and populations to examine, it has developed in a different direction. However, HAM and SIM share similar roots, there are plenty of insights to be shared across these sibling branches. A relevant and contemporary connection between HAM and SIM is in the realm of competitive accessibility, and how the SIM can be reconceptualised as measuring _potential for interaction_ and competition can be interpreted through the regional and zonal constraints ensured by the balancing factors. How these balancing factors are applied in the context of _interaction_ like trips  can be applied to accessibility outputs like the "number of opportunities potentially interacted with".
 
 ## Interpreting SIM constraints for accessibility
+<<<<<<< HEAD
+<<<<<<< HEAD
+<!--SUMMARY: Introduce the SIM constraints generally, and explain them in terms of accessibility (e.g., P_i as weight at origin and O_j as weight at destination)
+
+Then, detail a synthetic example for 'non-constrained' (e.g., HAM), Total constrained, Singly-constrained (both versions), Doubly-constrained and finally Hybrid constrained (?maybe?).-->
+=======
+>>>>>>> 04fc02473a287085b2cb85d7cf29de05b18e24bc
+=======
+>>>>>>> 04fc02473a287085b2cb85d7cf29de05b18e24bc
 
 Instead of an interaction variable as in the SIM (e.g., trips, spending, sales), we focus on _potential_ interaction (e.g., accessible opportunities). Potential interaction is the preoccupation of accessibility measures. The same analytical framework to define the balancing factors $k$ can be used for the family of accessibility measures as in the family of SIMs, however with different interpretation. In this section, we explicitly define these cases. 
 
