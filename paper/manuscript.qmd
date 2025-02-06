@@ -1,5 +1,5 @@
 ---
-title: "Constraining accessibility and the family of spatial interaction models" #"A family of accessibility measures (bringing balance back?)"
+title: "Accessibility, a type of spatial interaction model" #"A family of accessibility measures (bringing balance back?)"
 format: pdf
 bibliography: "`r system('kpsewhich ../bibliography/bibliography.bib', intern=TRUE)`"
 ---
@@ -189,7 +189,7 @@ The entropy maximization derivation is demonstrated in detail elsewhere (e.g., @
 
 Using these constraints, the SIM @eq-phys-gravity-model is distinguished into three general cases. These cases are presented in increasing order of constraint restrictiveness and continued to be useful in classifying the SIM in trip distribution modelling to this day [@ortuzar_2011_modelling]: 
 
-- The unconstrained case: neither @eq-constraint1-gravitymodel, or @eq-constraint2-gravitymodel hold, only @eq-constraint0-gravitymodel - the total number of trips, is used;
+- The total constrained case: neither @eq-constraint1-gravitymodel, or @eq-constraint2-gravitymodel hold, only @eq-constraint0-gravitymodel - the total number of trips, is used;
 - The singly-constrained case: either @eq-constraint1-gravitymodel holds (origin-constrained) <!-- production--> or @eq-constraint2-gravitymodel holds (destination-constrained)<!-- attraction-->; 
 - The doubly-constrained case: both @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel hold simultaneously <!--production-attraction-->
 
@@ -206,7 +206,7 @@ $$
 K = \frac{T}{\sum_i \sum_j W_i^{(1)} W_j^{(2)} f(c_{ij})}
 $${#eq-bf-K-gravitymodel}
 
-For the doubly-constrained case, $A_i$ and $B_j$ must be solved together along with $K$. For the singly-constrained cases, origin-constrained case replaces $B_j$ with 1 for all $j$ and $A_i$ is @eq-bf-A-gravitymodel, and the the destination-constrained case replaces $A_i$ with 1 for all $i$ and $B_j$ is @eq-bf-B-gravitymodel. For both singly-constrained cases, $K$ also holds. For the unconstrained case, $A_i$ and $B_j$ are set to 1 and $K$ is the defining constraint. 
+For the doubly-constrained case, $A_i$ and $B_j$ must be solved together along with $K$. For the singly-constrained cases, origin-constrained case replaces $B_j$ with 1 for all $j$ and $A_i$ is @eq-bf-A-gravitymodel, and the the destination-constrained case replaces $A_i$ with 1 for all $i$ and $B_j$ is @eq-bf-B-gravitymodel. For both singly-constrained cases, $K$ also holds. For the total constrained case, $A_i$ and $B_j$ are set to 1 and $K$ is the defining constraint. 
 
 These constraints (@eq-bf-A-gravitymodel, @eq-bf-A-gravitymodel, and @eq-bf-K-gravitymodel) and the SIM @eq-phys-gravity-model can be expressed not just for the variable of _interaction_ (e.g., the number of trips) but also as a variable of _potential interaction_. Before detailing SIM's formulation for accessibility, however, background on the development of accessibility and SIM independent from eachother is explained. 
 
@@ -248,26 +248,26 @@ Secondly, in the 2000s and beyond, the concept of spatial interaction and access
 
 And thirdly, accessibility-based literature cite @wilson1971's balancing factors, and re-iterate how they can be interpreted as the inverse of HAM and hence can capture competition [@vickermanAccessibilityAttractionPotential1974; @karstEvaluationAccessibilityImpacts2003;@geurs2006accessibility; @willigers2007accessibility;@el2011place; @curtis2010planning; @manaugh2012makes; @chen2013regional; @alonso2014labour; @albacete2017measuring; @sahebgharani2019computing; @mayaud2019future; @allenMeasureCompetitiveAccess2020; @levinsonGeneralTheoryAccess2020; @marwal2022literature; @su2023untangling]. However, we argue that this interpretation is fraut, considering @fotheringhamSpatialCompetitionAgglomeration1985's demonstration that SIM does not completely incorporate accessibility. However some work does consider competition more scrupulously; these works use SIMs to estimate trip (or some other interaction flows) alongside accessibility indicators [e.g., @clarke2002deriving; @grengs2004measuring; @turk2019socio] or integrate accessibility within the SIM, in line with @fotheringhamSpatialCompetitionAgglomeration1985's demonstration and most often in context with retailing [@beckers2022incorporating]. Only the work of @soukhovIntroducingSpatialAvailability2023 and @soukhovMultimodalSpatialAvailability2024 cite @wilson1971's use of balancing factors as ways to maintaining constraints in opportunities in the context of competitive accessibility.  
 
-Indeed, @hansen1959 offers a relatively straightforward and practical application of accessibility, while @wilson1971's contribution is methodological and dense. Accessibility-based literature that has flourished since the 1990s, sprouting from the rise of GIS technologies, the plethora of _bigger_ data and different qualities of opportunities and populations to examine, it has developed in a different direction. However, HAM and SIM share similar roots, there are plenty of insights to be shared across these sibling branches. A relevant and contemporary connection between HAM and SIM is in the realm of competitive accessibility, and how the SIM can be reconceptualised as measuring _potential for interation_ and competition can be interpreted through the regional and zonal constraints ensured by the balancing factors. How these balancing factors are applied in the context of _interaction_ like trips  can be applied to accessibility outputs like the "number of opportunities potentially interacted with".
+Indeed, @hansen1959 offers a relatively straightforward and practical application of accessibility, while @wilson1971's contribution is methodological and dense. Accessibility-based literature that has flourished since the 1990s, sprouting from the rise of GIS technologies, the plethora of _bigger_ data and different qualities of opportunities and populations to examine, it has developed in a different direction. However, HAM and SIM share similar roots, there are plenty of insights to be shared across these sibling branches. A relevant and contemporary connection between HAM and SIM is in the realm of competitive accessibility, and how the SIM can be reconceptualised as measuring _potential for interaction_ and competition can be interpreted through the regional and zonal constraints ensured by the balancing factors. How these balancing factors are applied in the context of _interaction_ like trips  can be applied to accessibility outputs like the "number of opportunities potentially interacted with".
 
-## Re-interpreting SIM constraints for accessibility
+## Interpreting SIM constraints for accessibility
 
 Instead of an interaction variable as in the SIM (e.g., trips, spending, sales), we focus on _potential_ interaction (e.g., accessible opportunities). Potential interaction is the preoccupation of accessibility measures. The same analytical framework to define the balancing factors $k$ can be used for the family of accessibility measures as in the family of SIMs, however with different interpretation. In this section, we explicitly define these cases. 
 
 In this context, accessibility is our _interaction_ variable of choice, so $T_{ij}$ in @eq-phys-gravity-model is replaced with $V_{ij}$. As the interaction variable represents _potential_, i.e., the number of potential reachable opportunities, as opposed to trips:
 
 $$
-V_{ij} = k W_j^{(2)} f(c_{ij}) = k O_j f(c_{ij})
+V_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 $${#eq-access}
 
-Where $V_{ij}$ consists of the same variables, however $V_{ij}$ explicitly measures _potential interaction_ as a unit of number of potentially reachable opportunities and the single proportionality constant $k$ ensures the total sum of $V_{ij}$ represents the total potential reachable opportunities in the data. Notably, the mass vectors $W_i^{(1)}$ and $W_j^{(2)}$ are replaced by $P_i$ and $O_j$, representing the weight of the origin (population) and destination (opportunities), the weights common in accessibility literature. As accessibility is the sum of opportunities for a $j$ from $i$, when the mass of the origin ($P_i$) is relevant, it enters @eq-access through the $k$ constant. Accessibility is also most often presented as a locational measure, so the value of $V_i$ is of most interest, e.g., the number of potentially reachable opportunities at a zone:
+Where $V_{ij}$ consists of the same variables, however $V_{ij}$ explicitly measures _potential interaction_ as a unit of number of potentially reachable opportunities and the single proportionality constant $k$ ensures the total sum of $V_{ij}$ represents the total potential reachable opportunities in the data. Notably, the mass vectors $W_i^{(1)}$ and $W_j^{(2)}$ can be replaced by $P_i$ and $O_j$, representing the weight of the origin (population) and destination (opportunities) as known, the weights common in accessibility literature. As accessibility is the sum of opportunities for a $j$ from $i$, when the mass of the origin ($P_i$) is relevant, it enters @eq-access through the $k$ constant. Accessibility is also most often presented as a locational measure, so the value of $V_i$ is of most interest, e.g., the number of potentially reachable opportunities at a zone:
 
 $$
-V_{i} = k \sum_j O_j f(c_{ij})
+V_{i} = k W_i^{(1)} \sum_j W_j^{(2)} f(c_{ij})
 $${#eq-access-sum}
 
 
-Like with @eq-phys-gravity-model, we distinguish @eq-access into four cases based on versions of the gravity-model building constraints (@eq-constraint0-access,  @eq-constraint1-access, and @eq-constraint2-access) to reflect macro-level knowledge, i.e., the sum of the number of potential reachable opportunities. 
+Like with @eq-phys-gravity-model, we distinguish @eq-access into three cases based on versions of the gravity-model building constraints (@eq-constraint0-access,  @eq-constraint1-access, and @eq-constraint2-access) to reflect macro-level knowledge, i.e., the sum of the number of potential reachable opportunities. 
 
 $$
 \sum_i\sum_j V_{ij} = V
@@ -276,24 +276,30 @@ $${#eq-constraint0-access}
 
 
 $$
-\sum_j V_{ij} = W_i^{(1)} = P_i
+\sum_j V_{ij} = P_i
 $${#eq-constraint1-access}
 \noindent Where sum of all potentially reachable opportunities for all $j$ zones in the region is equal to the production weight at each $i$ in the region.
 
 $$
-\sum_i V_{ij} = W_j^{(2)} = O_j
+\sum_i V_{ij} =  O_j
 $${#eq-constraint2-access}
 \noindent Where sum of all potentially reachable opportunities for all $i$ zones in the region is equal to the attraction weight at each $j$ in the region.
 
-All four cases are differentiated like:
-- The unconstrained case: neither @eq-constraint0-access, @eq-constraint1-access, or @eq-constraint2-access hold;
-- The total constrained case: only @eq-constraint0-access hold
-- The singly-constrained case: either @eq-constraint1-access holds (origin-constrained) <!-- production--> or @eq-constraint2-access holds (destination-constrained)<!-- attraction-->; 
+All three cases are differentiated as follows:
+- The total constrained case: only @eq-constraint0-access hold. In this case, $V$ is the number of potential for interaction 
+- The singly-constrained case: either @eq-constraint1-access holds (origin-constrained)  or @eq-constraint2-access holds (destination-constrained) -- can only be in any combination of "potential for interaction" units, e.g., units of "opportunities" or "population" or "population for opportunities" or "opportunities for population; 
 - The doubly-constrained case: both @eq-constraint1-access and @eq-constraint2-access hold simultaneously <!--production-attraction-->
 
-<!-- - HYBRID CASE: @eq-constraint1-access or @eq-constraint2-access partly hold -- hybrid production constrained case <!-- (could be repeated for attraction constrained case... and doubly constrained case)-->
 
-Like the SIM, we can solve these cases using spatial weights matrix and travel cost matrix, but with alternative meanings. $P_i$ (our $W_i^{(1)}$) is population at $i$ who seek opportunities. $O_j$ (our $W_j^{(2)}$) are the opportunities being sought. For this simple example, we can say that the opportunities are the population's jobs. In our region, each person has a job - but we only know at an aggregate how many people are at each $i$, the jobs that are located at $j$ and the travel cost $c_{ij}$. We assume the the travel impedance ($f(c_{ij})$) is the associated travel propensity of $f(c_{ij}) = 1/C$. 
+Notably, $V_{ij}$ can be in any combination of "potential for interaction" units that reflect the meaning of the spatial weights matrix e.g., units of "opportunities" from $i$ to $j$, or "population" from $i$ to $j$, or "population for opportunities" from $i$ to $j$, or "opportunities for population" from $i$ to $j$. The meaning of the units depends on the constraints: e.g., if singly-constrained - the spatial weights matrix represents units of opportunity or population while in doubly-constrained population and opportunities are two sides of this same matrix so take on the meaning of "population for opportunities" or "opportunities for population" from $i$ to $j$. 
+
+Also it is relevant to describe previous accessibility literature relation to this framework:
+- Nonconstrained cases: current practice, the HAM, where @eq-constraint0-access, @eq-constraint1-access, nor  @eq-constraint2-access hold.
+- HYBRID CASE: examples of where @eq-constraint1-access or @eq-constraint2-access partly hold <!-- BFCA? Others?-->
+
+In these cases, $V_{ij}$ is never explicitly defined but we work backwards to develop it and place it within the SIM framework. 
+
+Like the conventional SIM, $V_{ij}$ can be solved using a travel cost matrix and a spatial weights matrix but with alternative meanings. $P_i$ (our $W_i^{(1)}$ if known) is population at $i$ who seek opportunities. $O_j$ (our $W_j^{(2)}$ if known) are the opportunities being sought. For this simple example, we can say that the opportunities are the population's jobs. In our region, each person has a job - but we only know at an aggregate how many people are at each $i$, the jobs that are located at $j$ and the travel cost $c_{ij}$. We assume the the travel impedance ($f(c_{ij})$) is the associated travel propensity of $f(c_{ij}) = 1/C$. 
 
 The following is the known accessibility matrix. The $V_{ij}$, the number of jobs spatially accessible at $i$ from destination $j$. The TOTALs are the $V_i$ and $V_j$, the total number of jobs spatially available at $i$ and the number of jobs spatially available from $j$.
 ```{r}
@@ -320,57 +326,59 @@ colnames(C_longer) <- c("1","2","3")
 C_longer #|> as.data.frame() |> gt(rownames_to_stub=TRUE)
 ```
 
-### Unconstrained accessibility 
+### Nonconstrained accessibility 
 
-This accessibility is standard practice. There is no explicit consideration of a proportionality constant ($k$). We can presume it is still set to 1 as @stewartPrinciples1947. No constraints hold, making the interpretation of the units of $V_{ij}$ simply some magnitude of $O_j$ weighted by some $f(c_ij)$, and $V_{i}$ the sum of these values for each $j$. $V_i$ reflects the magnitude of opportunity accessibility but it is not scaled to equal the number opportunities $O$ and/or population $P$.
+The following case is standard practice, the HAM. It is expressed as a value of the origin, a summary of the destination weight multiplied by the travel impedance. There is no explicit consideration of a proportionality constant ($k$), we can presume it is still set to 1 as in @stewartPrinciples1947. Neither are there origin weights $W_i^{(1)}$, we assume is also wrapped up in this proportionality and implicitly set to 1. Working backward from this expression and assumptions, $S_{ij}$ can be expressed more generally as well. 
+
 $$
-V_{ij} = O_j f(c_{ij})\\ 
-V_{i} = \sum_j O_j f(c_{ij})
+S_{i} = 1*\sum_j O_j f(c_{ij}) \\
+S_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij}) = 1*1*O_j f(c_{ij}) 
 $$
 
-Each origin (row) all the opportunities at each destination are available. Likewise, each destination (column) offers all opportunities to each origin: 
+$S_i$ reflects the magnitude of opportunity accessibility but it is not scaled to equal the number opportunities $O_j$ and/or population $P_i$ (only in some case when $k$ and $W_i^{(1)}$ equal 1).
+
+In solving the example, each origin (row) all the opportunities at each destination are available. Likewise, each destination (column) offers all opportunities to each origin: 
 ```{r}
-O_P_unc <- t(matrix(rep(O_j, 3), 3, 3))
-O_P_unc_longer <- O_P_unc
-rownames(O_P_unc_longer) <- c("1","2","3") 
-colnames(O_P_unc_longer) <- c("1","2","3")
-O_P_unc_longer
+O_P_non <- t(matrix(rep(O_j, 3), 3, 3))
+O_P_non_longer <- O_P_non
+rownames(O_P_non_longer) <- c("1","2","3") 
+colnames(O_P_non_longer) <- c("1","2","3")
+O_P_non_longer
 ```
 
-The resulting matrix of $V_{ij}$ along with the $V_i$ and $V_j$ totals for this example:
+The resulting matrix of $S_{ij}$ along with the $S_i$ and $S_j$ totals for this example:
 ```{r}
-V_unc <- O_P_unc / C
+S_non <- O_P_non / C
 
-P_i_unc <- V_unc |> rowSums()
-O_j_unc <- V_unc |> colSums()
-V_TOTAL_unc <- ifelse(sum(P_i_unc|>round())==sum(O_j_unc|>round()), sum(V_unc), NA)
-V_unc_longer <- cbind(V_unc,P_i_unc)
-V_unc_longer <- rbind(V_unc_longer, cbind(t(O_j_unc),V_TOTAL_unc))
+P_i_non <- S_non |> rowSums()
+O_j_non <- S_non |> colSums()
+S_TOTAL_non <- ifelse(sum(P_i_non|>round())==sum(O_j_non|>round()), sum(S_non), NA)
+S_non_longer <- cbind(S_non,P_i_non)
+S_non_longer <- rbind(S_non_longer, cbind(t(O_j_non),S_TOTAL_non))
 
-rownames(V_unc_longer) <- c("1","2","3", "TOTAL") 
-colnames(V_unc_longer) <- c("1","2","3", "TOTAL")
+rownames(S_non_longer) <- c("1","2","3", "TOTAL") 
+colnames(S_non_longer) <- c("1","2","3", "TOTAL")
 
-V_unc_longer |> round(digits = 2) #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+S_non_longer |> round(digits = 2) #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
-We'd report origin 1 as having 148 accessibility (i.e., $V_{i=1} = 148$), origin 2 as 248 accessibility, and origin 3 as 172 accessibility. The total accessibility in the region is 568 ($\sum_i V_{i} = 568$), not equal to any meaningful value. This value is not often reported in the accessibility literature for this reason. One could also report the accessibility values that destinations offers ($V_{j}$), namely destination 1 offers 123, destination 2 offer 291, and destination 3 offers 154. However, these values are also not reported in the literature currently... as they aren't constrained to match up to the number of opportunities at each j (i.e., 160, 437 and 193). Assuming $k=1$, $V_i$ and $V_j$ represent magnitudes of accessibility concepts, but in an unconstrained way. The population matrix is no incorporated in the $V_{ij}$ calculation, so $V_i$ cannot be directly compared to population. From a different perspective, $V_j$ values also cannot be compared to known $O_j$ values as the equation unconstrained. 
+We'd report origin 1 as having 148 accessibility (i.e., $S_{i=1} = 148$), origin 2 as 248 accessibility, and origin 3 as 172 accessibility. The total accessibility in the region is 568 ($\sum_i S_{i} = 568$), not equal to any meaningful value. This value is not often reported in the accessibility literature for this reason. One could also report the accessibility values that destinations offers ($S_{j}$), namely destination 1 offers 123, destination 2 offer 291, and destination 3 offers 154. However, these values are also not reported in the literature currently... as they aren't constrained to match up to anything known, including the number of opportunities at each j (i.e., 160, 437 and 193). Assuming $k=1$, $S_i$ and $S_j$ represent magnitudes of accessibility concepts, but in an nonconstrained way. The population matrix is not incorporated in the $S_{ij}$ calculation, so $S_i$ cannot be directly compared to population. From a different perspective, $S_j$ values also cannot be compared to known $O_j$ values as the equation unconstrained. 
 
-OF NOTE: in the context of spatial interaction modelling, the unconstrained model is not often useful. While the resulting $T_{ij}$ values are in units of 'trips' - the assumption of $k$ equaling 1 is practically meaningless. 
+OF NOTE: in the context of spatial interaction modelling, this nonconstrained version of model is seldom useful. While the resulting $T_{ij}$ values are technically units of 'trips' - there are no constraints, so the assumption of $k$ and $W_i^(1)$ equaling 1 is practically meaningless. 
 
-Accessibility, or the _potential_ for interaction is different than interaction ($V_{ij}$ vs. $T_{ij}$), namely since the number of opportunities that are accessible at an origin from a destination cannot be known in the same way as a trip from an origin to a destination. However, we would argue that getting closer to knowning this number and planning for it - is what accessibility research should strive to achieve. <!-- yeah? -->
+Accessibility, or the _potential_ for interaction is different than interaction ($V_{ij}$ vs. $T_{ij}$), namely since the number of opportunities that are accessible at an origin from a destination cannot be known in the same way as a trip from an origin to a destination. However, we would argue that getting closer to knowing this number and planning for it - is what accessibility research should strive to capture. An origin-destination based accessibility value $V_{ij}$. We demonstrate the following three cases sub-sequently.
 
-
-### Total flow constrained accessibility
+### Total constrained accessibility
 
 In the total constrained case, $k$ is replaced with $K$ (@eq-access satisfying only constraint @eq-constraint0-access) as follows for $V_{ij}$ and $V_{i}$:
 $$
-V_{ij}' = K O_j f(c_{ij})\\
-V_{i}' = K\sum_j O_j f(c_{ij})
+V_{ij}' = K W_i^{(1)} W_j^{(2)} f(c_{ij})\\
+V_{i}' = K\sum_j W_i^{(1)} W_j^{(2)} f(c_{ij})
 $$
 
-Solved for our example, $K$ is equal to the total accessibility $V$ (ALL THE OPPORTUNITIES, OR ALL THE DESTINATIONS), divided by the sum of the unconstrained accessibility:
+Solved for our example, $K$ is equal to the total accessibility $V$, the only thing we know: either all the opportunities $O$ or all the population $P$, divided by remaining part of the equation. In the following, we assume our spatial weights matrix only reflects $W_j^(2)$ as $O_j$ and $W_i^(1)$ is uniform (1):
 $$
-K = \frac{V}{\sum_{i}\sum_{j} O_j f(c_{ij})}\\
+K = \frac{V}{\sum_{i}\sum_{j} 1* O_j f(c_{ij})}\\
 K = \frac{V}{\frac{O_1}{c_{1,1}}+\frac{O_1}{c_{2,1}}+\frac{O_1}{c_{3,1}}+\frac{O_2}{c_{1,2}} +... \frac{O_3}{c_{3,3}}
 }\\
 K = \frac{790}{568.4} \\
@@ -378,8 +386,8 @@ K = 1.389866
 $$
 
 ```{r}
-K <- V/sum(V_unc)
-V_tot <- K * V_unc
+K <- V/sum(S_non) #S_non -> (1/C)* t(matrix(rep(O_j, 3), 3, 3))
+V_tot <- K * S_non 
 
 P_i_tot <- V_tot |> rowSums()
 D_j_tot <- V_tot |> colSums()
@@ -395,59 +403,57 @@ V_tot_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 
 While we can see that the 'number of potentially reachable opportunities' `r V` results, the total access at a each $i$ or $j$ is not equal to the known known total access ends (because these constraints are not specified and thus not satisfied by the model). This approach is not yet seen in accessibility literature, but could be an intelligible way to compare accessibility values ($V_i$ or $V_j$) without considering the population matrix. 
 
+This case can be reformulated if the spatial weights matrix reflects only weights at the origin $W_i^(1)$ such as population $P_i$ and $W_j^(2)$ is unknown/irrelevant. 
+
 ### Singly-constrained case 
 
-The singly-constrained case can be either origin-constrained $V_i''^{(1)}$ or destination-constrained $V_i''^{(2)}$. For the origin- and destination- constrained versions, $k$ is replaced with $A_{ij}$ and $B_{ij}$ respectively (@eq-access enforcing constraint @eq-constraint1-access or @eq-constraint2-access, and implicitly @eq-constraint0-access):
+The singly-constrained case can be either origin-constrained $V_i''^{(1)}$ or destination-constrained $V_i''^{(2)}$. For the origin- and destination- constrained versions, $k$ is replaced with $A_{i}$ and $B_{j}$ respectively (@eq-access enforcing constraint @eq-constraint1-access or @eq-constraint2-access, and implicitly @eq-constraint0-access):
 
 $$
-V_{ij}''^{(1)} = A_{ij} O_j f(c_{ij})\\
-V_{ij}''^{(2)} = B_{ij} O_j f(c_{ij})\\
+V_{ij}''^{(1)} = A_{i} W_j^{(2)} P_i f(c_{ij})\\
+V_{ij}''^{(2)} = B_{j} O_j W_i^{(1)} f(c_{ij})\\
 $${#eq-access-singlyconstrained-origin}
 
-\noindent Where $A_{ij}$ and $B_{ij}$ are similar to the balancing factors of the SIM for the singly-constrained cases, though with an addition to the numerator to maintain the associated enforcing constraints:
+\noindent Where $A_{i}$ and $B_{j}$ are the same as the balancing factors of the SIM for the singly-constrained cases:
 $$
-A_{ij} = \frac{O_j}{\sum_j B_{ij} O_j f(c_{ij})}\\
-B_{ij} = \frac{P_i}{\sum_i A_{ij} P_i f(c_{ij})}\\
+A_{i} = \frac{1}{\sum_j B_{j} O_j f(c_{ij})}\\
+B_{j} = \frac{1}{\sum_i A_{i} P_i f(c_{ij})}\\
 $$
-In solving the origin-constrained $V_{ij}^{''(1)}$ case (e.g., @eq-constraint1-access of $\sum_j V_{ij} = P_i$ is enforced), $B_{ij} = 1$. In solving the destination-constrained $V_{ij}^{''(2)}$ case (e.g., @eq-constraint2-access of $\sum_i V_{ij} = O_j$ is enforced), $A_{ij} = 1$. 
 
-Solving for the destination-constrained case $V_{ij}^{''(2)}$ may be helpful in an example where the number of people seeking opportunities is known ($P_i$), along with the number of opportunities $O_j$ offered by a destination as in unconstrained and total accessibility. An example could be the number of people at each residence seeking hospital-beds (origin) and hospital-beds (opportunities) at each healthcare location (destination) to calculate the opportunity access at each origin. Another case could be calculating the opportunity access at each origin using the quantity of goods available to purchase (opportunities) at each commercial location (destination).
+\noindent NOTE: if the unknown spatial weight ($W_j^{(2)}$ for $A_{i}$ and $W_i^{(1)}$ for $B_{j}$) is moved from @eq-access-singlyconstrained-origin's numerator to $A_{i}$ or $B_{j}$ it is equivalent to a simplified version of Spatial Availability's formulation which is also demonstrated to be related to @shen1998 and the 2SFCA (see appendix @soukhovIntroducingSpatialAvailability2023). 
 
-From our review, related versions of this defined destination-constrained accessibility are formulaically similar to retail accessibility models e.g., decision model for shops to optimally spatially locate to maximize their potential consumer interaction. Starting with reilly's law of gravitational retail [@reilly1929methods], formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. Other literature also demonstrates  similar _competition_ considerations through its analytical formulation; for instance, in the Intervening Opportunities model [@stoufferInterveningOpportunitiesTheory1940; @stoufferINTERVENINGOPPORTUNITIESCOMPETING1960] "axiomatically" @weibull_axiomatic_1976, and competition consideration expressed as a per population rate particularly in healthcare and job opportunity accessibility analysis [@shen1998], and 2FCA methods in general [@soukhovIntroducingSpatialAvailability2023]. Most of these works do not explicitly focus on balancing accessibility units; rather, they center on _competition_ considerations. We suspect this may be why they have been used in case studies examining access to opportunities that are inherently competitive or where the concept of supply and demand resonates. It was only until the recent work of [@soukhovIntroducingSpatialAvailability2023], where the units of accessibility given competition, e.g., the spatial availability, was introduced with the focus on both competition and balanced units. NOTE: See Appendix where I demonstrate how this destination-constrained case is equivalent to spatial availability
+In solving the origin-constrained $V_{ij}^{''(1)}$ case (e.g., @eq-constraint1-access of $\sum_j V_{ij} = P_i$ is enforced), $B_{j} = 1$. In solving the destination-constrained $V_{ij}^{''(2)}$ case (e.g., @eq-constraint2-access of $\sum_i V_{ij} = O_j$ is enforced), $A_{i} = 1$. 
 
-Returning to our simple example, the opportunity-constrained singly-constrained case would yield the following $B_{ij}$ values:
+Solving for the destination-constrained case $V_{ij}^{''(2)}$ may be helpful in an example where the number of people seeking opportunities is known ($P_i$), along with the number of opportunities $O_j$ offered by a destination as in total accessibility. An example could be the number of people at each residence seeking hospital-beds (origin) and hospital-beds (opportunities) at each healthcare location (destination) to calculate the opportunity access at each origin. Another case could be calculating the opportunity access at each origin using the quantity of goods available to purchase (opportunities) at each commercial location (destination).
+
+From our review, related versions of this defined destination-constrained accessibility are formulaically similar to retail accessibility models e.g., decision model for shops to optimally spatially locate to maximize their potential consumer interaction. Starting with reilly's law of gravitational retail [@reilly1929methods], formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. Other literature also demonstrates  similar _competition_ considerations through its analytical formulation; for instance, in the Intervening Opportunities model [@stoufferInterveningOpportunitiesTheory1940; @stoufferINTERVENINGOPPORTUNITIESCOMPETING1960] "axiomatically" @weibull_axiomatic_1976, and competition consideration expressed as a per population rate particularly in healthcare and job opportunity accessibility analysis [@shen1998], and 2FCA methods in general [@soukhovIntroducingSpatialAvailability2023]. Most of these works do not explicitly focus on balancing accessibility units; rather, they center on _competition_ considerations. We suspect this may be why they have been used in case studies examining access to opportunities that are inherently competitive or where the concept of supply and demand resonates. It was only until the recent work of [@soukhovIntroducingSpatialAvailability2023], where the units of accessibility given competition, e.g., the spatial availability, was introduced with the focus on both competition and balanced units.
+
+Returning to our simple example, the opportunity-constrained singly-constrained case would yield the following $B_{j}$ values assuming $A_{i}$ is 1:
 $$
-B_{ij} = \frac{P_{i}}{\sum_i P_i f(c_{ij})}\\
-B_{1,1} = \frac{P_{i}}{P_1 f(c_{1,1}) + P_2 f(c_{1,2}) + P_3 f(c_{1,3})}\\
-...\\
-B_{1,1} = 160 *\frac{1}{160/2+450/15+180/5} = 1.09589 \\ 
-B_{2,1} = 450 *\frac{1}{160/2+450/15+180/5} =3.082192 \\
-B_{3,1} = 180 * \frac{1}{160/2+450/15+180/5} =1.232877 \\
-...\\
-B_{1,2} = 160 *\frac{1}{160/15+450/2+180/10} =0.630749 \\
-B_{2,2} = 450 *\frac{1}{160/15+450/2+180/10} =1.773982 \\
-B_{3,2} = 180 * \frac{1}{160/15+450/2+180/10} =0.7095926 \\
-...\\
-B_{1,3} = 160 *\frac{1}{160/5+450/10+180/2} = 0.9580838\\
-B_{2,3} = 450 *\frac{1}{160/5+450/10+180/2} = 2.694611  \\
-B_{3,3} = 180 *\frac{1}{160/5+450/10+180/2} = 1.077844 \\
+B_{j} = \frac{1}{\sum_i 1* P_i f(c_{ij})}\\
+B_{1} = \frac{1}{P_1 f(c_{1,1}) + P_2 f(c_{1,2}) + P_3 f(c_{1,3})}\\
+.., j=2, j=3\\
+B_{1} =  \frac{1}{160/2+450/15+180/5} = 0.006849315 \\ 
+B_{2} =  \frac{1}{160/15+450/2+180/10} = 0.003942181 \\
+B_{3} =  \frac{1}{160/5+450/10+180/2} = 0.005988024 \\
 $$
 ```{r}
-B_ij <- matrix(P_i) %*% (1/(t((matrix(P_i))) %*% (1/C))) 
-B_ij_longer <- B_ij
-rownames(B_ij_longer) <- c("1","2","3") 
-colnames(B_ij_longer) <- c("1","2","3") 
-B_ij_longer 
+B_j <- 1/(P_i %*% (1/C))
+B_j_longer <- B_j
+rownames(B_j_longer) <- c("i..") 
+colnames(B_j_longer) <- c("1","2","3") 
+B_j_longer 
 ```
+(NOTE: notably, when $B_j$ is multiplied by $P_i*f(c_{ij})$, it is a proportion (like spatial availability's total population&travel-cost balancing factor) representing how much of $O_j$ is allocated to each $i$)
 
 $V_{ij}''^{(2)}$ values:
 ```{r}
-V_dest <- (B_ij) *(V_unc) # V_unc = (1/C)* t(matrix(rep(W_j, 3), 3, 3)) 
+V_dest <- outer(P_i, as.numeric(B_j) * O_j) * (1/C) #we're not doing standard matrix multiplication here. We use 'outer' for element-wise multiplication, then element-wise multiplication of the resulting 3*3 matrix with the 3*3 impedance table
 
 P_i_dest <- V_dest |> rowSums()
 O_j_dest <- V_dest |> colSums()
 
-V_TOTAL_dest <- ifelse(sum(P_i_dest)==sum(O_j_dest), sum(V_dest), NA)
+V_TOTAL_dest <- ifelse(all.equal(sum(P_i_dest),sum(O_j_dest)), sum(V_dest), NA)
 V_dest_longer <- cbind(V_dest,P_i_dest)
 V_dest_longer <- rbind(V_dest_longer, cbind(t(O_j_dest),V_TOTAL_dest))
 
@@ -457,16 +463,58 @@ colnames(V_dest_longer) <- c("1","2","3", "TOTAL")
 V_dest_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
-The $O_j$ values are equal to the known opportunities, whereas the $P_i$ values are not. The total accessibility in the region is maintained at 790. Each $V_{ij}$ can be interpreted as the number of opportunities accessible from each destination by anyone in the region all weighted by travel cost of course. 
+The $O_j$ values (bottom row) are equal to the known opportunities at each $j$, whereas the $P_i$ values (right-most column) are not. The total accessibility in the region is maintained at 790. Each $V_{ij}$ can be interpreted as $O_j$ weighted by the proportional balancing factor e.g., "the number of opportunities accessible from $j$ by the population at $i$" all weighted by travel cost, of course. Use this formulation of the singly-constrained case when the number of opportunities, at each $j$, that are being competed for by the population is known but the precise number of population that is competiting for opportunities is not. For example, public schools as a destination in a region where all children attend them. All school-seats at $j$ are open to all children at all $i$s. However, not all population $i$ are equally interested in school-seats at all $j$s (e.g., some prefer special programs, teachers, etc.); and we do not know this precise population $i$ to $j$ number. Hence, an opportunity-constrained version of the singly-constrained case is appropriate. 
 
-Example of solving the population-constrained $V_i''^{(1)}$:
-<!-- COMEBACKHERE -->
+However, the population-constrained version of the singly-constrained case can be appropriate in the converse situation. Consider the case of public urgent care clinics in a region where all people use them equally. Unlike schools, all population at $i$ are equally interested in urgent-care-seats at all clinics $j$. If there's an emergency, or not, they will visit. However, from an operational perspective all clinics at $j$ are _not_ interested in serving all people (e.g., they'd rather serve people who have access to primary care medicine as they are more likely to seek urgent care in actual medical emergencies). From this perspective, using a _population-constrained_ version of the singly-constrained case $V_i''^{(1)}$, is appropriate. Each $V_{ij}$ can be interpreted as $P_i$ weighted by the proportional balancing factor e.g., "the number of population accessible from $i$ by the opportunities at $j$" all weighted by travel cost, of course. 
 
+In $V_i''^{(1)}$, the following is $A_i$ assuming $B_{j}$ is 1:
+$$
+A_{i} = \frac{1}{\sum_j 1* O_j f(c_{ij})}\\
+A_{i=1} = \frac{1}{O_1 f(c_{1,1}) + O_2 f(c_{1,2}) + O_3 f(c_{1,3})}\\
+.., i=2, i=3\\
+A_{1} =  \frac{1}{160/2+437/15+193/5} = 0.006768953 \\ 
+A_{2} =  \frac{1}{160/15+437/2+193/10} = 0.004024685 \\
+A_{3} =  \frac{1}{160/5+437/10+193/2} = 0.005807201 \\
+$$
+```{r}
+A_i <- 1/((1/C) %*% O_j)
+A_i_longer <- A_i
+rownames(A_i_longer) <- c("1","2","3") 
+colnames(A_i_longer) <- c("j...") 
+A_i_longer 
+```
+(AGAIN NOTE: when $A_i$ is multiplied by $O_j*f(c_{ij})$, it is a proportion (like spatial availability's total balancing factor) representing how much of $P_i$ is allocated from each $i$, I think. e.g. each $V_{ij}$ is the proportional opportunity&travel-cost balancing factor of $A_{i} W_j^{(2)}f(c_{ij})$ multiplied by $P_i$)
 
-### Doubly constrained case (population-opportunity constrained)
+The resulting $V_{ij}''^{(1)}$ values:
+```{r}
+V_orig <- outer(as.numeric(A_i) * P_i, O_j) * (1/C) #we're not doing standard matrix multiplication here. We use 'outer' for element-wise multiplication, then element-wise multiplication of the resulting 3*3 matrix with the 3*3 impedance table
 
-(only when the units of the marginals are the same, therefore of more limited application)
+P_i_orig <- V_orig |> rowSums()
+O_j_orig <- V_orig |> colSums()
+
+V_TOTAL_orig <- ifelse(all.equal(sum(P_i_orig),sum(O_j_orig)), sum(V_orig), NA)
+V_orig_longer <- cbind(V_orig,P_i_orig)
+V_orig_longer <- rbind(V_orig_longer, cbind(t(O_j_orig),V_TOTAL_orig))
+
+rownames(V_orig_longer) <- c("1","2","3", "TOTAL") 
+colnames(V_orig_longer) <- c("1","2","3", "TOTAL")
+
+V_orig_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+```
+
+In this version of the singly-constrained case, the population is constrained so the $P_i$ values (right-most column) are equal to the known population, whereas the $O_j$ values (bottom row) is not. The total accessibility in the region is maintained at 790. 
+To reiterate, each  $V_{ij}$ can be interpreted as  "the number of population accessible from $i$ by the opportunities at $j$" all weighted by travel cost, of course. 
+
+### Doubly-constrained case (population-opportunity constrained)
+
+In the case of SIM calibrated for accessibility, the doubly-constrained case has more limited applications than the singly-constrained case because the double constraints (both marginals) are so specific. In this case, the units of the population and opportunities must be able to be understood as the same. E.g., the number of population at $i$ that seek opportunities at each $j$ and the number of opportunities at $j$ that are saught by population at each $i$ must both be known to match. 
+
+In our examples of children and schools, and urgent care clincs and all people, they could be solved as doubly-constrained if additional information was known. In the case of urgent care children and schools, if the number of children at $i$ that visit specific schools $j$ was additionally known: then the doubly-constrained $V_{ij}$ could be interpreted as "the number of school-seats accessible from $j$ by the students at $i$ " OR "the number of students accessible from $i$ by the school-seats at $j$" - they would be equivalent statements. If you sub in 'urgent-care-seats' for 'school-seats' and 'population' for 'students', you'd have the analogous interpretation for the doubly-constrained case for urgent care clinics described. 
+
+Literature has explored 'doubly-constrained' but -- not the same: ,etc. 
 ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAccess2020
+
+In this case, $V_{ij}$ would be:
 ```{r}
 doubly_constrained_gravity_model <- function(
     #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R
@@ -581,10 +629,10 @@ colnames(V_doubly_longer) <- c("1","2","3", "TOTAL")
 V_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
-
+Nice. 
 
 ### Hybrid singly-constrained case: 
-<!--NOTE TO SELF: where does E2SFCA and 3SFCA fit?? Maybe here-->
+<!--NOTE TO SELF: where does E2SFCA and 3SFCA fit?? Maybe here. Maybe BFCA? -->
 Balanced floating catchment areas (not truly doubly constrained)
 
 # Empirical examples
@@ -595,14 +643,17 @@ Use the TTS2016R package to illustrate every measure.
 
 When to use each of these measures?
 
+
+
 # Conclusions
 
+Accessibility development has a rich history. There have been developments in the cases/breath of travel impedance functions, competition considerations, and in incorporating individual choice as part of activity-based accessibility. However, no work yet has examined accessibilities explicit connecting to SIM. We examine this connection, and provide a origin-destination ($i$ to $j$) formulation of accessibility as part of the SIM framework. Novel stuff.
 
-# APPENDIX (some musings...)
+# APPENDIX (some musings... destined for the commented-out graveyard)
 
 ## Singly-constrained case is spatial availability
 
-The destination-constrained case is also spatial availability, see below! As follows then, this case is also related to 2SFCA - if the value is divided by per capita (OR $P_i$ from the numerator in $B_{ij}$ is removed).
+The destination-constrained case is also spatial availability, see below! As follows then, this case is also related to 2SFCA - if the value is divided by per capita (OR $P_i$ from the numerator in $B_{j}$ is removed).
 
 Spatial availability is formulated like so:
 $$
@@ -619,6 +670,7 @@ V_{ij}''^{(2)} =k O_j f(c_{ij})\\
 V_{ij}''^{(2)} =\frac{ P_i}{\sum_i P_i f(c_{ij})} O_j f(c_{ij})\\
 V_{ij}''^{(2)} =  O_j\frac{F^p_{ij} \cdot F^c_{ij}}{\sum_{i=1}^K F^p_{ij} \cdot F^c_{ij}} = O_j \frac{ P_i  f(c_{ij})}{\sum_i P_i f(c_{ij})}\\
 $$
+
 ## Checking singly-constrained case against spatial availability
 ```{r}
 sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
@@ -692,9 +744,9 @@ df |> group_by(j) |> summarise(V_j = sum(V_ij))
 
 Then the origin-constrained (singly-constrained) case $V_{ij}^{(1)}$, no $P_i$ values are needed only $O_j$ values. Using this method, V_i values equal P_i values...? while O_j values are unconstrained. This case may be helpful in an example where the number of opportunities available to an origin is known and fixed. This could be a normative minimum threshold, such as 100 opportunities at each origin. 
 
-Returning to our simple example, the origin-constrained singly-constrained case would yield the following $A_{ij}$ values:
+Returning to our simple example, the origin-constrained singly-constrained case would yield the following $A_{i}$ values:
 $$
-A_{ij} = \frac{O_{j}}{\sum_j O_j f(c_{ij})}\\
+A_{i} = \frac{O_{j}}{\sum_j O_j f(c_{ij})}\\
 A_{1,1} = \frac{O_{j}}{O_1 f(c_{1,1}) + O_2 f(c_{1,2}) + O_3 f(c_{1,3})}\\
 ...\\
 A_{1,1} = 160 *\frac{1}{160/2+437/15+193/5} = 1.083032 \\ 
@@ -724,7 +776,7 @@ Starting off with this opportunity matrix, namely - at i=1, only a fixed number 
 
 $V_{ij}$ values:
 ```{r}
-V_orig <- (A_ij) * t(V_unc) # V_unc = (1/C)* t(matrix(rep(W_j, 3), 3, 3)) #if you transpose the matrix here, that's another way of generating the answer. 
+V_orig <- (A_ij) * t(S_non) #S_non -> (1/C)* t(matrix(rep(O_j, 3), 3, 3)) #if you transpose the matrix here, that's another way of generating the answer. 
 
 P_i_orig <- V_orig |> rowSums()
 O_j_orig<- V_orig |> colSums()
