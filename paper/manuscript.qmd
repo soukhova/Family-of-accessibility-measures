@@ -25,22 +25,6 @@ library(gt) # Easily Create Presentation-Ready Display Tables
 library(here) # A Simpler Way to Find Your Files
 library(knitr) # A General-Purpose Package for Dynamic Report Generation in R
 library(tidytext) # Text Mining using 'dplyr', 'ggplot2', and Other Tidy Tools
-# library(huxtable) # Easily Create and Style Tables for LaTeX, HTML and Other Formats
-# library(kableExtra) # Construct Complex Table with 'kable' and Pipe Syntax
-# library(patchwork) # The Composer of Plots
-# library(RColorBrewer) # ColorBrewer Palettes
-# library(sf) # Simple Features for R
-# library(scales) # Scale Functions for Visualization
-# library(shadowtext) # Shadow Text Grob and Layer
-# library(skimr) # Compact and Flexible Summaries of Data
-# library(spdep) # Spatial Dependence: Weighting Schemes, Statistics
-# library(tidyr) # Tidy Messy Data
-# library(tmap) # Thematic Maps
-# library(ggpmisc) # Miscellaneous Extensions to 'ggplot2'
-# library(ggrepel) # Automatically Position Non-Overlapping Text Labels with 'ggplot2'
-# library(ggspatial) # Spatial Data Framework for ggplot2
-# library(gridExtra) # Miscellaneous Functions for "Grid" Graphics 
-# library(here) # A Simpler Way to Find Your Files
 ```
 
 # Introduction
@@ -849,29 +833,54 @@ Literature has explored 'doubly-constrained' but -- not the same: , etc. Ex. @ho
 # Simple numerical example
 
 The following is the known accessibility matrix. The $V_{ij}$, the number of jobs spatially accessible at $i$ from destination $j$. The TOTALs are the $V_i$ and $V_j$, the total number of jobs spatially available at $i$ and the number of jobs spatially available from $j$.
+
+The following vectors are the population by origin ($O_i$) and the opportunities by destination $D_j$:
+
+<!--Check here, the number of physicians per 10,000 in Canada in 2022 was 24.97
+https://en.wikipedia.org/wiki/List_of_countries_by_number_of_physicians -->
 ```{r}
-known_matrix <- matrix(c(95,23,42, 27,378,45, 38,36,106), ncol = 3, byrow = TRUE)
-#unknowns <- matrix(c(rep(NA,9)), ncol=3, byrow=TRUE)
-P_i <- known_matrix |> rowSums()
-O_j <- known_matrix |> colSums()
-V <- ifelse(sum(P_i)==sum(O_j), sum(O_j),NA)
-knowns_longer <- cbind(known_matrix,P_i)
-knowns_longer <- rbind(knowns_longer,cbind(t(O_j),T))
+#| label: simple-numerical-example-opportunities-and-population
 
-rownames(knowns_longer) <- c("1","2","3", "TOTAL") 
-colnames(knowns_longer) <- c("1","2","3", "TOTAL")
-
-knowns_longer #|> as.data.frame() |> round() |> gt(rownames_to_stub=TRUE)
+id <- c("1", "2", "3")
+O_i <- c(4, 10, 6) 
+D_j <- c(160, 150, 180)
+LU <- data.frame(id, O_i, D_j)
 ```
 
-And the matrix of cost of travel from $i$ (rows) to $j$ (columns) is as follows:
 ```{r}
-C <- matrix(c(2, 15, 5, 15, 2, 10, 5, 10, 2), ncol = 3, byrow = TRUE)
-C_longer <-C
-rownames(C_longer) <- c("1","2","3") 
-colnames(C_longer) <- c("1","2","3") 
-C_longer #|> as.data.frame() |> gt(rownames_to_stub=TRUE)
+LU
 ```
+
+Think of $O_i$ as population in 10,000 and $D_j$ as number of physicians. The Provider-to-Population-Ratio (PPR) is:
+```{r}
+sum(LU$D_j) / sum(LU$O_i)
+```
+
+And the cost of travel from $i$ to $j$ is as follows:
+```{r}
+#| label: simple-numerical-example-cost
+
+# Simulate a table with OD cost for the simple example, beginning with the ids, the cost, and then two impedance functions 
+C <- expand.grid(oid = c("1", "2", "3"),
+                 did = c("1", "2", "3")) |>
+  mutate(cost = c(2, 15, 5, 15, 2, 10, 5, 10, 2)) |>
+  mutate(f1 = exp(-1.00000 * cost^2), 
+         f2 = exp(-0.01000 * cost^2),
+         f3 = exp(-0.00001 * cost^2))
+```
+
+```{r}
+C |> select(oid, did, cost)
+```
+
+For comparison, use three different impedance functions:
+$$
+\begin{array}{l}
+f_1(c_{ij}) = exp(-c_{ij}^2)\\
+f_2(c_{ij}) = exp(-0.01\cdot c_{ij}^2)\\
+f_3(c_{ij}) = exp(-0.00001\cdot c_{ij}^2)
+\end{array}
+$$
 
 ## Unconstrained accessibility 
 
@@ -881,28 +890,84 @@ $S_i$ reflects the magnitude of opportunity accessibility but it is not scaled t
 
 In solving the example, each origin (row) all the opportunities at each destination are available. Likewise, each destination (column) offers all opportunities to each origin: 
 ```{r}
-O_P_non <- t(matrix(rep(O_j, 3), 3, 3))
-O_P_non_longer <- O_P_non
-rownames(O_P_non_longer) <- c("1","2","3") 
-colnames(O_P_non_longer) <- c("1","2","3")
-O_P_non_longer
+#| label: simple-numerical-example-OD-table
+
+OD <- C |>
+  left_join(LU |>
+              select(-D_j),
+            by = c("oid" = "id")) |>
+  left_join(LU |>
+              select(-O_i),
+            by = c("did" = "id"))
 ```
 
-The resulting matrix of $S_{ij}$ along with the $S_i$ and $S_j$ totals for this example:
 ```{r}
-S_non <- O_P_non / C
+unc_acc_ij <- OD |>
+  group_by(oid) |>
+  reframe(V_unc_ij_1 = D_j * f1,
+            V_unc_ij_2 = D_j * f2,
+            V_unc_ij_3 = D_j * f3)
 
-P_i_non <- S_non |> rowSums()
-O_j_non <- S_non |> colSums()
-S_TOTAL_non <- ifelse(sum(P_i_non|>round())==sum(O_j_non|>round()), sum(S_non), NA)
-S_non_longer <- cbind(S_non,P_i_non)
-S_non_longer <- rbind(S_non_longer, cbind(t(O_j_non),S_TOTAL_non))
+unc_acc <- unc_acc_ij |>
+  group_by(oid) |>
+  summarize(V_unc_i_1 = sum(V_unc_ij_1),
+            V_unc_i_2 = sum(V_unc_ij_2),
+            V_unc_i_3 = sum(V_unc_ij_3))
 
-rownames(S_non_longer) <- c("1","2","3", "TOTAL") 
-colnames(S_non_longer) <- c("1","2","3", "TOTAL")
-
-S_non_longer |> round(digits = 2) #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+unc_acc
 ```
+
+Compare the accessibility differences and between pairs of zone using the two different impedance functions: 
+```{r}
+unc_acc$V_unc_i_1[2] - unc_acc$V_unc_i_1[1]
+unc_acc$V_unc_i_2[2] - unc_acc$V_unc_i_2[1]
+unc_acc$V_unc_i_3[2] - unc_acc$V_unc_i_3[1]
+
+unc_acc$V_unc_i_1[2]/unc_acc$V_unc_i_1[1]
+unc_acc$V_unc_i_2[2]/unc_acc$V_unc_i_2[1]
+unc_acc$V_unc_i_3[2]/unc_acc$V_unc_i_3[1]
+```
+
+This illustrates how the differences and ratios are not meaningful.
+
+The total accessibility compared to the number of opportunities:
+```{r}
+unc_acc <- unc_acc |> 
+  left_join(LU |>
+              select(-D_j),
+            by = c("oid" = "id"))
+
+unc_acc  |>
+  summarize(V_unc_1 = sum(V_unc_i_1),
+            V_unc_2 = sum(V_unc_i_2),
+            V_unc_3 = sum(V_unc_i_3))
+
+LU |>
+  summarize(O = sum(D_j))
+```
+
+And the ratio of accessibility to population compared to the ratio of opportunities to population:
+```{r}
+# Accessibility divided by population
+unc_acc |> 
+  mutate(v_unc_1 = V_unc_i_1/O_i,
+            v_unc_2 = V_unc_i_2/O_i,
+            v_unc_3 = V_unc_i_3/O_i)
+
+# Sum of the accessibility divided by the total population
+unc_acc |> 
+  summarize(v_unc_1 = sum(V_unc_i_1)/sum(O_i),
+            v_unc_2 = sum(V_unc_i_2)/sum(O_i),
+            v_unc_3 = sum(V_unc_i_3)/sum(O_i))
+
+# Sum of the opportunities divided by the total population
+LU |> 
+  summarize(PPR = sum(D_j)/sum(O_i))
+```
+
+Notice the wild differences. Accessibility according to impedance function 3 basically says that everyone has access to all opportunities all at once. Accessibility according to function 1, on the other hand, says that each population has accessibility to around 3 opportunities, which is absurd: the number of opportunities available locally are in the order of 150-180. One should not have to adjust the impedance function to obtain "reasonable" results [EXAMPLE]; instead, the impedance function should reflect the travel behavior.
+
+**PREVIOUS TEXT FOLLOWS: REVISE DISCUSSION**
 
 We'd report origin 1 as having 148 accessibility (i.e., $S_{i=1} = 148$), origin 2 as 248 accessibility, and origin 3 as 172 accessibility. The total accessibility in the region is 568 ($\sum_i S_{i} = 568$), not equal to any meaningful value. This value is not often reported in the accessibility literature for this reason. One could also report the accessibility values that destinations offers ($S_{j}$), namely destination 1 offers 123, destination 2 offer 291, and destination 3 offers 154. However, these values are also not reported in the literature currently... as they aren't constrained to match up to anything known, including the number of opportunities at each j (i.e., 160, 437 and 193). Assuming $k=1$, $S_i$ and $S_j$ represent magnitudes of accessibility concepts, but in an nonconstrained way. The population matrix is not incorporated in the $S_{ij}$ calculation, so $S_i$ cannot be directly compared to population. From a different perspective, $S_j$ values also cannot be compared to known $O_j$ values as the equation unconstrained. 
 
@@ -910,7 +975,11 @@ OF NOTE: in the context of spatial interaction modelling, this nonconstrained ve
 
 Accessibility, or the _potential_ for interaction is different than interaction ($V_{ij}$ vs. $T_{ij}$), namely since the number of opportunities that are accessible at an origin from a destination cannot be known in the same way as a trip from an origin to a destination. However, we would argue that getting closer to knowing this number and planning for it - is what accessibility research should strive to capture. An origin-destination based accessibility value $V_{ij}$. We demonstrate the following three cases sub-sequently.
 
+**END OF PREVIOUS TEXT** 
+
 ## Total constrained accessibility
+
+**PREVIOUS TEXT FOLLOWS: REVISE DISCUSSION**
 
 Solved for our example, $K$ is equal to the total accessibility $V$, the only thing we know: either all the opportunities $O$ or all the population $P$, divided by remaining part of the equation. In the following, we assume our spatial weights matrix only reflects $W_j^(2)$ as $O_j$ and $W_i^{(1)}$ is uniform (1):
 $$
@@ -923,25 +992,91 @@ k = 1.389866
 \end{array}
 $$
 
+**END OF PREVIOUS TEXT**
+
+Calculate the balancing factors/proportionality constants:
 ```{r}
-K <- V/sum(S_non) #S_non -> (1/C)* t(matrix(rep(O_j, 3), 3, 3))
-V_tot <- K * S_non 
-
-P_i_tot <- V_tot |> rowSums()
-D_j_tot <- V_tot |> colSums()
-V_TOTAL_tot <- ifelse(sum(P_i_tot)==sum(D_j_tot), sum(V_tot), NA)
-V_tot_longer <- cbind(V_tot,P_i_tot)
-V_tot_longer <- rbind(V_tot_longer, cbind(t(D_j_tot),V_TOTAL_tot))
-
-rownames(V_tot_longer) <- c("1","2","3", "TOTAL") 
-colnames(V_tot_longer) <- c("1","2","3", "TOTAL")
-
-V_tot_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+k_tot <- unc_acc_ij |> 
+  summarize(k1 = sum(LU$D_j)/sum(V_unc_ij_1),
+            k2 = sum(LU$D_j)/sum(V_unc_ij_2),
+            k3 = sum(LU$D_j)/sum(V_unc_ij_3))
 ```
 
-While we can see that the 'number of potentially reachable opportunities' `r V` results, the total access at a each $i$ or $j$ is not equal to the known known total access ends (because these constraints are not specified and thus not satisfied by the model). This approach is not yet seen in accessibility literature, but could be an intelligible way to compare accessibility values ($V_i$ or $V_j$) without considering the population matrix. 
+Use these proportionality constants to calculate the total opportunity constrained accessibility:
+```{r}
+tot_acc_ij <- unc_acc_ij |>
+  mutate(V_tot_ij_1 = k_tot$k1 * V_unc_ij_1,
+         V_tot_ij_2 = k_tot$k2 * V_unc_ij_2,
+         V_tot_ij_3 = k_tot$k3 * V_unc_ij_3)
+
+tot_acc <- tot_acc_ij |>
+  group_by(oid) |>
+  summarize(V_tot_i_1 = sum(V_tot_ij_1),
+            V_tot_i_2 = sum(V_tot_ij_2),
+            V_tot_i_3 = sum(V_tot_ij_3))
+  
+tot_acc |>
+  select(oid, starts_with("V_"))
+```
+
+Compare the accessibility differences and between pairs of zone using the two different impedance functions: 
+```{r}
+tot_acc$V_tot_i_1[2] - tot_acc$V_tot_i_1[1]
+tot_acc$V_tot_i_2[2] - tot_acc$V_tot_i_2[1]
+tot_acc$V_tot_i_3[2] - tot_acc$V_tot_i_3[1]
+
+tot_acc$V_tot_i_1[2]/tot_acc$V_tot_i_1[1]
+tot_acc$V_tot_i_2[2]/tot_acc$V_tot_i_2[1]
+tot_acc$V_tot_i_3[2]/tot_acc$V_tot_i_3[1]
+```
+
+This illustrates how the differences and ratios are now meaningful.
+
+The total accessibility compared to the number of opportunities:
+```{r}
+tot_acc <- tot_acc |> 
+  left_join(LU |>
+              select(-D_j),
+            by = c("oid" = "id"))
+
+tot_acc  |>
+  summarize(V_tot_1 = sum(V_tot_i_1),
+            V_tot_2 = sum(V_tot_i_2),
+            V_tot_3 = sum(V_tot_i_3))
+
+LU |>
+  summarize(O = sum(D_j))
+```
+
+This shows how the number of opportunities is preserved.
+
+And the ratio of accessibility to population compared to the ratio of opportunities to population:
+```{r}
+# Accessibility divided by population
+tot_acc |> 
+  mutate(v_tot_1 = V_tot_i_1/O_i,
+            v_tot_2 = V_tot_i_2/O_i,
+            v_tot_3 = V_tot_i_3/O_i)
+
+# Sum of the accessibility divided by the total population
+tot_acc |> 
+  summarize(v_tot_1 = sum(V_tot_i_1)/sum(O_i),
+            v_tot_2 = sum(V_tot_i_2)/sum(O_i),
+            v_tot_3 = sum(V_tot_i_3)/sum(O_i))
+
+# Sum of the opportunities divided by the total population
+LU |> 
+  summarize(PPR = sum(D_j)/sum(O_i))
+```
+
+
+**PREVIOUS TEXT FOLLOWS: REVISE DISCUSSION**
+
+While we can see that the 'number of potentially reachable opportunities' V results, the total access at a each $i$ or $j$ is not equal to the known known total access ends (because these constraints are not specified and thus not satisfied by the model). This approach is not yet seen in accessibility literature, but could be an intelligible way to compare accessibility values ($V_i$ or $V_j$) without considering the population matrix. 
 
 This case can be reformulated if the spatial weights matrix reflects only weights at the origin $W_i^(1)$ such as population $P_i$ and $W_j^(2)$ is unknown/irrelevant. 
+
+**END OF PREVIOUS TEXT**
 
 ## Singly-constrained accessibility: attraction-constrained 
 
@@ -968,7 +1103,9 @@ Solving for the destination-constrained case $V_{ij}^{''(2)}$ may be helpful in 
 From our review, related versions of this defined destination-constrained accessibility are formulaically similar to retail accessibility models e.g., decision model for shops to optimally spatially locate to maximize their potential consumer interaction. Starting with reilly's law of gravitational retail [@reilly1929methods], formalized later in @huffDefiningEstimatingTrading1964 and @lakshmananRetailMarketPotential1965. Other literature also demonstrates  similar _competition_ considerations through its analytical formulation; for instance, in the Intervening Opportunities model [@stoufferInterveningOpportunitiesTheory1940; @stoufferINTERVENINGOPPORTUNITIESCOMPETING1960] "axiomatically" @weibull_axiomatic_1976, and competition consideration expressed as a per population rate particularly in healthcare and job opportunity accessibility analysis [@shen1998], and 2FCA methods in general [@soukhovIntroducingSpatialAvailability2023]. Most of these works do not explicitly focus on balancing accessibility units; rather, they center on _competition_ considerations. We suspect this may be why they have been used in case studies examining access to opportunities that are inherently competitive or where the concept of supply and demand resonates. It was only until the recent work of [@soukhovIntroducingSpatialAvailability2023], where the units of accessibility given competition, e.g., the spatial availability, was introduced with the focus on both competition and balanced units.
 -->
 
-Returning to our simple example, the opportunity-constrained singly-constrained case would yield the following $B_{j}$ values assuming $A_{i}$ is 1:
+**PREVIOUS TEXT FOLLOWS: REVISE DISCUSSION**
+
+Returning to our simple example, the attraction-constrained case would yield the following $B_{j}$ values assuming $A_{i}$ is 1:
 
 $$
 B_{j} = \frac{1}{\sum_i P_i f(c_{ij})}\\
@@ -982,38 +1119,103 @@ B_{3} =  \frac{1}{160/5+450/10+180/2} = 0.005988024
 \end{array}
 $$
 
+**END OF PREVIOUS TEXT**
+
+Balancing factors $B_j$:
 ```{r}
-B_j <- 1/(P_i %*% (1/C))
-B_j_longer <- B_j
-rownames(B_j_longer) <- c("i..") 
-colnames(B_j_longer) <- c("1","2","3") 
-B_j_longer 
+B_j <- OD |> 
+  group_by(did) |>
+  summarize(B_j_1 = 1/sum(O_i * f1),
+            B_j_2 = 1/sum(O_i * f2),
+            B_j_3 = 1/sum(O_i * f3))
+
+B_j
 ```
+
+Use these proportionality constants to calculate the total opportunity constrained accessibility:
+```{r}
+opp_acc_ij <- OD |>
+  left_join(B_j,
+            by = "did") |>
+  mutate(V_opp_ij_1 = B_j_1  * O_i * D_j * f1,
+         V_opp_ij_2 = B_j_2  * O_i * D_j * f2,
+         V_opp_ij_3 = B_j_3  * O_i * D_j * f3)
+
+opp_acc <- opp_acc_ij |>
+  group_by(oid) |>
+  summarize(V_opp_i_1 = sum(V_opp_ij_1),
+            V_opp_i_2 = sum(V_opp_ij_2),
+            V_opp_i_3 = sum(V_opp_ij_3))
+  
+opp_acc  |>
+  select(oid, starts_with("V_"))
+```
+
+Compare the accessibility differences and between pairs of zone using the two different impedance functions: 
+```{r}
+opp_acc$V_opp_i_1[2] - opp_acc$V_opp_i_1[1]
+opp_acc$V_opp_i_2[2] - opp_acc$V_opp_i_2[1]
+opp_acc$V_opp_i_3[2] - opp_acc$V_opp_i_3[1]
+
+opp_acc$V_opp_i_1[2] / opp_acc$V_opp_i_1[1]
+opp_acc$V_opp_i_2[2] / opp_acc$V_opp_i_2[1]
+opp_acc$V_opp_i_3[2] / opp_acc$V_opp_i_3[1]
+```
+
+This illustrates how the differences and ratios are now meaningful.
+
+The total accessibility compared to the number of opportunities:
+```{r}
+opp_acc <- opp_acc |> 
+  left_join(LU |>
+              select(-D_j),
+            by = c("oid" = "id"))
+
+opp_acc  |>
+  summarize(V_opp_1 = sum(V_opp_i_1),
+            V_opp_2 = sum(V_opp_i_2),
+            V_opp_3 = sum(V_opp_i_3))
+
+LU |>
+  summarize(O = sum(D_j))
+```
+
+This shows how the number of opportunities is preserved.
+
+And the ratio of accessibility to population compared to the ratio of opportunities to population:
+```{r}
+# Accessibility divided by population
+opp_acc |> 
+  mutate(v_opp_1 = V_opp_i_1/O_i,
+            v_opp_2 = V_opp_i_2/O_i,
+            v_opp_3 = V_opp_i_3/O_i)
+
+# Sum of the accessibility divided by the total population
+opp_acc |> 
+  summarize(v_opp_1 = sum(V_opp_i_1)/sum(O_i),
+            v_opp_2 = sum(V_opp_i_2)/sum(O_i),
+            v_opp_3 = sum(V_opp_i_3)/sum(O_i))
+
+# Sum of the opportunities divided by the total population
+LU |> 
+  summarize(PPR = sum(D_j)/sum(O_i))
+```
+
+**PREVIOUS TEXT FOLLOWS: REVISE DISCUSSION**
 
 (NOTE: notably, when $B_j$ is multiplied by $P_i*f(c_{ij})$, it is a proportion (like spatial availability's total population&travel-cost balancing factor) representing how much of $O_j$ is allocated to each $i$)
-
-$V_{ij}''^{(2)}$ values:
-```{r}
-V_dest <- outer(P_i, as.numeric(B_j) * O_j) * (1/C) #we're not doing standard matrix multiplication here. We use 'outer' for element-wise multiplication, then element-wise multiplication of the resulting 3*3 matrix with the 3*3 impedance table
-
-P_i_dest <- V_dest |> rowSums()
-O_j_dest <- V_dest |> colSums()
-
-V_TOTAL_dest <- ifelse(all.equal(sum(P_i_dest),sum(O_j_dest)), sum(V_dest), NA)
-V_dest_longer <- cbind(V_dest,P_i_dest)
-V_dest_longer <- rbind(V_dest_longer, cbind(t(O_j_dest),V_TOTAL_dest))
-
-rownames(V_dest_longer) <- c("1","2","3", "TOTAL") 
-colnames(V_dest_longer) <- c("1","2","3", "TOTAL")
-
-V_dest_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
-```
 
 The $O_j$ values (bottom row) are equal to the known opportunities at each $j$, whereas the $P_i$ values (right-most column) are not. The total accessibility in the region is maintained at 790. Each $V_{ij}$ can be interpreted as $O_j$ weighted by the proportional balancing factor e.g., "the number of opportunities accessible from $j$ by the population at $i$" all weighted by travel cost, of course. Use this formulation of the singly-constrained case when the number of opportunities, at each $j$, that are being competed for by the population is known but the precise number of population that is competiting for opportunities is not. For example, public schools as a destination in a region where all children attend them. All school-seats at $j$ are open to all children at all $i$s. However, not all population $i$ are equally interested in school-seats at all $j$s (e.g., some prefer special programs, teachers, etc.); and we do not know this precise population $i$ to $j$ number. Hence, an opportunity-constrained version of the singly-constrained case is appropriate. 
 
 However, the population-constrained version of the singly-constrained case can be appropriate in the converse situation. Consider the case of public urgent care clinics in a region where all people use them equally. Unlike schools, all population at $i$ are equally interested in urgent-care-seats at all clinics $j$. If there's an emergency, or not, they will visit. However, from an operational perspective all clinics at $j$ are _not_ interested in serving all people (e.g., they'd rather serve people who have access to primary care medicine as they are more likely to seek urgent care in actual medical emergencies). From this perspective, using a _population-constrained_ version of the singly-constrained case $V_i''^{(1)}$, is appropriate. Each $V_{ij}$ can be interpreted as $P_i$ weighted by the proportional balancing factor e.g., "the number of population accessible from $i$ by the opportunities at $j$" all weighted by travel cost, of course. 
 
-In $V_i''^{(1)}$, the following is $A_i$ assuming $B_{j}$ is 1:
+**END OF PREVIOUS TEXT**
+
+## Singly-constrained accessibility: production-constrained 
+
+**PREVIOUS TEXT FOLLOWS: REVISE DISCUSSION**
+
+Returning to our simple example, the production-constrained case would yield the following $A_{j}$:
 
 $$
 A_{i} = \frac{1}{\sum_j O_j f(c_{ij})}\\
@@ -1027,40 +1229,103 @@ A_{3} =  \frac{1}{160/5+437/10+193/2} = 0.005807201
 \end{array}
 $$
 
+**END OF PREVIOUS TEXT**
+
+Balancing factors $A_i$:
 ```{r}
-A_i <- 1/((1/C) %*% O_j)
-A_i_longer <- A_i
-rownames(A_i_longer) <- c("1","2","3") 
-colnames(A_i_longer) <- c("j...") 
-A_i_longer 
+A_i <- OD |> 
+  group_by(oid) |>
+  summarize(A_i_1 = 1/sum(D_j * f1),
+            A_i_2 = 1/sum(D_j * f2),
+            A_i_3 = 1/sum(D_j * f3))
+
+A_i
 ```
 
-(AGAIN NOTE: when $A_i$ is multiplied by $O_j*f(c_{ij})$, it is a proportion (like spatial availability's total balancing factor) representing how much of $P_i$ is allocated from each $i$, I think. e.g. each $V_{ij}$ is the proportional opportunity&travel-cost balancing factor of $A_{i} W_j^{(2)}f(c_{ij})$ multiplied by $P_i$)
-
-The resulting $V_{ij}''^{(1)}$ values:
+Use these proportionality constants to calculate the total opportunity constrained accessibility:
 ```{r}
-V_orig <- outer(as.numeric(A_i) * P_i, O_j) * (1/C) #we're not doing standard matrix multiplication here. We use 'outer' for element-wise multiplication, then element-wise multiplication of the resulting 3*3 matrix with the 3*3 impedance table
+pop_acc_ij <- OD |>
+  left_join(A_i,
+            by = "oid") |>
+  mutate(V_pop_ij_1 = A_i_1  * O_i * D_j * f1,
+         V_pop_ij_2 = A_i_2  * O_i * D_j * f2,
+         V_pop_ij_3 = A_i_3  * O_i * D_j * f3)
 
-P_i_orig <- V_orig |> rowSums()
-O_j_orig <- V_orig |> colSums()
-
-V_TOTAL_orig <- ifelse(all.equal(sum(P_i_orig),sum(O_j_orig)), sum(V_orig), NA)
-V_orig_longer <- cbind(V_orig,P_i_orig)
-V_orig_longer <- rbind(V_orig_longer, cbind(t(O_j_orig),V_TOTAL_orig))
-
-rownames(V_orig_longer) <- c("1","2","3", "TOTAL") 
-colnames(V_orig_longer) <- c("1","2","3", "TOTAL")
-
-V_orig_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+pop_acc <- pop_acc_ij |>
+  group_by(did) |>
+  summarize(V_pop_i_1 = sum(V_pop_ij_1),
+            V_pop_i_2 = sum(V_pop_ij_2),
+            V_pop_i_3 = sum(V_pop_ij_3))
+  
+pop_acc  |>
+  select(did, starts_with("V_"))
 ```
+
+Compare the accessibility differences and between pairs of zone using the two different impedance functions: 
+```{r}
+pop_acc$V_pop_i_1[2] - pop_acc$V_pop_i_1[1]
+pop_acc$V_pop_i_2[2] - pop_acc$V_pop_i_2[1]
+pop_acc$V_pop_i_3[2] - pop_acc$V_pop_i_3[1]
+
+pop_acc$V_pop_i_1[2] / pop_acc$V_pop_i_1[1]
+pop_acc$V_pop_i_2[2] / pop_acc$V_pop_i_2[1]
+pop_acc$V_pop_i_3[2] / pop_acc$V_pop_i_3[1]
+```
+
+This illustrates how the differences and ratios are now meaningful.
+
+The total accessibility compared to the number of opportunities:
+```{r}
+pop_acc <- pop_acc |> 
+  left_join(LU |>
+              select(-O_i),
+            by = c("did" = "id"))
+
+pop_acc  |>
+  summarize(V_pop_1 = sum(V_pop_i_1),
+            V_pop_2 = sum(V_pop_i_2),
+            V_pop_3 = sum(V_pop_i_3))
+
+LU |>
+  summarize(P = sum(O_i))
+```
+
+This shows how the population is preserved.
+
+And the ratio of accessibility to population compared to the ratio of opportunities to population:
+```{r}
+# Accessibility divided by population
+pop_acc |> 
+  mutate(v_pop_1 = V_pop_i_1/O_i,
+            v_pop_2 = V_pop_i_2/O_i,
+            v_pop_3 = V_pop_i_3/O_i)
+
+# Sum of the accessibility divided by the total population
+pop_acc |> 
+  summarize(v_pop_1 = sum(V_pop_i_1)/sum(D_j),
+            v_pop_2 = sum(V_pop_i_2)/sum(D_j),
+            v_pop_3 = sum(V_pop_i_3)/sum(D_j))
+
+# Sum of the opportunities divided by the total population
+LU |> 
+  summarize(PPR = sum(O_i))/sum(D_j)
+```
+
+**PREVIOUS TEXT FOLLOWS: REVISE DISCUSSION**
 
 In this version of the singly-constrained case, the population is constrained so the $P_i$ values (right-most column) are equal to the known population, whereas the $O_j$ values (bottom row) is not. The total accessibility in the region is maintained at 790. 
 To reiterate, each  $V_{ij}$ can be interpreted as  "the number of population accessible from $i$ by the opportunities at $j$" all weighted by travel cost, of course. 
 
-## Doubly-constrained case (population-opportunity constrained)
+**END OF PREVIOUS TEXT**
 
+## Doubly-constrained case (population-opportunity constrained)
+NOTE: The example needs to be revised in this case to have the population and opportunities match, as in, one person-one opportunity
+
+<!--
 In this case, $V_{ij}$ would be:
 ```{r}
+#| eval: false
+
 doubly_constrained_gravity_model <- function(
     #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R
   O,  # Origin production weights vector
@@ -1112,7 +1377,7 @@ doubly_constrained_gravity_model <- function(
     }
 
     # Calculate Tij
-    Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix #Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix -->
+    Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix #Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix
 
     # Print Ai and Bj for this iteration
     cat("\nIteration:", iteration_count, "\n")
@@ -1151,6 +1416,8 @@ dc_results$Tij
 
 The $A_i$ and $B_j$ matrices:
 ```{r}
+#| eval: false
+
 A_i_doubly <- dc_results$Ai
 B_j_doubly <- dc_results$Bj
 
@@ -1160,6 +1427,8 @@ B_j_doubly |> matrix() |> t()
 
 The trip matrix (notice, all summed up opportunities and populations are equivalent to our knowns)
 ```{r}
+#| eval: false
+
 V_doubly <- dc_results$Tij
 
 P_i_doubly <- V_doubly |> rowSums()
@@ -1175,6 +1444,7 @@ V_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
 
 Nice. 
+-->
 
 <!--
 ### Hybrid singly-constrained case: 
@@ -1220,6 +1490,8 @@ $$
 
 ## Checking singly-constrained case against spatial availability
 ```{r}
+#| eval: false
+
 sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
 
   o_id <- rlang::enquo(o_id)
@@ -1266,6 +1538,7 @@ sp_avail <- function(x, o_id, d_id, pop, opp, r, f, alpha = 1){
 
 
 ```{r}
+#| eval: false
 
 df <- data.frame(i = c(1,1,1,2,2,2,3,3,3), 
                  j= c(1,2,3,1,2,3,1,2,3),
@@ -1309,6 +1582,8 @@ A_{3,3} = 193 *\frac{1}{160/5+437/10+193/2} = 1.1207898 \\
 $$
 
 ```{r}
+#| eval: false
+
 A_ij <- matrix(O_j) %*% (1/(t((matrix(O_j))) %*% (1/C))) |> t()
 A_ij_longer <- A_ij
 rownames(A_ij_longer) <- c("1","2","3") 
@@ -1318,11 +1593,15 @@ A_ij_longer
 
 Starting off with this opportunity matrix, namely - at i=1, only a fixed number of opportunities are accessible to this origin. same for i=2, i=3.
 ```{r}
+#| eval: false
+
 (matrix(rep(O_j, 3), 3, 3))
 ```
 
 $V_{ij}$ values:
 ```{r}
+#| eval: false
+
 V_orig <- (A_ij) * t(S_non) #S_non -> (1/C)* t(matrix(rep(O_j, 3), 3, 3)) #if you transpose the matrix here, that's another way of generating the answer. 
 
 P_i_orig <- V_orig |> rowSums()
