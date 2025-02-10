@@ -3,9 +3,10 @@ title: "Some musings Family of accessibility measures"
 format: revealjs
 ---
 ```{r}
-library(here)
-library(knitr)
-library(glue)
+library(here) # A Simpler Way to Find Your Files
+library(knitr) # A General-Purpose Package for Dynamic Report Generation in R
+library(glue) # Interpreted String Literals
+#annotater::annotate_active_file() #Cool!
 ```
 
 
@@ -590,3 +591,4 @@ colnames(V_doubly_longer) <- c("1","2","3", "TOTAL")
 
 V_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
 ```
+
