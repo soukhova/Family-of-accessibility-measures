@@ -30,6 +30,10 @@ library(here) # A Simpler Way to Find Your Files
 library(knitr) # A General-Purpose Package for Dynamic Report Generation in R
 library(tidytext) # Text Mining using 'dplyr', 'ggplot2', and Other Tidy Tools
 ```
+```{r options}
+suppressMessages(library(gt))
+options(gt.html_tag_check = FALSE)
+```
 
 # Introduction
 
@@ -165,7 +169,7 @@ $$
 T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 $${#eq-phys-gravity-model}
 
-The model in @eq-phys-gravity-model posits a quantity $T_{ij}$ that represents a value in a matrix of flows of size $n \times m$, that is, between $i = 1,\cdots, n$ origins and $j = 1,\cdots, m$ destinations. The quantities $W_i^{(1)}$ and $W_j^{(2)}$ are proxies for the masses at $i=1,\cdots,n$ origins and $j=1,\cdots,m$ destinations. Finally, $f(c_{ij})$ is the $i-j$ element of an $n \times m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In this way, $T_{ij}$ explicitly measures _interaction_ in the unit of trips, and the role of the single proportionality constant $k$ is to ensure that the system-wide sum of $T_{ij}$ represents the total flows in the data. In other words, $k$ is a scale parameter that makes the overall amount of flows identical to the magnitude of the phenomenon being modeled.
+The model in @eq-phys-gravity-model posits a quantity $T_{ij}$ that represents a value in a matrix of flows of size $n \times m$, that is, between $i = 1,\cdots, n$ origins and $j = 1,\cdots, m$ destinations. The quantities $W_i^{(1)}$ and $W_j^{(2)}$ are proxies for the masses at $i=1,\cdots,n$ origins and $j=1,\cdots,m$ destinations. Finally, $f(c_{ij})$ is the $i-j$ element of an $n \times m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In this way, $T_{ij}$ explicitly measures _interaction_ in the unit of trips, and the role of $k$ is to ensure that the system-wide sum of $T_{ij}$ represents the total flows in the data. In other words, $k$ is a scale parameter that makes the overall amount of flows identical to the magnitude of the phenomenon being modeled: it balances the units.
 
 Traditionally, development of the spatial interaction model put an emphasis on the interpretability of the results [@kirbyNormalizingFactorsGravity1970; @wilsonSTATISTICALTHEORYSPATIAL1967;@wilson1971]. But instead of relying on the heuristic of Newtonian gravity (e.g., some interaction between a mass at $i$ and a mass at $j$ separated by some distance), Wilson's approach was to maximise the entropy of the system. Entropy maximisation in this case achieves stable results as a statistical average that represents the population. The approach works by assuming undifferentiated individual interactions, and assessing their probabilities of making a particular journey. The result of @eq-phys-gravity-model then is a statistical average [@wilson1971; @seniorGravityModellingEntropy1979].
 
@@ -188,10 +192,10 @@ $${#eq-constraint2-gravitymodel}
 
 It is also possible to have information about both $O_i$ and $D_j$, in which case both constraints could be imposed on the model.
 
-Building on this, a family of spatial interaction models can be derived. In the framework introduced in @wilson1971, this includes the "unconstrained" (which we refer to as the total flow constrained) model in @eq-phys-gravity-model. The proportionality constant $k$ in this case is [see @cliff_evaluating_1974; @fotheringham_spatial_1984]:
+Building on this, a family of spatial interaction models can be derived. In the framework introduced in @wilson1971, this includes the "unconstrained" (which we refer to as the total flow constrained) model in @eq-phys-gravity-model. The balancing constant $K$ in this case is [see @cliff_evaluating_1974; @fotheringham_spatial_1984]:
 
 $$
-k=\frac{T}{\sum_i\sum_j T_{ij}}
+K=\frac{T}{\sum_i\sum_j T_{ij}}
 $${#eq-total-flow-balancing-factor}
 
 When only one of @eq-constraint1-gravitymodel or @eq-constraint2-gravitymodel holds, the resulting models are, in Wilson's terms, singly-constrained. Entropy maximisation leads to the following production-constrained model:
@@ -657,14 +661,14 @@ C |>
   as_latex()
 ```
 
-And lastly, we distinguish accessibility measure values for the following three impedance functions that represent the potential for spatial interaction travel behaviour of the population to opportunities in the region:
+And lastly, we distinguish accessibility measure values for the following three impedance functions that represent the potential for spatial interaction travel behaviour of the population to opportunities in the region are in @eq-travel-behaviour-scenarios:
 $$
 \begin{array}{l}
 f_1(c_{ij}) = \frac{1}{c_{ij}^3}\\
 f_2(c_{ij}) = \frac{1}{c_{ij}^2}\\
 f_3(c_{ij}) = \frac{1}{c_{ij}^{0.1}}
 \end{array}
-$$
+$${#eq-travel-behaviour-scenarios}
 
 Accessibility will be calculated three times for each case, one assuming the most decay ($f_1(c_{ij})$), another assuming medium decay ($f_2(c_{ij})$), and a third assuming the least decaying travel behaviour ($f_3(c_{ij})$) for the entire region. A helpful analogy may be tying travel behaviour to the used mode's mobility potential, i.e., the most decaying travel behaviour ($f_1(c_{ij})$) would assume all travel in the region being done by foot, while calculating accessibility assuming the least decay ($f_3(c_{ij})$) would assume unfettered automobility. Or alternatively, these functions could represent travel behaviour on snowstorm-affected day ($f_1(c_{ij})$) for the entire region versus a clear, ideal travel day ($f_3(c_{ij})$). As an example of a discussion on how travel behaviour has been considered in accessibility measures cost of travel see @paez2012measuring. 
 
@@ -705,6 +709,7 @@ OD <- C |>
 #| label: tbl-simple-example-unconstrained-accessibility
 #| tbl-cap: "Simple system: unconstrained accessibility."
 
+
 unc_acc_ij <- OD |>
   group_by(oid) |>
   reframe(V_unc_ij_1 = D_j * f1,
@@ -719,11 +724,11 @@ unc_acc <- unc_acc_ij |>
 
 unc_acc |>
   gt(rowname_col = "oid") |>
-  tab_stubhead(label = "Zone") |>
+  tab_stubhead(label = "Origin") |>
   tab_spanner(label = "{{V[_i^0]}}",
               columns = 2:4,
               level = 2) |>
-  tab_spanner(label = "{{f_1 (c_ij ) = 1/c[_ij^3]}}",
+  tab_spanner(label = "{{f_1 (c_ij ) = 1/c[_ij^3]}}", 
               columns = 2,
               level = 1) |>
   tab_spanner(label = "{{f_2 (c_ij ) = 1/c[_ij^2]}}",
@@ -733,9 +738,10 @@ unc_acc |>
               columns = 4,
               level = 1) |>
   fmt_number(decimals = 3) |>
-  cols_label(V_unc_i_1 = md("units: *f_1(c_ij)-weighted physicians"),
-             V_unc_i_2 = md("units: *f_2(c_ij)-weighted physicians"),
-             V_unc_i_3 = md("units: *f_3(c_ij)-weighted physicians"))  |>
+  cols_label(V_unc_i_1 = md("units: *f<sub>1</sub>(c<sub>ij</sub>)-weighted physicians*"),
+             V_unc_i_2 = md("units: *f<sub>2</sub>(c<sub>ij</sub>)-weighted physicians*"),
+             V_unc_i_3 = md("units: *f<sub>3</sub>(c<sub>ij</sub>)-weighted physicians*"),
+             .fn = md)  |>
   # cols_label(V_unc_i_1 = "{{f_1 (c_ij ) = 1/c[_ij^3]}}",
   #            V_unc_i_2 = "{{f_2 (c_ij )  = 1/c[_ij^2]}}<br>*physicians min^-2*",
   #            V_unc_i_3 = "{{f_3 (c_ij )  = 1/c[_ij^0.1]}}<br>*physicians min^-0.1*",
@@ -762,16 +768,16 @@ A total constraint proportionally adjusts zonal accessibility values based on th
 
 ### Totally-constrained opportunity: Hansen's accessibility with a constraint
 
-Unlike in @eq-access-01, the proportionality constant $k$ is retained and not set arbitrarily to 1:
+Unlike in @eq-access-01, the proportionality constant $k$ is retained, not set arbitrarily to 1, and represented as $K^T$: 
 
 $$
-V^T_{ij} = k^DW_j^{(2)} f(c_{ij})
+V^T_{ij} = K^T \cdot W_j^{(2)} \cdot f(c_{ij})
 $${#eq-total-constrained-access}
 
 Where the total opportunity constrained accessibility measure now becomes Hansen's accessibility with a proportionality constant:
 
 $$
-V^T_i = \sum_j V^T_{ij} = k^D\sum_j W^{(2)}_jf(c_{ij}) = k^DV^0_i
+V^T_i = \sum_j V^T_{ij} = K^T \sum_j W^{(2)}_jf(c_{ij}) = K^T \cdot V^0_i
 $${#eq-total-constrained-accessibility}
 
 The constraint that we impose in this case is the total number of opportunities $D$ in the region.
@@ -780,33 +786,33 @@ $$
 \sum_i V^T_{i} = \sum_i\sum_j V^T_{ij} = D
 $${#eq-total-constraint-accessibility}
 
-This constraint is analogous to the total constraint of @eq-constraint0-gravitymodel which is congruent with Wilson's framework. We can then substitute @eq-total-constrained-accessibility in @eq-total-constraint-accessibility and solve for $k$ to yield: 
+This constraint is analogous to the total constraint of @eq-constraint0-gravitymodel which is congruent with Wilson's framework. We can then substitute @eq-total-constrained-accessibility in @eq-total-constraint-accessibility and solve for $K^T$ to yield: 
 $$
-k^D=\frac{D}{\sum_i\sum_j V^0_{ij}} = \frac{D}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
+K^T =\frac{D}{\sum_i\sum_j V^0_{ij}} = \frac{D}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
 $${#eq-total-opportunity-balancing-factor}
 
-Which is also congruent with Wilson's framework as it comparable to the total flow spatial interaction model (e.g., Equation 2.11 in @cliff_evaluating_1974). Hence, our totally-constrained opportunity accessibility model is:
+Which is also congruent with Wilson's framework as it comparable to the total flow spatial interaction model (e.g., Equation 2.11 in @cliff_evaluating_1974). Hence, rearranging the equation to have opportunities and the proportional constant distinctly represented, our totally-constrained opportunity accessibility model is:
 
 $$
-V^T_i = k^D\sum_j W^{(2)}_jf(c_{ij}) = \sum_j W^{(2)}_j\frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})} 
+V^T_i = K^T\sum_j W^{(2)}_jf(c_{ij}) = \sum_j W^{(2)}_j\frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})} 
 $$
 
-Further, we can see that, since $D$ and $W^{(2)}_j$ are both in units of opportunities, the following term is dimensionless:
+Further, we can see that, since $D$ and $W^{(2)}_j$ are both in units of opportunities, the following term, the proportional allocation factor for the totally-constrained opportunity case $\kappa^T$ is dimensionless:
 
 $$
-\kappa^D_{ij} = \frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
+\kappa^T = \frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
 $$
 
-\noindent and therefore $V^T_i$ is now in the units of $W^{(2)}_j$, that is, the mass at the destination ($V^T_i = \sum_j W^{(2)}_j\kappa^D_{ij}$). The role of $\kappa^D_{ij}$ in this reformulation of accessibility is to adjust the number of opportunities accessible from $i$ so that they represent a proportion of the total number of opportunities in the region. Constant $\kappa^D_{ij}$ then assigns opportunities in proportion to the impedance between $i$ and $j$. For this reason, we refer to it as a proportional allocation factor.
+\noindent and therefore $V^T_i$ is now in the units of $W^{(2)}_j$, that is, the mass at the destination ($V^T_i = \kappa^T\sum_j W^{(2)}_j$). The role of $\kappa^T$ in this reformulation of accessibility is to adjust the number of opportunities accessible from $i$ so that they represent a proportion of the total number of opportunities in the region. Constant $\kappa^T$ then assigns opportunities in proportion to the impedance between $i$ and $j$. For this reason, we refer to it as a proportional allocation factor.
 
-Referring to our simple numeric example, proportionality constant for $f_1(c_{ij}) = 1/c_{ij}^3$ would then be:
+Referring to our simple numeric example, proportionality constant for the $f_1(c_{ij}) = 1/c_{ij}^3$ travel behaviour scenario would then be:
 $$
 \begin{array}{l}
-k^D = \frac{D}{\sum_{i}\sum_{j} O_j f(c_{ij})}\\
-k^D = \frac{D}{\frac{D_1}{c_{11}^3}+\frac{D_1}{c_{21}^3} + \frac{D_1}{c_{31}^3} + \cdots + \frac{D_3}{c_{31}^3} + \frac{D_3}{c_{32}^3} + \frac{D_3}{c_{33}^3}
+K^T = \frac{D}{\sum_{i}\sum_{j} O_j f(c_{ij})}\\
+K^T = \frac{D}{\frac{D_1}{c_{11}^3}+\frac{D_1}{c_{21}^3} + \frac{D_1}{c_{31}^3} + \cdots + \frac{D_3}{c_{31}^3} + \frac{D_3}{c_{32}^3} + \frac{D_3}{c_{33}^3}
 }\\
-k^D = \frac{490}{0.75} \\
-k^D = 653.3256
+K^T = \frac{490}{0.6233422} \\
+K^T = 786.085
 \end{array}
 $$
 
@@ -865,32 +871,32 @@ tot_acc |>
   as_latex()
 ```
 
-In contrast to unconstrained accessibility, imposing a constraint -in this case a total opportunity constraint- allows for the comparison of differences and ratios. Each value is effectively in units of physicians, with the impedance units already accounted for by  $\kappa^D_{ij}$.
+In contrast to unconstrained accessibility, imposing a constraint -in this case a total opportunity constraint- allows for the comparison of differences and ratios. Each value is effectively in units of physicians, with the impedance units already accounted for by  $\kappa^T$.
 
 Consider the highest decay scenario ($f_1(c_{ij})$), zone 1 again captures an intermediate amount of physicians (`r tot_acc$V_tot_i_1[1]`). However, we can say that this is out of the `r tot_acc$V_tot_i_1 |> sum()` in the region, which allows us also to deduce that zone 1 captures `r tot_acc$V_tot_i_1[1]/tot_acc$V_tot_i_1[2]` and `r tot_acc$V_tot_i_1[1]/tot_acc$V_tot_i_1[3]` times more than zone 2 and 3. Values for the lesser decay ($f_2(c_{ij})$) and lowest decay ($f_3(c_{ij})$)  scenarios are calculated separately, with decay scenario values also summing to equal `r tot_acc$V_tot_i_2 |> sum()` physicians accessible in the region. Between zonal comparisons can be more interpretably made for these travel behaviour scenarios as well.
 
-One can also directly compare values at a specific zone due to the consistent units. For instance, zone 1 remains intermediate in capturing accessible physicians relative to zones 2 and 3 across scenarios, similar to the unconstrained case. However, the difference between travel behaviour scenarios differ in direction. Specifically, Zone 1 captures `r tot_acc$V_tot_i_2[1]- tot_acc$V_tot_i_1[1]` more and `r tot_acc$V_tot_i_1[1]- tot_acc$V_tot_i_3[1]` fewer opportunities than the lesser decay scenarios $f_2(c_{ij})$ and $f_3(c_{ij})$ respectively. Why? $k^D$ ensures proportional allocation for each travel behaviour scenario. Meaning, while the unconstrained accessibility increases, $k^D$ adjusts the values to remain proportional to the total number of opportunities (`r tot_acc$V_tot_i_2 |> sum()` physicians accessible in the region). As the decay behaviour decreases, more opportunities are accessible for all zones. In the medium decay scenario $f_2(c_{ij})$, zone 1 sees a slight increase in values (relative to the highest decay scenario) as the zone can accessible more opportunities relative to increases seen in other zones. However, in the lowest decay scenario, zone 1 sees a decrease, as it is outpaced by increases in other zones - namely zone 2 (recall: zone 2 has the lowest number of opportunities, hence the increases in opportunity gains is much higher in a low decay scenario).
+One can also directly compare values at a specific zone due to the consistent units. For instance, zone 1 remains intermediate in capturing accessible physicians relative to zones 2 and 3 across scenarios, similar to the unconstrained case. However, the difference between travel behaviour scenarios differ in direction. Specifically, Zone 1 captures `r tot_acc$V_tot_i_2[1]- tot_acc$V_tot_i_1[1]` more and `r tot_acc$V_tot_i_1[1]- tot_acc$V_tot_i_3[1]` fewer opportunities than the lesser decay scenarios $f_2(c_{ij})$ and $f_3(c_{ij})$ respectively. Why? $\kappa^T$ ensures proportional allocation for each travel behaviour scenario. Meaning, while the unconstrained accessibility increases, $\kappa^T$ adjusts the values to remain proportional to the total number of opportunities (`r tot_acc$V_tot_i_2 |> sum()` physicians accessible in the region). As the decay behaviour decreases, more opportunities are accessible for all zones. In the medium decay scenario $f_2(c_{ij})$, zone 1 sees a slight increase in values (relative to the highest decay scenario) as the zone can accessible more opportunities relative to increases seen in other zones. However, in the lowest decay scenario, zone 1 sees a decrease, as it is outpaced by increases in other zones - namely zone 2 (recall: zone 2 has the lowest number of opportunities, hence the increases in opportunity gains is much higher in a low decay scenario).
 
-Using the total opportunity constrained formulation of accessibility offers a solution to the unit interpretability issue of @han1959's accessibility measure. Intuitively, the use of the constraint illustrates how the differences and ratios of values between zones and decay groups can be compared. 
+Using the total opportunity constrained formulation of accessibility offers a solution to the unit interpretability issue of @hansen1959's accessibility measure. Intuitively, the use of the constraint illustrates how the differences and ratios of values between zones and decay groups can be compared. 
 
 ### Totally-constrained population: market potential 
 
-Effectively transposing $i$ and $j$, this case of the totally-constrained accessibility measure (@eq-total-constrained-market) is an expression of the concept of market potential (i.e., potential users) as proposed in @harris_market_1954 [@vickermanAccessibilityAttractionPotential1974]. The unconstrained form of market potential has been used in recent research  [e.g., @gutierrezLocationEconomicPotential2001; @holl2007twenty; @condecco2018road] to express the potentially accessible population (i.e., users) as a result of regional transportation infrastructure investment projects. To formulate this case, the total constraint may instead be applied to the mass of the _population_ at $i$ instead of the opportunities at $j$. 
+Effectively transposing $i$ and $j$, this case of the totally-constrained accessibility measure (@eq-total-constrained-market) is an expression of the concept of market potential (i.e., potential users) as proposed in @harris_market_1954 [@vickermanAccessibilityAttractionPotential1974]. The unconstrained form of market potential, effectively the $i$ $j$ transpose of $V^0_{ij}$,  has been used in recent research to express the potentially accessible population (i.e., users) as a result of regional transportation infrastructure investment projects [e.g., @gutierrezLocationEconomicPotential2001; @holl2007twenty; @condecco2018road]. To formulate this case, the total constraint may instead be applied to the mass of the _population_ at $i$ instead of the opportunities at $j$. 
 
 $$
-M^T_{ij} = k^OW_i^{(1)} f(c_{ij}) = k^OM_{ij}^0
+M^T_{ij} = \hat K^T \cdot W_i^{(1)} f(c_{ij}) = \hat K^T \cdot M_{ij}^0
 $${#eq-total-constrained-market}
 
-\noindent with:
+\noindent with $M_j^0$ being the $i$ $j$ transpose of $V^0_{ij}$:
 
 $$
 M_j^0 = W_i^{(1)} f(c_{ij})
 $$
 
-The population-constrained accessibility (market potential) becomes:
+The totally-constrained population accessibility (market potential) becomes:
 
 $$
-M^T_j = \sum_i M^T_{ij} = k^O\sum_i W^{(1)}_if(c_{ij})
+M^T_j = \sum_i M^T_{ij} = \hat K^T \sum_i W^{(1)}_if(c_{ij})
 $${#eq-total-constrained-market}
 
 The constraint that we impose in this case is the total market potential equals the total population $O$ in the region :
@@ -899,21 +905,23 @@ $$
 \sum_j M^T_{j} = \sum_i\sum_j M^T_{ij} = O
 $${#eq-total-constraint-market}
 
-Substituting @eq-total-constrained-market in @eq-total-constraint-market, and solving for $k$, we obtain:
+Substituting @eq-total-constrained-market in @eq-total-constraint-market, and solving for $\hat K^T$, we obtain:
 
 $$
-k^O=\frac{O}{\sum_i\sum_i M^T_{ij}} = \frac{O}{\sum_i\sum_j W^{(1)}_i f(c_{ij})} 
+\hat K^T=\frac{O}{\sum_i\sum_i M^T_{ij}} = \frac{O}{\sum_i\sum_j W^{(1)}_i f(c_{ij})} 
 $${#eq-total-population-balancing-factor}
 
 The constrained market potential then takes the following form:
 
 $$
-M^T_i = k\sum_i W^{(1)}_if(c_{ij}) = \frac{O}{\sum_i\sum_j M^T_{ij}}\sum_i W^{(i)}_i f(c_{ij})
+M^T_i = \hat K^T\sum_i W^{(1)}_if(c_{ij}) = \sum_i W^{(2)}_i \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
+$$
+Where the following $\hat \kappa^T$ proportional allocation factor is dimensionless:
+$$
+\hat \kappa^T = \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
 $$
 
-Returning back to the numerical example, the proportionality constant would be solved for each travel behaviour scenario, and the market potential of each zone is expressed as units of population (e.g., the number of people accessible from each zone) in @tbl-simple-example-total-population-accessibility. Readers should not, zonals trends in accessible population and accessible physicians. in the preceding subsection (i.e., calculated using totally-constrained opportunity) are not the same: zone 1, 2, 3 represent destinations and the accessibility values represent the number of accessible people from the vantage of physicians. 
-
-<!--maybe we should say a little more? -->
+Returning back to the numerical example, the proportionality constant would be solved for each travel behaviour scenario, and the market potential of each zone is expressed as units of population (e.g., the number of people accessible from each zone) in @tbl-simple-example-total-population-accessibility. Readers may note the difference in trends in accessible population (@tbl-simple-example-total-population-accessibility) and accessible physicians (i.e., the preceding subsection, @tbl-simple-example-total-opportunity-accessibility). In @tbl-simple-example-total-opportunity-accessibility, zone 1, 2, 3 represent destinations and the accessibility values reflect the number of accessible people from the vantage of physicians. Zone 1, in its role as a destination, is no longer intermediately-ranked relative to other zones; it now attracts the fewest number of people across all three travel behaviour scenarios. However, similar to the totally-constrained opportunity case, as travel decay reduces, the availability of population begins to converge (though Zone 1 continues as the lowest-ranked) for similar reasons. As decay reduces, the population's travel impedance to all zones become more similar, making the relative location of the zones less important and all people in the region more equally accessible. 
 
 ```{r}
 # Calculate the balancing factors/proportionality constants for each of three impedance functions
@@ -947,7 +955,7 @@ tot_market |>
   select(did, starts_with("M_")) |>
   gt(rowname_col = "did") |>
   tab_stubhead(label = "Destination") |>
-  tab_spanner(label = "{{M[_i^D]}}",
+  tab_spanner(label = "{{M[_i^S]}}",
               columns = 2:4,
               level = 2) |>
   tab_spanner(label = "{{f_1 (c_ij ) = 1/c[_ij^3]}}",
@@ -977,18 +985,18 @@ tot_market |>
 
 Increasing in restrictiveness relative to the totally-constrained accessibility measure, a single constraint proportionally adjusts the origin-destination zonal accessibility values based on the population or opportunities in the zone for all zones, while still maintaining the total system population or opportunity constraint, depending on the case. We define two cases: a _singly-constrained opportunity_ accessibility case and a _singly-constrained population_ accessibility case. 
 
-### Singly-constrained opportunity: spatial availability(?)
+### Singly-constrained opportunity: A.K.A spatial availability
 
-If additional information is introduced into our analysis, say, the number of opportunities _by destination_ (i.e., $D_j$), we can impose the following constraint (@eq-attraction-constraint)- comparable to the single constraint (@eq-constraint2-gravitymodel) from Wilson's framework. This constraint implicitly maintains the total system constraint (@eq-total-constraint-accessibility).
+If additional information is introduced into our analysis, say, the number of opportunities _by destination_ (i.e., $D_j$), we can impose the following constraint (@eq-opportunity-constraint)- comparable to the single attraction-constraint (@eq-constraint2-gravitymodel) from Wilson's framework. 
 
 $$
-\sum_i V^D_{ij} =  D_j
-$${#eq-attraction-constraint}
+\sum_i V^S_{ij} =  D_j
+$${#eq-opportunity-constraint}
 
 The underlying spatial interaction model is now the attraction-constrained model in @eq-attraction-constrained-gravitymodel, and our accessibility measure becomes:
 
 $$
-V^D_{i} = \sum_j B_j D_j W_i^{(1)} f(c_{ij})
+V^S_{i} = \sum_j B_j D_j W_i^{(1)} f(c_{ij})
 $${#eq-opportunity-constrained-accessibility}
 
 \noindent where $W_i^{(1)}$ is a measure of the mass at origin $i$ (i.e., the opportunity-seeking population). The corresponding balancing factor, as per Wilson, is:
@@ -997,33 +1005,33 @@ $$
 B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}
 $${#eq-opportunity-constrained-proportionality-constants}
 
-If we introduce this balancing factor in @eq-opportunity-constrained-accessibility we obtain:
+Introducing the balancing factor in @eq-opportunity-constrained-accessibility, we obtain:
 
 $$
-V^D_{i} = \sum_j D_j \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}
+V^S_{i} = \sum_j D_j \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}
 $${#eq-opportunity-constrained-accessibility-with-balancing-factor}
 
 Further, we define the following proportional allocation factor:
 
 $$
-\kappa^D _{ij} = \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}
+\kappa^S_{i} = \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}
 $${#eq-opportunity-constrained-proportional-allocation-factor}
 
-After this, it is possible to rewrite @eq-opportunity-constrained-accessibility-with-balancing-factor as:
+After this, it is possible to rewrite @eq-opportunity-constrained-accessibility-with-balancing-factor as an origin summary expression of proportionally allocated known opportunities (i.e., $D_j$):
 
 $$
-V^D_{i} = \sum_j  \kappa^D_{ij} D_j
+V^S_{i} = \kappa^S_{i} \sum_j   D_j
 $${#eq-attraction-constrained-accessibility-with-proportional-allocation-factor}
 
-@soukhovIntroducingSpatialAvailability2023 have shown that the role of $\kappa^D_{ij}$ is to allocate opportunities $D_j$ proportionally to the mass at each origin $i$ and the impedance between $i$ and $j$. As before, $\kappa^D_{ij}$ is dimensionless and $V_i^D$ is in the units of opportunities $D_j$. The singly-constrained accessibility measure in @eq-attraction-constrained-accessibility-with-proportional-allocation-factor is called spatial availability by @soukhovIntroducingSpatialAvailability2023, because it represents the number of opportunities that can be reached _and_ are available, in the sense that there is no competition for them. These authors also show that the following expression (accessibility per capita) is a constrained version of the popular two-stage floating catchment area measure of @shen1998 and @luo2003:
+@soukhovIntroducingSpatialAvailability2023 have shown that the role of $\kappa^S_{i}$ is to allocate opportunities $D_j$ proportionally to the mass at each origin $i$ and the impedance between $i$ and $j$. As in the totally=constrained opportunity case, $\kappa^S_{i}$ is dimensionless and $V_i^S$ is in the units of opportunities $D_j$. The singly-constrained accessibility measure in @eq-attraction-constrained-accessibility-with-proportional-allocation-factor is called spatial availability by @soukhovIntroducingSpatialAvailability2023, because it represents the number of opportunities that can be reached _and_ are available, in the sense that accessible opportunities have been proportionally allocated based on relative demand, travel impedance and the regional total number of opportunities, i.e., spatial competition for them has been considered. These authors also show that the following expression (accessibility per capita) is a constrained version of the popular two-stage floating catchment area measure of @shen1998 and @luo2003:
 
 $$
-v^D_{i} = \frac{V^D_{i}}{W^{(1)}_i}
+v^S_{i} = \frac{V^S_{i}}{W^{(1)}_i}
 $$
 
-As an additional point, @eq-attraction-constraint also implies that the total constraint (e.g., $\sum_i V^D_{i} = \sum_i\sum_j  V^D_{ij} = D$) is maintained. 
+To reinforce this point, @eq-opportunity-constraint also implies that the total system constraint (e.g., $\sum_i V^S_{i} = \sum_i\sum_j  V^S_{ij} = D$ in @eq-total-constraint-accessibility) is maintained. 
 
-Due to the constraints, $\frac{V_i^D}{O}$ can be interpreted as the proportion of opportunities accessible _and_ available to location $i$ out of the total number of opportunities in the system.
+Due to the constraints, $\frac{V_i^S}{O}$ can be interpreted as the proportion of opportunities accessible _and_ available to location $i$ out of the total number of opportunities in the system.
 
 Returning to the simple numeric example, the opportunity-constrained case would yield the following $B_{j}$ for $f_1(c_{ij})$:
 
@@ -1055,111 +1063,139 @@ The balancing factors $B_j$ for the $f_2(c_{ij})$ decay group for zones 1, 2 and
 opp_acc_ij <- OD |>
   left_join(B_j,
             by = "did") |>
-  mutate(V_opp_ij_1 = B_j_1 * O_i * D_j * f1,
+  mutate(k_opp_ij_1 = B_j_1 * O_i * f1 /3,
+         k_opp_ij_2 = B_j_2 * O_i  * f2 /3,
+         k_opp_ij_3 = B_j_3 * O_i  * f3 /3,
+         V_opp_ij_1 = B_j_1 * O_i * D_j * f1,
          V_opp_ij_2 = B_j_2 * O_i  * D_j * f2,
          V_opp_ij_3 = B_j_3 * O_i  * D_j * f3)
 
 opp_acc <- opp_acc_ij |>
   group_by(oid) |>
-  summarize(V_opp_i_1 = sum(V_opp_ij_1),
+  summarize(O_i = first(O_i) |> as.character(), 
+            V_opp_i_1 = sum(V_opp_ij_1),
             V_opp_i_2 = sum(V_opp_ij_2),
-            V_opp_i_3 = sum(V_opp_ij_3))
-  
-opp_acc  |>
-  select(oid, starts_with("V_")) |>
+            V_opp_i_3 = sum(V_opp_ij_3), 
+            .groups = "drop")
+
+opp_acc_with_ks <-  opp_acc_ij |>
+  group_by(oid) |>
+  summarize(O_i = first(O_i) |> as.character(), 
+            k_opp_ij_1 = sum(k_opp_ij_1),
+            k_opp_ij_2 = sum(k_opp_ij_2),
+            k_opp_ij_3 = sum(k_opp_ij_3))
+
+opp_acc |>
+  #select(oid, O_i, starts_with("V_")) |>
   gt(rowname_col = "oid") |>
   tab_stubhead(label = "Origin") |>
-  tab_spanner(label = "{{V[_i^D]}}",
-              columns = 2:4,
+  
+  tab_spanner(label = "{{V[_i^S]}}",
+              columns = 3:5,
               level = 2) |>
   tab_spanner(label = "{{f_1 (c_ij ) = 1/c[_ij^3]}}",
-              columns = 2,
-              level = 1) |>
-  tab_spanner(label = "{{f_2 (c_ij ) = 1/c[_ij^2]}}",
               columns = 3,
               level = 1) |>
-  tab_spanner(label = "{{f_3 (c_ij ) = 1/c[_ij^0.1]}}",
+  tab_spanner(label = "{{f_2 (c_ij ) = 1/c[_ij^2]}}",
               columns = 4,
               level = 1) |>
+  tab_spanner(label = "{{f_3 (c_ij ) = 1/c[_ij^0.1]}}",
+              columns = 5,
+              level = 1) |>
   fmt_number(decimals = 3) |>
-  cols_label(V_opp_i_1 = md("units: *physicians*"),
+  
+  cols_label(O_i = md("Population (units: *people in 10,000s*)"),
+             V_opp_i_1 = md("units: *physicians*"),
              V_opp_i_2 = md("units: *physicians*"),
-             V_opp_i_3 = md("units: *physicians*"))  |>
+             V_opp_i_3 = md("units: *physicians*"),
+             )  |>
   cols_align(align = "center",
-             columns = 2:4) |>
+             columns = 2:5) |>
   cols_width(
-    stub() ~ px(60),
-    everything() ~ px(180)
+    stub() ~ px(60*0.8),
+    everything() ~ px(180*0.8)
   ) |>
   tab_options(column_labels.font.size = "small") |>
   as_latex()
 ```
 
-<!--COMEBACKHERE -->
-Similar to the accessibility differences and between pairs of zone using the two different impedance functions: 
-```{r}
-opp_acc$V_opp_i_1[2] - opp_acc$V_opp_i_1[1]
-opp_acc$V_opp_i_2[2] - opp_acc$V_opp_i_2[1]
-opp_acc$V_opp_i_3[2] - opp_acc$V_opp_i_3[1]
 
-opp_acc$V_opp_i_1[2] / opp_acc$V_opp_i_1[1]
-opp_acc$V_opp_i_2[2] / opp_acc$V_opp_i_2[1]
-opp_acc$V_opp_i_3[2] / opp_acc$V_opp_i_3[1]
+Imposing the single constraint $\kappa^S_{i}$ allows for the comparison of differences and ratios of the accessibility values like previously discussed in the case of the totally-constrained opportunity case. Namely, when the single constraint is applied to the opportunities at $j$, each resulting accessibility value at $i$ is in units of physicians, with the impedance units already accounted for.
+
+However, unlike the totally-constrained opportunity case, $\kappa^S_{i}$ captures competition from the population. Again, let's consider the highest decay scenario $f_1(c_{ij})$. In this case, zone 1 no longer captures an intermediate amount of physicians as in the totally-constrained opportunity case: it now captures the fewest in the region i.e., `r opp_acc$V_opp_i_1[1]` at zone 1, `r opp_acc$V_opp_i_1[2]` at zone 2, and `r opp_acc$V_opp_i_1[3]` at zone 3. Why may zone 1 capture `r (opp_acc$V_opp_i_1[1]/opp_acc$V_opp_i_1 |> sum()) |> scales::percent()` of the physicians regionally while this same zone captures `r (tot_acc$V_tot_i_1[1]/tot_acc$V_tot_i_1 |> sum()) |> scales::percent()` in the total opportunity constrained case? This difference is due to the single-opportunity constraint $\kappa^S_{i}$'s role in $V_i^S$. The only inputs needed in the total-opportunity constraint $\kappa^T$ is the total number of opportunities in the region $D$ as well as the associated opportunities at each $j$ and travel impedance. In other words, opportunities are proportionally allocated to each $i$ based on the proportion of impedance-weighted opportunities at all $j$ for that $i$ to the total sum of impedance-weighted opportunities in the entire region. Opportunities are allocated to $i$s, regardless of the mass weights of origin. Whereas the single opportunity constraint $\kappa^S_{i}$ requires the population at $i$ as an input. In fact, $\kappa^S_{i}$ is the proportion of the sum of impedance-weighted population at an $i$ to the sum of impedance-weighted population for the entire region. Hence, since zone 1 has the lowest amount of people in the region, and is not located -travel cost effectively- to other opportunities, $V_{1}^S$ is lowest. 
+
+From a different perspective: $V_{2}^S$ is intermediate in rank when considering the highest decay scenario ($f_1(c_{ij})$) but is the highest ranked zone under $f_3(c_{ij})$, from `r opp_acc$V_opp_i_1[2]` to `r opp_acc$V_opp_i_3[2]` accessible physicians out of `r opp_acc$V_opp_i_3|>sum() ` in the region; a `r opp_acc$V_opp_i_3[2]/opp_acc$V_opp_i_1[2]` times increase. Zone 2 has the highest amount of population and the least travel-impedance proximate to other zones. So when the the decay is high - it can most effectively capture opportunities at Zone 2, in fact it captures ($\kappa_2 ^T$) is `r opp_acc_with_ks$k_opp_ij_1[2]`, or `r opp_acc_with_ks$k_opp_ij_1[2] |> scales::percent()` of the opportunities in the region, with the vast majority coming from its own zone (`r (opp_acc_ij$k_opp_ij_1[5]/opp_acc_with_ks$k_opp_ij_1[2])|>scales::percent()` out of the total  opportunities that are allocated to Zone 2). This is unlike other zones, that capture opportunities from their own zones at lower rates (i.e., ($\kappa_{1}^S$ corresponds to a capture of `r (opp_acc_ij$k_opp_ij_1[1]/opp_acc_with_ks$k_opp_ij_1[1])|> scales::percent()` of its allocation from Zone 1 and $\kappa_{3}^S$ corresponds to `r (opp_acc_ij$k_opp_ij_1[9]/opp_acc_with_ks$k_opp_ij_1[3])|> scales::percent()` of its allocation from Zone 3)). 
+
+In scenarios with low decay (e.g., $f_3(c_{ij})$), the connection between opportunities and population changes: spatial impedance among zones is more equal - zonal populations can get to zonal opportunities at relatively more similar travel costs. In this sense, spatial impedance has less relative impact on the effect of zonal population. For this reason, under the low decay scenario of $f_3(c_{ij})$, Zone 2 's competitive population advantage is more evident. Zone 1 captures more opportunities from Zones 1 and 3 than Zone 1 and 3 capture themselves (i.e., Zone 2 captures `r (opp_acc_ij$k_opp_ij_3[2])|> scales::percent()` from both Zone 1 and 3, while Zone 1 and Zone 3 only captures `r (opp_acc_ij$k_opp_ij_3[1])|> scales::percent()` and `r (opp_acc_ij$k_opp_ij_3[9])|> scales::percent()` from itself respectively. 
+
+Readers may also notice the change in the proportion of opportunities drawn from different zones depending on the travel scenarios. Again, returning to Zone 2 as an example, while its competitive population advantage is more evident in the $f_3(c_{ij})$ scenario than in higher decay scenarios: this zone does not have an exceptionally large population for the region - Zone 2 only represents `r (opp_acc$O_i[2] |> as.numeric() / opp_acc$O_i |> as.numeric() |>sum()) |>scales::percent()` of the population in the three zone region. In this sense, other zones are not _that_ disadvantaged, and in this scenario with unfettered travel cost, Zones 1 and 3 also take opportunities from Zone 2 (i.e., Zone 1 and Zone 3 takes `r ((opp_acc_ij$k_opp_ij_3[4])-(opp_acc_ij$k_opp_ij_1[4]) )|> scales::percent()` and `r ((opp_acc_ij$k_opp_ij_3[6])-(opp_acc_ij$k_opp_ij_1[6]))|> scales::percent()` more from Zone 2 between $f_3(c_{ij})$ and $f_1(c_{ij})$ scenarios hence $\kappa_{2,2}^S$ decreases by `r -((opp_acc_ij$k_opp_ij_3[5])-(opp_acc_ij$k_opp_ij_1[5])) |> scales::percent()`). Zones 1 and 3 are allocated opportunities at relates similar to their relative population size. 
+
+In this way, the consideration of accessibility _per capita_ may be clarifying. Often, accessibility values are reported as raw scores without the consideration for population. But, as we introduced constraints, these constrained accessibility values can be normalized using anything that is relevant to the zone. In  @tbl-simple-example-attraction-constrained-accessibility-per-capita), we present per capita accessibility for the numeric example, simply in units of number of physicians accessible per population at each zone. These per capita rates are equivalent to the 2SFCA values.
+
+```{r}
+#| label: tbl-simple-example-attraction-constrained-accessibility-per-capita
+#| tbl-cap: "Simple system: singly-constrained opportunity accessibility per capita."
+
+opp_acc_percapita <- opp_acc |>
+  transmute(
+    oid = id,
+    O_i = O_i,
+    v_opp_i_1 = V_opp_i_1 / (O_i|>as.numeric()),
+    v_opp_i_2 = V_opp_i_2 / (O_i|>as.numeric()),
+    v_opp_i_3 = V_opp_i_3 / (O_i|>as.numeric()))
+  
+opp_acc_percapita  |>
+  gt(rowname_col = "oid") |>
+  tab_stubhead(label = "Origin") |>
+  
+  tab_spanner(label = "{{v[_i^S]}}",
+              columns = 3:5,
+              level = 2) |>
+  tab_spanner(label = "{{f_1 (c_ij ) = 1/c[_ij^3]}}",
+              columns = 3,
+              level = 1) |>
+  tab_spanner(label = "{{f_2 (c_ij ) = 1/c[_ij^2]}}",
+              columns = 4,
+              level = 1) |>
+  tab_spanner(label = "{{f_3 (c_ij ) = 1/c[_ij^0.1]}}",
+              columns = 5,
+              level = 1) |>
+  fmt_number(decimals = 3) |>
+  
+  cols_label(O_i = md("Population (units: *people in 10,000s*)"),
+             v_opp_i_1 = md("units: *physicians per capita*"),
+             v_opp_i_2 = md("units: *physicians per capita*"),
+             v_opp_i_3 = md("units: *physicians per capita*"),
+             )  |>
+  cols_align(align = "center",
+             columns = 2:5) |>
+  cols_width(
+    stub() ~ px(60*0.8),
+    everything() ~ px(180*0.8)
+  ) |>
+  tab_options(column_labels.font.size = "small")  |>
+  as_latex()
 ```
 
-This illustrates how the differences and ratios are now meaningful.
+Recall: our simple example was designed such that the regional average equals `r (opp_acc$V_opp_i_1|>sum()) /(opp_acc$O_i|>as.numeric()|>sum())` physicians per 10,000 people. And as the decay decreases and the effect of population is more independent: per capita values begin to stabilise to this regional per capita average, similar to how the accessibility values in the totally-constrained opportunity case stables to the $V_i^T$ regional average. These responses make intuitive sense: the use of constraints are an regional and/or zonal averaging methodology. By equalising the impact of travel impedance, the impact of the remaining constraint variable remains. In the case of the total opportunity constraint, this is the proportion of opportunities relative to the regional opportunities, and in the case of the single opportunity constraint, this is the population at a zone relative to the regional population.  
 
-The total accessibility compared to the number of opportunities:
-```{r}
-opp_acc <- opp_acc |> 
-  left_join(LU |>
-              select(-D_j),
-            by = c("oid" = "id"))
+Like the totally-constrained opportunity case, this case offers a solution to the unit interpretability issue of @hansen1959's accessibility measure.  Building on this, the singly-constrained opportunity case also offers a way to consider origin-side competition while constraining the opportunities to match the input number of regional opportunities and zonal opportunity totals. This case builds on the previous intuition of totally-constrained opportunity case by providing additional insights from the proportional allocation factor and per capita considerations (that are mathematically equivalent to the 2SFCA, but with additional intuition). 
 
-opp_acc  |>
-  summarize(V_opp_1 = sum(V_opp_i_1),
-            V_opp_2 = sum(V_opp_i_2),
-            V_opp_3 = sum(V_opp_i_3))
-
-LU |>
-  summarize(O = sum(D_j))
-```
-
-This shows how the number of opportunities is preserved.
-
-And the ratio of accessibility to population compared to the ratio of opportunities to population:
-```{r}
-# Accessibility divided by population
-opp_acc |> 
-  mutate(v_opp_1 = V_opp_i_1/O_i,
-            v_opp_2 = V_opp_i_2/O_i,
-            v_opp_3 = V_opp_i_3/O_i)
-
-# Sum of the accessibility divided by the total population
-opp_acc |> 
-  summarize(v_opp_1 = sum(V_opp_i_1)/sum(O_i),
-            v_opp_2 = sum(V_opp_i_2)/sum(O_i),
-            v_opp_3 = sum(V_opp_i_3)/sum(O_i))
-
-# Sum of the opportunities divided by the total population
-LU |> 
-  summarize(PPR = sum(D_j)/sum(O_i))
-```
 
 ### Singly-constrained population: market potential 
 
-Similar to @eq-total-population-balancing-factor, if the origins and destinations are transposed, we can define a _singly-constrained_ measure of market potential that preserves the population. In it's per-capita expression, i.e., equivalent to 2SFCA, has been used to express "facility crowdedness" as in @wang_inverted_2018. <!-- Anything else like this in the ltierature?--> 
+Similar to @eq-total-population-balancing-factor in transposing the origins and destinations, we can define a _singly-constrained_ measure of market potential that preserves the known population (i.e., the mass weight at the origin $W_i^(1)$ is now represented by $O_i$). In it's per-capita expression, i.e., equivalent to 2SFCA, this constrained concept of market potential been used to express "facility crowdedness" as in @wang_inverted_2018. <!-- Anything else like this in the literature?--> 
 
-The underlying spatial interaction model is now the production-constrained model in @eq-production-constrained-gravitymodel, and our market potential measure $M^P_i$ becomes:
+The underlying spatial interaction model is now the production-constrained model in @eq-production-constrained-gravitymodel, and our market potential measure $M^S_i$ becomes:
 
 $$
-M^P_j = \sum_i A_i O_i W_j^{(2)} f(c_{ij})
+M^S_j = \sum_i A_i O_i W_j^{(2)} f(c_{ij})
 $${#eq-population-constrained-accessibility}
 
-In this case, the measure is constrained by the population _by origin_ (i.e., $O_i$), like @eq-constraint2-gravitymodel from Wilson's framework:
+In this case, the measure is singly-constrained by the population _by origin_ (i.e., $O_i$), like @eq-constraint2-gravitymodel from Wilson's framework:
 
 $$
-\sum_j M^P_{ij} =  O_i \\
+\sum_j M^S_{ij} =  O_i \\
 $${#eq-population-constraint}
 
 And the corresponding balancing factor, as per Wilson, is:
@@ -1169,89 +1205,104 @@ $${#eq-population-constrained-proportionality-constants}
 
 Following the same logic as in the preceding section on totally-constrained population accessibility (market potential), one arrives at the following expression:
 $$
-M^P_{j} = \sum_i  \kappa^O_{ij} O_i
+M^S_{j} = \sum_i \hat \kappa^S_{ij} O_i
 $${#eq-production-constrained-accessibility-with-proportional-allocation-factor}
 
 \noindent with:
 
 $$
-\kappa^O _{ij} = \frac{W_j^{(2)} f(c_{ij})}{\sum_i W_j^{(2)} f(c_{ij})}
+\kappa^S _{ij} = \frac{W_j^{(2)} f(c_{ij})}{\sum_i W_j^{(2)} f(c_{ij})}
 $${#eq-attraction-constrained-proportional-allocation-factor}
 
-As well, the constraint in @eq-population-constraint ensures that the the total constraint (e.g., $\sum_j M^P_{j} = \sum_i\sum_j  M^P_{ij} = O$) is maintained. 
+As well, the constraint in @eq-population-constraint ensures that the the total constraint (e.g., $\sum_j M^S_{j} = \sum_i\sum_j  M^S_{ij} = O$) is maintained. 
 
-With these constraints, $\frac{M_j^O}{O}$ can be interpreted as the proportion of the total population serviced by location $j$.
+With these constraints, $\frac{M_j^S}{O}$ can be interpreted as the proportion of the total population serviced by location $j$.
 
-<!-- In this version of the singly-constrained case, the population is constrained so the $P_i$ values (right-most column) are equal to the known population, whereas the $O_j$ values (bottom row) is not. The total accessibility in the region is maintained at XX  -->
-<!-- To reiterate, each  $V_{ij}$ can be interpreted as  "the number of population accessible from $i$ by the opportunities at $j$" all weighted by travel cost, of course.  -->
+For the sake of brevity, we'll move forward onto the doubly-constrained case.
 
 ## Doubly-constrained accessibility
 
-Readers will have noticed that the accessibility measures above have used either $O_i$ or $D_j$ but not both. When $D_j$, the opportunities, were used to constrain @eq-opportunity-constrained-accessibility, the mass of the population at the origin was given by $W_i^{(1)}$ (also in @eq-opportunity-constrained-proportionality-constants). Contrariwise, When $O_i$, the population, was used as a constraint in @eq-population-constrained-accessibility, the mass at the destination was given by $W_j^{(2)}$ (also in @eq-population-constrained-proportionality-constants). The reason is that the population and the opportunities are typically different things without a common metric. For example, on the side of the population we usually have people, but on the side of the opportunities we can have physicians, clinics, grocery stores, green space, schools, libraries, and so on. There are a few cases where there might be a one-to-one relationship between the population and the opportunities, with the most common one being employment, i.e., one person, one job.
+Readers will have noticed that the accessibility measures above have used either $O_i$, $D_j$, or the regional sums of either, but not both. When $D_j$, the opportunities, was used to constrain @eq-opportunity-constrained-accessibility, the mass of the population at the origin was given by $W_i^{(1)}$ (also in @eq-opportunity-constrained-proportionality-constants). Contrariwise, When $O_i$, the population, was used as a constraint in @eq-population-constrained-accessibility, the mass at the destination was given by $W_j^{(2)}$ (also in @eq-population-constrained-proportionality-constants). The reason is that the population and the opportunities are typically different things without a common metric. For example, on the side of the population we usually have people, but on the side of the opportunities we can have physicians, clinics, grocery stores, green space, schools, libraries, and so on. There are a few cases where there might be a one-to-one relationship between the population and the opportunities, with the most commonly studied opportunity in the competitive accessibility literature being employment, e.g., one person, one job. Another possible opportunity type is healthcare, e.g., one person, one physician-capacity.
 
-A doubly-constrained approach can be implemented when such one-to-one relationship between population and opportunities. In this case, the two constraints in @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel are imposed. Furthermore, the two constraints must match:
+So: a doubly-constrained approach can be implemented when such one-to-one relationship between population and opportunities is present. This is required because, the production- and attraction- constraints in Wilson's doubly-constrained case (@eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel) are imposed simultaneously.  The accessibility-specific forms are used in the singly-constrained opportunities and population cases in the preceding section (@eq-opportunity-constraint and @eq-population-constraint). To simultaneously impose both population- and destination- constraints, they must match (@eq-opportunity-population-equality):
 
 $$
-\sum_iO_i = \sum_j D_j
+\sum_i O_i = \sum_j D_j
+$${#eq-opportunity-population-equality}
+
+Like before, the imposition of these two constraints implies that the total system constraint is maintained e.g., the sum of all doubly-constrained accessibility $\sum_i V^D_{i} = \sum_i\sum_j  V^D_{ij} = D$ in @eq-total-constraint-accessibility is also maintained, and also equal to the total opportunities in the region $O$. 
+
+To explicitly define the underlying accessibility measure in this case, it follows that of the production-attraction constrained (doubly-constrained) spatial interaction model in @eq-doubly-constrained-gravitymodel, hence our accessibility measure becomes:
+
 $$
+V_{i}^D = \sum_j A_i B_j O_i D_j f(c_{ij})
+$${#eq-doubly-constrained-accessibility}
 
-This is because now the proportionality constants are mutually dependent and cannot be estimated if the constraints diverge. For this reason, the applicability seems to be relatively limited, because even in the case of jobs, there might be imbalances between $O$ and $D$, say, where there are more jobs than people or vice-versa.
+\noindent where the corresponding balancing factors, as per Wilson, are:
 
-Another important point to note about the doubly-constrained approach is as follows. Recall that accessibility is defined as "the potential for interaction". Additional constraints leave less room for that potential. In fact, a doubly constrained approach essentially converges on the spatial interaction model, where one person represents one trip to one opportunity, and it is probably better thought of as an estimate of "access" instead of "accessibility".
+$$
+\begin{array}{l}
+A_i = \frac{1}{\sum_j B_j D_j f(c_{ij})}\\
+B_j = \frac{1}{\sum_i A_i O_i f(c_{ij})}
+\end{array}
+$${#eq-doubly-constrained-balancing-factors}
 
-Calibration of the two sets of proportionality constants is accomplished by means of iterative proportional fitting, whereby the values of $A_i$ are initialized as one for all i to obtain an initial estimate of $B_j$. The values of $B_j$ are used to update the underlying trip matrix, before calibrating $A_i$. This process continues to update $A_i$ and $B_j$ until a convergence criterion is met [see @ortuzar_2011_modelling, p. 193-195].
+Calibration of the two sets of proportionality constants is accomplished by means of iterative proportional fitting, whereby the values of $A_i$ are initialized as one for all i to obtain an initial estimate of $B_j$. The values of $B_j$ are used to update the underlying $V_{ij}^D$ matrix, before calibrating $A_i$. This process continues to update $A_i$ and $B_j$ until a convergence criterion is met [see @ortuzar_2011_modelling, p. 193-195].
 
-<!--
-In the case of SIM calibrated for accessibility, the doubly-constrained case has more limited applications than the singly-constrained case because the double constraints (both marginals) are so specific. In this case, the units of the population and opportunities must be able to be understood as the same. E.g., the number of population at $i$ that seek opportunities at each $j$ and the number of opportunities at $j$ that are sought by population at each $i$ must both be known to match. 
+The proportional allocation factor $\kappa_{ij}^D$ would then be:
+$$
+\kappa_{ij}^D = \sum_j \frac{1}{\sum_j B_j D_j f(c_{ij})} \frac{1}{\sum_i A_i O_i f(c_{ij})} O_i f(c_{ij})
+$${eq-doubly-constrained-proportional-allocation-factor-forpop}
 
-In our examples of children and schools, and urgent care clincs and all people, they could be solved as doubly-constrained if additional information was known. In the case of urgent care children and schools, if the number of children at $i$ that visit specific schools $j$ was additionally known: then the doubly-constrained $V_{ij}$ could be interpreted as "the number of school-seats accessible from $j$ by the students at $i$ " OR "the number of students accessible from $i$ by the school-seats at $j$" - they would be equivalent statements. If you sub in 'urgent-care-seats' for 'school-seats' and 'population' for 'students', you'd have the analogous interpretation for the doubly-constrained case for urgent care clinics described. 
+Rewriting @eq-doubly-constrained-accessibility as an origin summary expression of proportionally allocated opportunities:
 
-Literature has explored 'doubly-constrained' but -- not the same: , etc. Ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAccess2020.
--->
+$$
+V^D_{i} = \kappa^D_{ij} \sum_j   D_j
+$${#eq-doubly-constrained-accessibility-with-proportional-allocation-factor}
 
-Returning to the simple numeric example
+Unlike in the totally- and singly-constrained cases, representing $V_i^D$ per capita is not as meaningful, as the the value _already_ matches population to opportunities, e.g., the number of opportunities accessed by the population. Similarly, the market potential form $M^D_j$ would be the transposed way of summarizing $V_{ij}^D$. In other words, the inputs of 'opportunities accessed' and 'accessed population' can already be interpreted as inherently being sensitive to bother opportunities and population. As opportunities match population and both marginals are constrained, $M^D_j$ would simply be a summary of $V^D_{ij}$ values at each $j$, and would represent the number of people accessible to opportunities. The formulation is as follows:
 
+$$
+M^D_j = \sum_i A_i B_j O_i D_j f(c_{ij})\\
+$${#eq-doubly-constrained-market-potential}
 
 ```{r}
 #| label: simple-numerical-example-doubly-constrained
 
 # Same as before
 id <- c("1", "2", "3")
-O_i2 <- c(4, 10, 6) 
-D_j2 <- c(160, 150, 180)
-
-# Balance the sum of origins and destinations
-f <- sum(O_i2 * 10000)/sum(D_j2)
-D_j2 <- (f * D_j2/10000) |>
-  round()
-
+O_i2 <- c(4, 10, 6) #in units of 10,000 people
+#D_j <- c(160, 150, 180) #the old
+#D_j2 <- c(6.530612, 6.122449, 7.346939) #this would be exactly linearly scaled down.
+D_j2 <- c(7, 5, 8) #in units of 10,000 physician-capacity
 LU2 <- data.frame(id, O_i2, D_j2)
 ```
 
-NOTE: The example needs to be revised in this case to have the population and opportunities match, as in, one person-one opportunity
+Let's return to the numeric example with a new objective. Say, we're interested in measuring the zonal values of accessed physician-capacity. And we have new information: given the same zonal populations, a region-wide survey indicates the number of people that live in each zone, and the number of physician capacity per zone. The survey does not tell use what person is matched with what physician (assume that's confidential), we only have the numbers of population at $i$ and the number of physician-capacity at $j$. Lucky for us, this survey keeps our example simple: we find out that the physician-capacity at each zone is a approximately scaled version of the number of destination-side physicians at each zone. With this new information, we are interested in understanding what does the zonal access to physician-capacity for the population looks under different travel behaviour scenarios. @tbl-small-system-land-use-doubly-constrained-case summarises this adjusted simple example: with the population (in units of 10,000s of people) and the opportunities (in units of 10,00s of physician-capacity) per zone. Considering this new definition of 'provider', the new (realized) Provider-to-Population-Ratio is simply `r sum(LU2$D_j2) / sum(LU2$O_i2)`. The zonal cost matrix, and travel impedance functions for three types of travel behaviour are the same as before (@tbl-small-system-cost and @eq-travel-behaviour-scenarios). 
 
 ```{r}
-#| label: tbl-small-system-land-use-doubly-constrained
-#| tbl-cap: "Simple system with three zones. Population is in 10,000 persons and opportunities in 10,000s physicians."
+#| label: tbl-small-system-land-use-doubly-constrained-case
+#| tbl-cap: "Modified simple system with three zones reflecting matched population and opportunities. Population is in 10,000 persons and opportunities in 10,000 of physician-capacity."
 
 LU2 |>
   gt() |>
-  cols_label(id = "ID",
+  # tab_spanner("{{W[_i^(1)]}}",
+  #             columns = 2) |>
+  # tab_spanner("{{W[_j^(2)]}}",
+  #             columns = 3) |>
+  cols_label(id = "ID (i or j)",
              O_i2 = "Population", 
              D_j2 = "Opportunities")  |>
   cols_align(align = "center",
              columns = 2:3) |>
-  tab_footnote(footnote = md("Population is *Wi^(1)^* when used as a proxy for the mass at the origin, and *Oi* when used as a constraint."),
-               locations = cells_column_labels(columns = O_i2)) |>
-  tab_footnote(footnote = md("Opportunities is *Wj^(2)^* when used as a proxy for the mass at the destination, and *Dj* when used as a constraint."),
-               locations = cells_column_labels(columns = D_j2)) #|>
-  #as_latex()
+  as_latex()
 ```
+
 
 ```{r}
 #| label: simple-numerical-example-OD-table-doubly-constrained
 
-OD2 <- C |>
+OD2 <- C |># mutate(f3=100) |>
   left_join(LU2 |>
               select(-D_j2),
             by = c("oid" = "id")) |>
@@ -1260,10 +1311,8 @@ OD2 <- C |>
             by = c("did" = "id"))
 ```
 
-
-In this case, $V_{ij}$ would be:
-```{r}
-
+In this case, $V_{ij}^D$ for the most decay travel behaviour scenario is presented in @tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-access-values.
+```{r, quiet = TRUE}
 doubly_constrained_gravity_model <- function(
     #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R
   O,  # Origin production weights vector
@@ -1276,19 +1325,19 @@ doubly_constrained_gravity_model <- function(
   # Normalize O and D
   sum_O <- sum(O)
   sum_D <- sum(D)
-  cat("Checking production, attraction balancing:\n")
-  cat("Production: ", sum_O, "\n")
-  cat("Attraction: ", sum_D, "\n")
+  # cat("Checking production, attraction balancing:\n") #let's disable the messages..
+  # cat("Production: ", sum_O, "\n")
+  # cat("Attraction: ", sum_D, "\n")
 
   if (sum_O != sum_D) {
-    cat("Productions and attractions do not balance, scaling to match.\n")
+    # cat("Productions and attractions do not balance, scaling to match.\n") #let's disable the messages..
     if (sum_O < sum_D) {
       O <- O * (sum_D / sum_O)
     } else {
       D <- D * (sum_O / sum_D)
     }
   } else {
-    cat("Production, attraction balancing OK.\n")
+    # cat("Production, attraction balancing OK.\n") #let's disable the messages..
   }
 
   n <- length(O)  # Number of i
@@ -1315,12 +1364,12 @@ doubly_constrained_gravity_model <- function(
     }
 
     # Calculate Tij
-    Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix #Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix
+    Tij <- outer(Ai * O, Bj_new * D) * impedance_matrix
 
-    # Print Ai and Bj for this iteration
-    cat("\nIteration:", iteration_count, "\n")
-    cat("Ai:", round(Ai, 3), "\n")
-    cat("Bj:", round(Bj_new, 3), "\n")
+    # # Print Ai and Bj for this iteration #let's disable the messages..
+    # cat("\nIteration:", iteration_count, "\n")
+    # cat("Ai:", round(Ai, 3), "\n")
+    # cat("Bj:", round(Bj_new, 3), "\n")
 
     # Calculate error
     error <- (sum(abs(O - rowSums(Tij))) + sum(abs(D - colSums(Tij)))) / T
@@ -1341,15 +1390,17 @@ doubly_constrained_gravity_model <- function(
     Bj <- Bj_new
   }
 
-  # report stopping condition and final error threshold
-  cat("\nStopping Condition: ", stop_reason, "\n")
-  cat(sprintf("Final Error: %.3f%%\n", error * 100))
+  # report stopping condition and final error threshold #let's disable the messages..
+  #cat("\nStopping Condition: ", stop_reason, "\n")
+  #cat(sprintf("Final Error: %.3f%%\n", error * 100))
 
   return(list(Ai = Ai, Bj = Bj, Tij = Tij))
 }
 ```
-
 ```{r}
+#| label: calculating balancing-factors and resulting Tij for each travel behaviour scenario
+
+#isolating impedance
 Impf1 <- C$f1 |> 
   matrix(nrow = 3, ncol = 3)
 
@@ -1358,83 +1409,148 @@ Impf2 <- C$f2 |>
 
 Impf3 <- C$f3 |> 
   matrix(nrow = 3, ncol = 3)
-```
-
-```{r}
+# caclulating it
 dc_acc_1 <- doubly_constrained_gravity_model(O_i2, D_j2, Impf1)
-```
-
-```{r}
 dc_acc_2 <- doubly_constrained_gravity_model(O_i2, D_j2, Impf2)
-```
-
-```{r}
 dc_acc_3 <- doubly_constrained_gravity_model(O_i2, D_j2, Impf3)
-```
 
-The $A_i$ and $B_j$ matrices:
-```{r}
+#assigning the balancing factors to their own variables
+A_i_doubly1 <- dc_acc_1$Ai
+B_j_doubly1 <- dc_acc_1$Bj
 
-A_i_doubly <- dc_acc_1$Ai
-B_j_doubly <- dc_acc_2$Bj
+A_i_doubly2 <- dc_acc_2$Ai
+B_j_doubly2 <- dc_acc_2$Bj
 
-A_i_doubly |> matrix()
-B_j_doubly |> matrix() |> t()
-```
+A_i_doubly3 <- dc_acc_3$Ai
+B_j_doubly3 <- dc_acc_3$Bj
 
-The trip matrix (notice, all summed up opportunities and populations are equivalent to our knowns)
-```{r}
-#| eval: false
-
+#assigning the Tijs to their own variables
 V_dc_1 <- dc_acc_1$Tij
+V_dc_2 <- dc_acc_2$Tij
+V_dc_3 <- dc_acc_3$Tij
 
-P_i_doubly <- V_dc_1 |> rowSums()
-O_j_doubly <- V_dc_1 |> colSums()
-V_TOTAL_dest <- ifelse(sum(P_i_doubly)==sum(O_j_doubly), sum(V_doubly), NA)
-V_doubly_longer <- cbind(V_doubly,P_i_doubly)
-V_doubly_longer <- rbind(V_doubly_longer, cbind(t(O_j_doubly),V_TOTAL_dest))
+#reformatting the matrix into long format, joining it to OD2
+OD2<-OD2 |> mutate(V_dc_ij_1 = c(V_dc_1[,1], V_dc_1[,2], V_dc_1[,3]),
+              V_dc_ij_2 = c(V_dc_2[,1], V_dc_2[,2], V_dc_2[,3]),
+              V_dc_ij_3 = c(V_dc_3[,1], V_dc_3[,2], V_dc_3[,3]))
 
-rownames(V_doubly_longer) <- c("1","2","3", "TOTAL") 
-colnames(V_doubly_longer) <- c("1","2","3", "TOTAL")
+OD2$k_dc_ij_1 = c((outer(A_i_doubly1 * O_i2, B_j_doubly1) * Impf1)[,1],
+                   (outer(A_i_doubly1 * O_i2, B_j_doubly1) * Impf1)[,2],
+                   (outer(A_i_doubly1 * O_i2, B_j_doubly1) * Impf1)[,3]) / 3
 
-V_doubly_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE)
+OD2$k_dc_ij_2 = c((outer(A_i_doubly2 * O_i2, B_j_doubly2) * Impf2)[,1],
+                   (outer(A_i_doubly2 * O_i2, B_j_doubly2) * Impf2)[,2],
+                   (outer(A_i_doubly2 * O_i2, B_j_doubly2) * Impf2)[,3]) / 3
+
+OD2$k_dc_ij_3 = c((outer(A_i_doubly3 * O_i2, B_j_doubly3) * Impf3)[,1],
+                   (outer(A_i_doubly3 * O_i2, B_j_doubly3) * Impf3)[,2],
+                   (outer(A_i_doubly3 * O_i2, B_j_doubly3) * Impf3)[,3]) / 3
+
+#Checks, should equal 1.
+# OD2$k_dc_ij_1 |> sum()
+# OD2$k_dc_ij_2 |> sum()
+# OD2$k_dc_ij_3 |> sum()
 ```
 
-Nice. But notice how the accessibility is simply the number of opportunities at the destination! In other words, it is simply the access.
+```{r}
+#| label: tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-access-values
+#| tbl-cap: "Adjusted simple system: doubly-constrained opportunity accessibility for the most decay travel behaviour scenario."
+
+OD2 |> 
+  select(c(oid, did, V_dc_ij_1)) |>
+  tidyr::pivot_wider(names_from = did, values_from = V_dc_ij_1) |>
+  gt() |>
+  tab_spanner(label = "Destination ID",
+              columns = 2:4) |>
+  cols_label(oid = "Origin ID")  |>
+  cols_align(align = "center",
+             columns = 2:4) |>
+  tab_options(column_labels.font.size = "small") |>
+  as_latex()
+```
+
+As mentioned, accessibility can be interpreted as a summary of the proportionally allocated opportunities at each $i$. In interpreting the doubly-constrained accessibility from @tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-access-values, $V_i^D$, these values would be `r (OD2|>group_by(oid)|>summarize(V_dc_i_1=sum(V_dc_ij_1)))[1,2] |> pull()`, `r (OD2|>group_by(oid)|>summarize(V_dc_i_1=sum(V_dc_ij_1)))[2,2] |> pull()`, and `r (OD2|>group_by(oid)|>summarize(V_dc_i_1=sum(V_dc_ij_1)))[3,2] |> pull()` physician-capacity for Zones 1, 2 and 3 respectively, approximately equal to the number of population at each of these zones. Conversely, $M_j^D$ values would be `r (OD2|>group_by(did)|>summarize(M_dc_j_1=sum(V_dc_ij_1)))[1,2] |> pull()`, `r (OD2|>group_by(did)|>summarize(M_dc_j_1=sum(V_dc_ij_1)))[2,2] |> pull()`, and `r (OD2|>group_by(did)|>summarize(M_dc_j_1=sum(V_dc_ij_1)))[3,2] |> pull()` people accessible from Zones 1, 2 and 3 respectively, equal to the number of _opportunities_  (physician-capacities) at each of these zones. And that's precisely the function of the double constraint - to have the mass weight at the origin equal the mass weight of the destination. In other words, $V_i^D$ is simply accessed opportunities and $M_j^D$ population accessed. And following the same logic, the same $V_i^D$ and $M_j^D$ values are calculated for the other two travel behaviour scenarios.
+
+What may be interesting are the differences in $V_{ij}^D$ values  between travel behaviour scenarios, these values can be directly compared to discuss their mass and distance decay impacts. Returning to Zone 2,  @tbl-adjusted-small-system-land-use-doubly-constrained-case-allfs-access-values-for-zone2 demonstrates these $i$ to $j$ access values for our more relatively remote, higher-populated and lower-opportunity rich zone. It can be observed that the number of intrazonal opportunities proportionally allocated decreases as the assumed distance decay decreases e.g., from `r OD2|>filter(oid == 2 & did == 2) |> pull(V_dc_ij_1)` to `r OD2|>filter(oid == 2 & did == 2) |> pull(V_dc_ij_3)` out of the ~`r OD2|>filter(oid == 2) |> summarize(V_dc_i_1 = sum(V_dc_ij_1)) |> pull(V_dc_i_1) |>round()` opportunities allocated to Zone 2 (a population of `r OD2|>filter(oid == 2) |> summarize(O_i2 = first(O_i2)) |> pull(O_i2) |>round()`).  Following the intuition discussed in the singly-constrained opportunity case, as decay decreases, the mass effect of the population (at origin) and opportunity (at destination) is more evident: zonal opportunities are supplied and zonal populations demand at the weights assigned to these zones, with minimal decay adjustment, reflected by the proportional allocation factors $\kappa_{ij}^D$.
+
+<!--NOTE FOR FUTURE EXPLORATION: Interestingly... for the doubly- and singly- constrained case, kappas are very similar *maybe close to identical?* when decay is low. This is because distance difference doesn't matter, everyone can reach everything and everything is given to everyone. But when decay is high, they are much different: since in the doubly-constrained case, enough opps from other zones must be pulled such to match the population -- the kappa is pushed to be constrained to satisfy both the match at the weight at the origin as well as pull proportional from destinations as not to exceed their caps. This relationship should be investigated further some other time..-->
+
+```{r}
+#| label: tbl-adjusted-small-system-land-use-doubly-constrained-case-allfs-access-values-for-zone2
+#| tbl-cap: "Adjusted simple system: doubly-constrained opportunity accessibility for all travel behaviour scenarios for Zone 2."
+
+OD2  |>
+  filter(oid == 2) |>
+  select(c(did, O_i2, D_j2, starts_with("V_"))) |>
+  gt(rowname_col = "did") |>
+  tab_stubhead(label = "Dest.") |>
+  
+  tab_spanner(label = "{{V[_{ij}^D]}}",
+              columns = 4:6,
+              level = 2) |>
+  tab_spanner(label = "{{f_1 (c_ij ) = 1/c[_ij^3]}}",
+              columns = 4,
+              level = 1) |>
+  tab_spanner(label = "{{f_2 (c_ij ) = 1/c[_ij^2]}}",
+              columns = 5,
+              level = 1) |>
+  tab_spanner(label = "{{f_3 (c_ij ) = 1/c[_ij^0.1]}}",
+              columns = 6,
+              level = 1) |>
+  fmt_number(decimals = 3) |>
+  
+  cols_label(O_i2 = md("Population at 2 (units: *people in 10,000s*)"),
+             D_j2 = md("Opportunities (units: *capacity in 10,000s*)"),
+             V_dc_ij_1 = md("units: *physician-capacity in 10,000s*"),
+             V_dc_ij_2 = md("units: *physician-capacity in 10,000s*"),
+             V_dc_ij_3 = md("units: *physician-capacity in 10,000s*"),
+             )  |>
+  cols_align(align = "center",
+             columns = 2:6) |>
+  cols_width(
+    stub() ~ px(60*0.5),
+    everything() ~ px(180*0.5)
+  ) |>
+  tab_options(column_labels.font.size = "small") |>
+  as_latex()
+```
+
+Recall that accessibility is defined as "the potential for interaction" and is traditionally presented as a summary zonal measure. In the doubly-constrained case,  we force the zonal population and zonal opportunities to match one-to-one, hence providing a zonal summary is no longer relevant: the sum of $V_{ij}^D$ for all $i$s ends up being equal to the population at the zone. However, if what interests readers is the "potential for interaction" in the case population and opportunities do match one-to-one, perhaps reframing the investigation is needed. In this sense, it would be examining "interaction" (much less room for potential) through the values of $V_{ij}^D$ e.g., how many opportunities are being allocated to an origin from a destination (or in a transposed sense for $M_{ij}^D$). In this sense, the doubly-constrained case it better thought of as an estimate of "access" instead of "accessibility". It is also formulaically identical to the doubly-constrained spatial interaction model, but with specific interpretations of the origin and destination weights as 'population' and 'opportunity' respectively. 
+
+As Wilson explicitly noted, origin and destination weights defined in the spatial interaction model _can_ be defined using any unit. Accessibility, however, is a summary of _potential_ for interaction: it's typically been used and understood as a zonal summary. Arriving at the doubly-constrained case through the unconstrained, totally, and singly-constrained case make the connection between the _potential_ for spatial interaction (accessibility) and spatial interaction (access) more clear(?).
+
+<!--
+NOTE: competitive accessibility Literature has explored 'doubly-constrained' but -- it's not the same as this: they they just use the Wilson balancing factors , etc. Ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAccess2020.
+-->
+
+<!--ANOTHER NOTE:  -->
 
 # Discussion
-when to use what, their embedded assumptions, and dangers of using one over the other
 
-Wu and Lev say comp. can be considered in the imped function, but no details. we argue its' more. unconstrained - no comp,
--- constraints consider competition
-	- total - regionally; not fixing it on what zones will be matched, it's just regional,
-	- singly- with zone and regional,
-	- doubly- per origin and destination zone. 
-	
-A sort of 'accessible' provider to population ratio, or accessible opportunities per capita, can also be easily calculated by dividing each constrained value by the number of opportunities. !!!
+## SUMMARY
 
-# A note on interpretation and possible applications
+By introducing constraints, we fold in competition considerations into a family of accessibility measures. While previous methodologically clarifying work, such as @wuUnifyingAccess2020, has largely overlooked competition, this paper demonstrates how applying constraints consistent with the spatial interaction model allows for incorporating competition into accessibility. The constraints used depends on the research question, the suitability of assumptions, the granularity of data, but ultimately: the addition of constraints re-introduces unit into accessibility, make comparisons between scenarios and regions more intuitive.
 
-When to use each of these measures?
-<!--AS: CHECK MY OLD VERSION!  -->
+This work builds on spatial interaction modeling principles, following a review of earlier spatial interaction literature. We show that, while recent accessibility research has diverged from its spatial interaction foundations, it can be explicitly linked back. We demonstrate that accessibility can be consistently calculated for an $i$-$j$ pair by stacking constraints that preserve the units of "accessibility" while maintaining zonal or regional constraints.
 
-**Totally-constrained** 
+We first place the popular Hansen accessibility measure within this family of measures as an "unconstrained" case, demonstrating that resulting values cannot be directly compared across different travel scenarios without ad-hoc adjustments. We then show how applying a total constraint balances the units and produces a statistically averaged solution that converges to the regional average for each zone as the decay effect decreases. In other words, the total-constraint model could be a more interpretable alternative for the unconstrained case if regional competition is relevant; specifically, if there is a fixed number of opportunities in the region, and if it makes sense to assume that people accessing proximate opportunities leave fewer for others, _without_ considering the population size at the origins. <!-- A.S. NOTE: Hansen's measure would converge to some global total if the decay effect was low. Imagine everyone can teleport. In the unconstrained case: all zones can reach all opportunities. In the totally constrained case: all zones can reach all opportunities divided by the number of zones. Alternatively, if 1 zone can teleport and no other zone can travel at all, that 1 zone will get all the opportunities in the region. -->
 
-**Singly-constrained**
+We then introduce the singly-constrained case, which _does_ takes into account the population size at the origin in the allocation of opportunities (unlike the total constraint). In this case, all accessibility values are fixed to sum to a known zonal opportunity-size value (implicitly, the regional total of opportunities), but they are not required to sum to any population-based values at the zone or regional level. The singly-constrained model could be useful if regional competition is a factor and if the acknowledgment that only a finite number of opportunities can be allocated from each destination (with those allocations distributed based on origin population size) is suitable. We also introduce an 'accessible' PPR (e.g., opportunities per capita), calculated by dividing each accessibility value by the zonal population. To clarify, this per capita expression of the singly-constrained case is equivalent to the 2SFCA, hence linking this literature back to spatial interaction principles.
 
-<!-- Each $V_{ij}$ can be interpreted as $O_j$ weighted by the proportional balancing factor e.g., "the number of opportunities accessible from $j$ by the population at $i$" all weighted by travel cost, of course. Use this formulation of the singly-constrained case when the number of opportunities, at each $j$, that are being competed for by the population is known but the precise number of population that is competiting for opportunities is not. For example, public schools as a destination in a region where all children attend them. All school-seats at $j$ are open to all children at all $i$s. However, not all population $i$ are equally interested in school-seats at all $j$s (e.g., some prefer special programs, teachers, etc.); and we do not know this precise population $i$ to $j$ number. Hence, an opportunity-constrained version of the singly-constrained case is appropriate.  -->
+Lastly, the doubly-constrained case is introduced. In this case, the sums must equal both the regional total and ensure that no zone allocates more opportunities than it has available. Specifically, accessibility values for each $i$-$j$ pair must be a proportion of he zonal opportunity and population values simultaneously. For example, the accessibility at zone 1 must equal the sum of opportunities from zones 1, 2, and 3, as well as the sum of the population at zone 1. Satisfying the double constraint means the opportunities and population data must match one-to-one, so working with the accessibility $i$-$j$ pair values should be of interest. In this sense, the research question should be concerned with realized access (how many opportunities accessed from $j$ at $i$ based on given zonal opportunities and populations) instead of potential 'access' (e.g., typically expressed as a zonal summary measure of how many opportunities one could reach (out of a regional total and/or zonal-allocation).
 
-<!-- However, the population-constrained version of the singly-constrained case can be appropriate in the converse situation. Consider the case of public urgent care clinics in a region where all people use them equally. Unlike schools, all population at $i$ are equally interested in urgent-care-seats at all clinics $j$. If there's an emergency, or not, they will visit. However, from an operational perspective all clinics at $j$ are _not_ interested in serving all people (e.g., they'd rather serve people who have access to primary care medicine as they are more likely to seek urgent care in actual medical emergencies). From this perspective, using a _population-constrained_ version of the singly-constrained case $V_i''^{(1)}$, is appropriate. Each $V_{ij}$ can be interpreted as $P_i$ weighted by the proportional balancing factor e.g., "the number of population accessible from $i$ by the opportunities at $j$" all weighted by travel cost, of course.  -->
+## A note on interpretation and possible applications
 
-**Doubly-constrained**
-
-
+When to use each of these measures? Embedded assumptions? and dangers of using one over the other?
 
 # Conclusions
 
 Accessibility development has a rich history. There have been developments in the cases/breath of travel impedance functions, competition considerations, and in incorporating individual choice as part of activity-based accessibility. However, no work yet has examined accessibilities explicit connecting to SIM. We examine this connection, and provide a origin-destination ($i$ to $j$) formulation of accessibility as part of the SIM framework. Novel stuff.
 
+
 <!--
+BELOW IS THE TEXT GRAVEYARD! 
+
 # APPENDIX (some musings... destined for the commented-out graveyard)
 
 ## Singly-constrained case is spatial availability
