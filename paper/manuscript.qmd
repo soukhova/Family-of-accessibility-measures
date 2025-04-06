@@ -588,6 +588,8 @@ f_3(c_{ij}) = \frac{1}{c_{ij}^{0.1}}
 \end{array}
 $$ {#eq-travel-behaviour-scenarios}
 
+<!-- this paragraph could probably be merged with the previous one -->
+
 Accessibility will be calculated three times for each case, one assuming the most decay ($f_1(c_{ij})$), another assuming medium decay ($f_2(c_{ij})$), and a third assuming the least decaying travel behaviour ($f_3(c_{ij})$) for the entire region. A helpful analogy may be tying travel behaviour to the used mode's mobility potential, i.e., the most decaying travel behaviour ($f_1(c_{ij})$) would assume all travel in the region being done by foot, while calculating accessibility assuming the least decay ($f_3(c_{ij})$) would assume unfettered automobility. Or alternatively, these functions could represent travel behaviour on snowstorm-affected day ($f_1(c_{ij})$) for the entire region versus a clear, ideal travel day ($f_3(c_{ij})$). As an example of a discussion on how travel behaviour has been considered in accessibility measures cost of travel see @paez2012measuring.
 
 Any set of concepts representing population, opportunities, and their associated travel behaviour -whether representing the entire region uniformly (as we will demonstrate) or representing specific subgroups- can be substituted into our simple example, depending on the research question. The purpose of the following simple example is to demonstrate the calculation of each member of the accessibility measure family, interpret the values, and compare them both within and across travel behavior groups and members of the accessibility family.
@@ -597,10 +599,10 @@ Any set of concepts representing population, opportunities, and their associated
 Setting the balancing factor $k$ to one in @eq-access-01 results in the unconstrained accessibility case:
 
 $$
-V^0_{ij} = W_j^{(2)} f(c_{ij})
+V^0_{ij} = 1 *W_j^{(2)} f(c_{ij})
 $$ {#eq-unconstrained-access}
 
-Then, the partial sum becomes the following: simply Hansen's accessibility $S_i$ [@hansen1959], standard practice in accessibility measurement:
+In this case, the partial sum of spatial interaction is simply identical to Hansen's accessibility $S_i$ [@hansen1959], the current standard practice in accessibility measurement:
 
 $$
 V^0_i = \sum_j V^0_{ij} = \sum_j W^{(2)}_jf(c_{ij}) = S_i
@@ -627,17 +629,12 @@ OD <- C |>
 #| tbl-cap: "Simple system: unconstrained accessibility."
 
 
-unc_acc_ij <- OD |>
+unc_acc <- OD |>
   group_by(oid) |>
-  reframe(V_unc_ij_1 = D_j * f1,
-            V_unc_ij_2 = D_j * f2,
-            V_unc_ij_3 = D_j * f3)
+  summarize(V_unc_i_1 = sum(D_j * f1),
+            V_unc_i_2 = sum(D_j * f2),
+            V_unc_i_3 = sum(D_j * f3))
 
-unc_acc <- unc_acc_ij |>
-  group_by(oid) |>
-  summarize(V_unc_i_1 = sum(V_unc_ij_1),
-            V_unc_i_2 = sum(V_unc_ij_2),
-            V_unc_i_3 = sum(V_unc_ij_3))
 
 unc_acc |>
   gt(rowname_col = "oid") |>
