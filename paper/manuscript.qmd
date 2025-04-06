@@ -190,7 +190,7 @@ However, Hansen' use of Stewart's *population potential* measure included one cr
 
 Paper, the omission of this constant generates a fundamental problem for the measurement unit of accessibility estimates, which has fundamental implications for the interpretation, communication and comparability of accessibility analysis. At any rate, those reading @hansen1959 must recall that @stewartDemographicGravitationEvidence1948 had set the proportionality constant $G$ to 1, with a note that "$G$ \[was\] left for future determination: a suitable choice of other units can reduce it to unity". In practice, the persistent omission of the costant in accessibility analyses  means that $G$ continues to be implicitly set to $1$, even when the fundamental relationship in accessibility is proportionality (e.g., $S_{i}  \propto \sum_j g(O_j)f(d_{ij})$) and not equality [for instance, see the formula for accessibility at the top of Figure 1 in @wuUnifyingAccess2020]. The direct consequence is that without a proportionality constant, the units of $S_i$ remain unclear: the unit of "potential of opportunity for interaction" is left free to change as $\beta$ is calibrated. For example, if $c_{ij}$ is distance in meters, it will be number of opportunities per $m^{\beta}$ when $f(c_{ij}) = d^{-\beta}$ but number of opportunities per $e^{-\beta\cdot m}$ when $f(c_{ij}) = e^{\beta\cdot m}$. This undermines the comparability of accessibility metrics with different decay functions, and renders their results difficult to understand and communicate. Hansen-style accessibility, therefore, is better thought of as an ordinal measure of potential that can only be interpreted in terms of higher and lower accessibility, but which has not palpable meaning [@millerAccessibilityMeasurementApplication2018].
 
-<!-- jargon ? 'a suitable choice of other units can reduce it to unity' I think this could be explained in plain English ->
+<!-- jargon ? 'a suitable choice of other units can reduce it to unity' I think this could be explained in plain English -->
 
 
 # Wilson's family of spatial interaction models
@@ -199,13 +199,15 @@ Paper, the omission of this constant generates a fundamental problem for the mea
 
 <!-- very brief narrative to introduce - is this happening separately from hansen? "On the other side of the atlantic, wilson was doing..." :) -->
 
+<!-- rafa: I agree it would be nice to have a sentence or two that sets the context of wheter wilson was aware of stewart's and hansen's work -->
+
 In his groundbreaking work, Wilson [-@wilson1971] defined a general spatial interaction model as follows:
 
 $$
 T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 $$ {#eq-phys-gravity-model}
 
-The model in @eq-phys-gravity-model posits a quantity $T_{ij}$ that represents a value in a matrix of flows of size $n \times m$, that is, between $i = 1,\cdots, n$ origins and $j = 1,\cdots, m$ destinations. The quantities $W_i^{(1)}$ and $W_j^{(2)}$ are proxies for the masses at $i=1,\cdots,n$ origins and $j=1,\cdots,m$ destinations. Finally, $f(c_{ij})$ is the $i-j$ element of an $n \times m$ matrix representing some function of travel cost $c_{ij}$ which reflects travel impedance. In this way, $T_{ij}$ explicitly measures *interaction* in the unit of trips, and the role of $k$ is to ensure that the system-wide sum of $T_{ij}$ represents the total flows in the data. In other words, $k$ is a scale parameter that makes the overall amount of flows identical to the magnitude of the phenomenon being modeled: it balances the units.
+The model in @eq-phys-gravity-model posits a quantity $T_{ij}$ that represents a value in a matrix of flows of size $n \times m$, that is, between $i = 1,\cdots, n$ origins and $j = 1,\cdots, m$ destinations. The quantities $W_i^{(1)}$ and $W_j^{(2)}$ are proxies for the masses at $i=1,\cdots,n$ origins and $j=1,\cdots,m$ destinations. Finally, $f(c_{ij})$ is some function of travel cost $c_{ij}$ which reflects travel impedance. In this way, $T_{ij}$ explicitly measures *interaction* in the unit of trips, and the role of $k$ is to ensure that the system-wide sum of $T_{ij}$ represents the total flows in the data. In other words, $k$ is a scale parameter that makes the overall amount of flows identical to the magnitude of the phenomenon being modeled. In other words, it balances the units, just like the gravitational constant in Newton’s Law of Universal Gravitation.
 
 Traditionally, development of the spatial interaction model put an emphasis on the interpretability of the results [@kirbyNormalizingFactorsGravity1970; @wilsonSTATISTICALTHEORYSPATIAL1967; @wilson1971]. But instead of relying on the heuristic of Newtonian gravity (e.g., some interaction between a mass at $i$ and a mass at $j$ separated by some distance), Wilson's approach was to maximise the entropy of the system. Entropy maximisation in this case achieves stable results as a statistical average that represents the population. The approach works by assuming undifferentiated individual interactions, and assessing their probabilities of making a particular journey. The result of @eq-phys-gravity-model then is a statistical average [@wilson1971; @seniorGravityModellingEntropy1979].
 
@@ -227,7 +229,10 @@ $$ {#eq-constraint2-gravitymodel}
 
 It is also possible to have information about both $O_i$ and $D_j$, in which case both constraints could be imposed on the model.
 
-Building on this, a family of spatial interaction models can be derived. In the framework introduced in @wilson1971, this includes the "unconstrained" (which we refer to as the total flow constrained) model in @eq-phys-gravity-model. The balancing constant $K$ in this case is [see @cliff_evaluating_1974; @fotheringham_spatial_1984]:
+Building on this, a family of spatial interaction models can be derived. In the framework introduced in @wilson1971, this includes the "unconstrained" model in @eq-phys-gravity-model. In practical terms, this means that the total number of trips predicted by the mode must be equal to sum of all flows from origin i to destinations j. The balancing constant $K$ in this case is [see @cliff_evaluating_1974; @fotheringham_spatial_1984]:
+
+<!-- rafa: the terminology is confusing because first you say it is "unconstrained", and then you say it is "total flow constrained". I've adjusted the text trying say in plain English what means to be 'unconstrained' here. Not sure my interpretation is accurate, though -->
+
 
 $$
 K=\frac{T}{\sum_i\sum_j T_{ij}}
@@ -241,11 +246,16 @@ $$ {#eq-production-constrained-gravitymodel}
 
 Notice how, in this model, the proxy for the mass at the origin $W_i^{(1)}$ is replaced by the actual mass, as measured by the trips produced $O_i$. Also, there is no longer a single system-wide proportionality constant, but rather a set of proportionality constants (i.e., balancing factors) specific to origins. According to Wilson, these constants, namely $A_i$, are:
 
+<!-- rafa: in plain English, what does it mean? that the total number of predicted trips must be equal to the sum of the all the masses in the origins ? -->
+
 $$
 A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}
 $$ {#eq-production-constrained-balancing-factor}
 
 The attraction-constrained model, in turn, takes the following form:
+
+<!-- rafa: in plain English, what does it mean? that the total number of predicted trips must be equal to the sum of the all the masses in the destinations ? -->
+
 
 $$
 T_{ij} = B_j D_j W_i^{(1)} f(c_{ij})
@@ -258,6 +268,8 @@ B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}
 $$ {#eq-attraction-constrained-balancing-factor}
 
 When both @eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel hold, the resulting models is, in Wilson's terms, doubly-constrained, and takes the following form:
+
+<!-- rafa: in plain English, what does it mean?  -->
 
 $$
 T_{ij} = A_i B_j O_i D_j f(c_{ij})
@@ -409,7 +421,9 @@ ggsave(filename = glue::glue(here::here(),
 docs_per_year_plot
 ```
 
-To illustrate this point, we conducted a bibliographic analysis of the literature that cites @hansen1959, @wilson1971, or both. We retrieved all relevant documents using the Web of Science "Cited References" functionality, and the digital object identifiers of @hansen1959 and @wilson1971. As a result of this search we identified `r n_h |> prettyNum(big.mark = ",")` documents that cite @hansen1959, `r n_w  |> prettyNum(big.mark = ",")` documents that cite @wilson1971, and `r n_b |> prettyNum(big.mark = ",")` that cite both. The earliest document in this corpus dates to `r min(corpus$PY)` and the most recent is from `r max(corpus$PY)`. The number of documents per year appears in @fig-docs-per-year, where we see the frequency of documents over a span of almost fifty years. In particular, we notice the remarkable growth in the number of papers that cite @hansen1959 compared to those that cite @wilson1971 or both.
+To illustrate this point, we conducted a bibliographic analysis of the literature that cites @hansen1959, @wilson1971, or both. We retrieved all relevant documents using the Web of Science "Cited References" functionality, and the digital object identifiers of @hansen1959 and @wilson1971. As a result of this search we identified `r n_h |> prettyNum(big.mark = ",")` documents that cite @hansen1959, and only `r n_w  |> prettyNum(big.mark = ",")` documents that cite @wilson1971, and `r n_b |> prettyNum(big.mark = ",")` that cite both. The earliest document in this corpus dates to `r min(corpus$PY)` and the most recent is from `r max(corpus$PY)`. The number of documents per year appears in @fig-docs-per-year, where we see the frequency of documents over a span of almost fifty years. In particular, we notice the remarkable growth in the number of papers that cite @hansen1959 compared to those that cite @wilson1971
+
+<!-- rafa: this  bibliographic analysis with Figure 2 is cool, but it looks unecessary and distractig from the core contribution of the paper. I'd suggest removing it  -->
 
 ````{=html}
 <!--
@@ -430,154 +444,9 @@ coupling_net <- coupling_net |>
 -->
 ````
 
-After compiling this corpus of documents, we used the {bibliometrix} package [@bibliometrix2017] to create a bibliographical coupling matrix. In this matrix, two documents are coupled if they share at least one common reference, and the strength of the coupling increases with the number of references that the documents have in common. @fig-Fig1 presents the results, where each symbol represents a document. The distance between symbols on the plot indicates the strength of bibliographical coupling: documents that are more strongly coupled (i.e., those sharing more references) are plotted closer to each other.
-
-```{r}
-#| label: layout-for-coupling-net
-#| cache: true
-
-layout <- create_layout(coupling_net,
-                        layout = "stress",
-                        weights = weight)
-```
-
-```{r}
-#| label: plot-coupling-network
-#| include: false
-
-coupling_net_plot <- ggplot(data = layout) +
-  geom_point(aes(x = x,
-                 y = y,
-                 shape = corpus,
-                 color = corpus),
-             size = 3,
-             alpha = 0.7) +
-  geom_point(data = layout |>
-               filter(corpus == "Both"),
-             aes(x = x,
-                 y = y),
-             shape = 1,
-             size = 3) +
-  geom_point(data = layout |>
-               filter(corpus == "Wilson"),
-             aes(x = x,
-                 y = y),
-             shape = 0,
-             size = 3,
-             alpha = 0.5) +
-  theme_void()
-
-ggsave(filename = glue::glue(here::here(), 
-                             "/figures/Han_Wilson_bib_coupling_plot.png"))
-```
-
-```{r}
-#| label: fig-Fig1
-#| out-width: 70%
-#| fig-cap: "Bibliometric coupling of papers that cite Hansen (1959), Wilson (1971), or both."
-
-coupling_net_plot
-```
-
-```{r}
-#| label: center-of-mass-of-Hansen
-
-# This is the center of mass of the documents that cite Hansen
-hansen_center_of_mass <- layout |>
-  filter(corpus == "Hansen") |>
-  summarize(x = mean(x),
-            y = mean(y))
-```
-
-```{r}
-#| label: center-of-mass-of-Wilson
-
-# This is the center of mass of the documents that cite Wilson
-wilson_center_of_mass <- layout |>
-  filter(corpus == "Wilson") |>
-  summarize(x = mean(x),
-            y = mean(y))
-```
-
-```{r}
-#| label: row-names-by-corpus
-
-# Extract the row names by corpus to be able to partition the coupling matrix
-hansen_names <- rownames(corpus |>
-                           filter(corpus == "Hansen"))
-
-wilson_names <- rownames(corpus |>
-                           filter(corpus == "Wilson"))
-
-both_names <- rownames(corpus |>
-                           filter(corpus == "Both"))
-```
-
-```{r}
-#| label: partition-of-coupling-matrix
-
-# With the row names we can extract submatrices to examine the strength of coupling within and between the three corpora, i.e., documents that cite only Hansen, only Wilson, or both
-hansen_to_wilson <- B_nd[hansen_names, wilson_names]
-
-hansen_to_hansen <- B_nd[hansen_names, hansen_names]
-
-wilson_to_wilson <- B_nd[wilson_names, wilson_names]
-
-both_to_both <- B_nd[both_names, both_names]
-
-both_to_hansen <- B_nd[both_names, hansen_names]
-
-both_to_wilson <- B_nd[both_names, wilson_names]
-```
-
-```{r}
-#| label: summary-of-coupling-within-and-between-corpora 
-
-# The number of common citations per pair of documents can be calculated as the sum of all common citations in the matrix, divided by the number of pair-paper combinations:
-# Average coupling for the total corpora
-c_t <- sum(sum(B_nd))/(dim(B_nd)[1] * (dim(B_nd)[2]))
-# Average coupling for papers that cite both Hansen and Wilson
-c_b <- sum(sum(both_to_both))/(dim(both_to_both)[1] * (dim(both_to_both)[2]))
-# Average coupling for papers that cite only Hansen
-c_h <- sum(sum(hansen_to_hansen))/(dim(hansen_to_hansen)[1] * (dim(hansen_to_hansen)[2]))
-# Average coupling for papers that cite only Wilson
-c_w <- sum(sum(wilson_to_wilson))/(dim(wilson_to_wilson)[1] * (dim(wilson_to_wilson)[2]))
-# Average coupling between papers that cite both Hansen and Wilson, and those that cite only Hansen
-c_h_to_b <- sum(sum(both_to_hansen))/(dim(both_to_hansen)[1] * dim(both_to_hansen)[2])
-# Average coupling between papers that cite both Hansen and Wilson, and those that cite only Wilson
-c_w_to_b <- sum(sum(both_to_wilson))/(dim(both_to_wilson)[1] * dim(both_to_wilson)[2])
-# Average coupling between papers that cite only Hansen, and those that cite only Wilson
-c_h_to_w <- sum(sum(hansen_to_wilson))/(dim(hansen_to_wilson)[1] * dim(hansen_to_wilson)[2])
-```
-
-Further examination of the bibliographical coupling matrix allows us to check the coupling strength within and between subgroups of documents (i.e., those that cite only Hansen, only Wilson, or both papers). First, we note that when we look at the three subgroups of documents pooled together, the average number of references shared by a pair of documents is `r round(c_t, 2)`. @tbl-coupling-results presents the average number of items cited in common within each subgroup, as well as between subgroups. As seen in the table, the coupling within subgroup tends to be higher than when we consider the full corpus with all three groups together. The tightest coupling is seen for the group of documents that cite both Hansen and Wilson, with an average number of references in common of `r prettyNum(c_b, digits = 3)`. The weakest coupling is between the Hansen and Wilson subgroups, with only `r prettyNum(c_h_to_w, digits = 1)` references in common on average, which indicates a large degree of decoupling (independence) between these bodies of work.
-
-```{r}
-#| label: tbl-coupling-results
-#| tbl-cap: "Average coupling strength within and between groups of documents. The average coupling strength is the number of references shared on average by a pair of documents."
-
-data.frame(corpus = c(glue::glue("Hansen (n = {n_h |> prettyNum(big.mark = ",")})"), 
-                      glue::glue("Wilson (n = {n_w |> prettyNum(big.mark = ",")})"),
-                      glue::glue("Both (n = {n_b  |> prettyNum(big.mark = ",")})")),
-           Hansen = c(prettyNum(c_h, digits = 3),
-                      prettyNum(c_h_to_w, digits = 1),
-                      prettyNum(c_h_to_b, digits = 3)),
-           Wilson = c("-",
-                      prettyNum(c_w, digits = 3),
-                      prettyNum(c_w_to_b, digits = 3)),
-           Both = c("-",
-                    "-",
-                    prettyNum(c_b, digits = 3))
-           ) |>
-  gt() |>
-  tab_footnote(footnote = glue::glue("Average coupling for the pooled set of documents (n = {(n_h + n_w + n_b) |> prettyNum(big.mark = ",")}) is {round(c_t, 2)}")) |>
-  tab_options(footnotes.font.size = "small") |>
-  as_latex()
-```
-
 As noted, literature that cites both @wilson1971 and @hansen1959 are sparse (only `r (n_b / (n_b+n_h+n_w) )|> scales::percent(0.1)` of the corpus) but highly coupled. However, we can discern from a manual reading of these works that they too are divergent, with one stream focused on developing accessibility (i.e., *potential for* spatial interaction) and another on spatial interaction. The focuses of these divergent streams contribute this paper's broader hypothesis that the concepts of accessibility and spatial interaction have remained largely disconnected.
 
-The spatial-interaction-focused stream of literature inspired by @wilson1971 that cites both @hansen1959 and @wilson1971, tends to contribute to understanding how accessibility is interpreted and incorporated in spatial interaction models, treating it as a separate (but related) phenomenon or variable. Specifically, works interpret the spatial interaction model's balancing factors (@eq-production-constrained-balancing-factor or @eq-doubly-constrained-balancing-factors) as the inverse of @hansen1959's model [@harrisEquilibriumValuesDynamics1978; @leonardiOptimumFacilityLocation1978; @fotheringhamSPATIALSTRUCTUREDISTANCE1981; @fotheringhamSpatialCompetitionAgglomeration1985], recognizing it as a "common sense" approach [@morrisAccessibilityIndicatorsTransport1979, p. 99] to including accessibility in the spatial interaction model, though further exploration of its relationship is warranted [@battyMethodResiduesUrban1976]. Some authors have explored this relationship, for instance as in @fotheringhamSpatialCompetitionAgglomeration1985 who demonstrates how the spatial interaction model may insufficiently explain spatial patterns and suggest that explicitly defining destinations' accessibility as a variable within the model may remedy the issue (e.g., the *competition destination* model). Other works used both @hansen1959 and @wilson1971's framework in conjunction, such as in defining location-allocation problems in Operations research [@leonardiOptimumFacilityLocation1978; @beaumontLocationallocationProblemsPlane1981], estimating trip flows (or some other interaction flows) alongside accessibility [e.g., @clarke2002deriving; @grengs2004measuring; @turk2019socio], or considering accessibility within spatial interaction models, in line with @fotheringhamSpatialCompetitionAgglomeration1985's demonstration [e.g., @beckers2022incorporating]. Other works departed from @hansen1959's definition and aligned with spatial interaction in different ways, such as using micro-economic consumer behaviour concepts to express potential for spatial interaction [@morrisAccessibilityIndicatorsTransport1979; @leonardiRandomUtilityDemand1984].
+The spatial-interaction-focused stream of literature inspired by @wilson1971 that cites both @hansen1959 and @wilson1971, tends to contribute to understanding how accessibility is interpreted and incorporated in spatial interaction models, treating it as a separate (but related) phenomenon or variable. Specifically, some early works interpret the spatial interaction model's balancing factors (@eq-production-constrained-balancing-factor or @eq-doubly-constrained-balancing-factors) as the inverse of @hansen1959's model [@harrisEquilibriumValuesDynamics1978; @leonardiOptimumFacilityLocation1978; @fotheringhamSPATIALSTRUCTUREDISTANCE1981; @fotheringhamSpatialCompetitionAgglomeration1985], recognizing it as a "common sense" approach [@morrisAccessibilityIndicatorsTransport1979, p. 99] to including accessibility in the spatial interaction model, though further exploration of its relationship is warranted [@battyMethodResiduesUrban1976]. Some authors have explored this relationship, for instance as in @fotheringhamSpatialCompetitionAgglomeration1985 who demonstrates how the spatial interaction model may insufficiently explain spatial patterns and suggest that explicitly defining destinations' accessibility as a variable within the model may remedy the issue (e.g., the *competition destination* model). Other works used both @hansen1959 and @wilson1971's framework in conjunction, such as in defining location-allocation problems in Operations research [@leonardiOptimumFacilityLocation1978; @beaumontLocationallocationProblemsPlane1981], estimating trip flows (or some other interaction flows) alongside accessibility [e.g., @clarke2002deriving; @grengs2004measuring; @turk2019socio], or considering accessibility within spatial interaction models, in line with @fotheringhamSpatialCompetitionAgglomeration1985's demonstration [e.g., @beckers2022incorporating]. Other works departed from @hansen1959's definition and aligned with spatial interaction in different ways, such as using micro-economic consumer behaviour concepts to express potential for spatial interaction [@morrisAccessibilityIndicatorsTransport1979; @leonardiRandomUtilityDemand1984].
 
 On the other hand, we discern that the potential-for-spatial-interaction-focused stream of literature inspired by @hansen1959 that cite both @hansen1959 and @wilson1971, cite @wilson1971 for three general reasons: - Firstly, as attribution for using using different context-dependent travel cost functions [@weibullNumericalMeasurementAccessibility1980; @handyMeasuringAccessibilityExploration1997; @kwan1998space; @shenLocationCharacteristicsInnercity1998; @ashiru2003space; @rau2012spatial; @pan2013impacts; @margaridacondecomelhoradoImpactMeasuringInternal2016; @caschili2015accessibility; @grengs2015nonwork; @pan2020measuring; @chia2020extending; @roblot2021participation; @sharifiasl2023incorporating; @kharel2024examining]. - Secondly, associating spatial interaction with accessibility's potential for spatial interaction [e.g., @giuliano2010accessibility; @grengs2010intermetropolitan; @grengs2010job; @grengs2012equity; @levine2012does; @levinson2012positive; @tong2015transportation; @liu2015spatial; @he2017measuring; @wuUnifyingAccess2020; @ng2022reflection; @naqavi2023mobility; @suel2024measuring]. While accessibility is an expression of *potential for* spatial interaction and @wilson1971 touches on the concept [e.g., how @wilson1971 is cited in @millerMeasuringSpaceTimeAccessibility1999], it is distinct concept from spatial interaction. This distinction, however, is often unclear, as @hansen1959 and @wilson1971 are frequently co-cited as both being 'gravity models' [e.g., @liu2004accessibility; @dai2017visualization; @shen2019segregation; @chia2020extending]. - Thirdly, interpretation of @hansen1959's model as an inverse balancing factor [@vickermanAccessibilityAttractionPotential1974], especially in competitive opportunity or population contexts [@karstEvaluationAccessibilityImpacts2003; @geurs2006accessibility; @willigers2007accessibility; @el2011place; @curtis2010planning; @manaugh2012makes; @chen2013regional; @alonso2014labour; @albacete2017measuring; @sahebgharani2019computing; @mayaud2019future; @allenMeasureCompetitiveAccess2020; @levinsonGeneralTheoryAccess2020; @marwal2022literature; @su2023untangling]. However, as outlined in preceding sections, we argue the resulting indicator values are plagued by similar interpretability issues. Of the literature in this stream, only the work of @soukhovIntroducingSpatialAvailability2023 and @soukhovMultimodalSpatialAvailability2024 cite @wilson1971's use of balancing factors as ways for maintaining constraints in opportunities in the context of competitive accessibility.
 
