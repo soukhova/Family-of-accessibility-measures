@@ -629,11 +629,24 @@ OD <- C |>
 #| tbl-cap: "Simple system: unconstrained accessibility."
 
 
-unc_acc <- OD |>
+unc_acc_ij <- OD |>
   group_by(oid) |>
-  summarize(V_unc_i_1 = sum(D_j * f1),
-            V_unc_i_2 = sum(D_j * f2),
-            V_unc_i_3 = sum(D_j * f3))
+  reframe(V_unc_ij_1 = D_j * f1,
+          V_unc_ij_2 = D_j * f2,
+          V_unc_ij_3 = D_j * f3)
+
+unc_acc <- unc_acc_ij |>
+  group_by(oid) |>
+  summarize(V_unc_i_1 = sum(V_unc_ij_1),
+            V_unc_i_2 = sum(V_unc_ij_2),
+            V_unc_i_3 = sum(V_unc_ij_3))
+
+## unconstrained access in one step
+# unc_acc <- OD |>
+#   group_by(oid) |>
+#   summarize(V_unc_i_1 = sum(D_j * f1),
+#             V_unc_i_2 = sum(D_j * f2),
+#             V_unc_i_3 = sum(D_j * f3))
 
 
 unc_acc |>
@@ -677,7 +690,7 @@ As the different impedance functions represent different travel behaviours, comp
 
 <!-- not like terms? -->
 
-However, we can compare values within the same travel behavior scenario across different zones but values are not inherently meaningful due to the units. For example, considering the most decaying scenario at zone 1, it captures `r unc_acc$V_unc_i_1[1] - unc_acc$V_unc_i_1[2]` more $f_1(c_{ij})$-weighted-physicians than zone 2, and `r unc_acc$V_unc_i_1[3] - unc_acc$V_unc_i_1[1]` fewer than zone 3. In the least decaying scenario, zone 1 captures `r unc_acc$V_unc_i_3[1] - unc_acc$V_unc_i_3[2]` more $f_3(c_{ij})$-weighted-physicians physicians than zone 2, and `r unc_acc$V_unc_i_3[3] - unc_acc$V_unc_i_3[1]` fewer than zone 3. Both scenarios at zone 1 captures an intermediate $V_i^0$ value between the two other zones, but at different ratios: the least decaying scenario captures `r unc_acc$V_unc_i_1[1]/unc_acc$V_unc_i_1[2]` and `r unc_acc$V_unc_i_1[1]/unc_acc$V_unc_i_1[3]` times the $f_1(c_{ij})$-weighted-physicians than zone 2 and 3 respectively, while the most decaying scenario captures `r unc_acc$V_unc_i_3[1]/unc_acc$V_unc_i_3[2]` and `r unc_acc$V_unc_i_3[1]/unc_acc$V_unc_i_3[3]` times the $f_3(c_{ij})$-weighted-physicians. The ratios between the zones in the two scenarios are different. These differences are tied up in the travel impedance functions, and hence the unconstrained accessibility values themselves should not be compared. <!--maybe a better way of saying this?--> This simple example illustrates that the differences and ratios of unconstrained accessibility values are not inherently meaningful. While one could attempt to adjust the units post-calculation (e.g., scaling, population normalization) or select comparable impedance functions (at the cost of accurately reflecting travel behavior), such adjustments may introduce bias.
+However, we can compare values within the same travel behavior scenario across different zones but values are not inherently meaningful due to the units. For example, considering the most decaying scenario at zone 1, it captures `r unc_acc$V_unc_i_1[1] - unc_acc$V_unc_i_1[2]` more $f_1(c_{ij})$-weighted-physicians than zone 2, and `r unc_acc$V_unc_i_1[3] - unc_acc$V_unc_i_1[1]` fewer than zone 3. In the least decaying scenario, zone 1 captures `r unc_acc$V_unc_i_3[1] - unc_acc$V_unc_i_3[2]` more $f_3(c_{ij})$-weighted-physicians physicians than zone 2, and `r unc_acc$V_unc_i_3[3] - unc_acc$V_unc_i_3[1]` fewer than zone 3. Both scenarios at zone 1 captures an intermediate accessibility value $V_i^0$ between the two other zones, but at different ratios: the least decaying scenario captures `r unc_acc$V_unc_i_1[1]/unc_acc$V_unc_i_1[2]` and `r unc_acc$V_unc_i_1[1]/unc_acc$V_unc_i_1[3]` times the $f_1(c_{ij})$-weighted-physicians than zone 2 and 3 respectively, while the most decaying scenario captures `r unc_acc$V_unc_i_3[1]/unc_acc$V_unc_i_3[2]` and `r unc_acc$V_unc_i_3[1]/unc_acc$V_unc_i_3[3]` times the $f_3(c_{ij})$-weighted-physicians. The ratios between the zones in the two scenarios are different. These differences are tied up in the travel impedance functions, and hence the unconstrained accessibility values themselves should not be compared. <!--maybe a better way of saying this?--> This simple example illustrates that the differences and ratios of unconstrained accessibility values are not inherently meaningful. While one could attempt to adjust the units post-calculation (e.g., scaling, population normalization) or select comparable impedance functions (at the cost of accurately reflecting travel behavior), such adjustments may introduce bias.
 
 <!-- Notice the wild differences. Accessibility according to impedance function 3 basically says that everyone has access to all opportunities all at once. Accessibility according to function 1, on the other hand, says that each population has accessibility to around 3 opportunities, which is absurd: the number of opportunities available locally are in the order of 150-180. One should not have to adjust the impedance function to obtain "reasonable" results [EXAMPLE]; instead, the impedance function should reflect the travel behavior. -->
 
@@ -685,7 +698,7 @@ However, we can compare values within the same travel behavior scenario across d
 
 ## Totally-constrained accessibility
 
-A total constraint proportionally adjusts zonal accessibility values based on the total population and/or opportunities in the region. The introduction of this constraint introduces a form of competition, as all zonal values are a proportion of the system total, be it the regional opportunities or regional population depending on the case. We define two cases: a *totally-constrained opportunity* accessibility case, interpreted as Hansen's accessibility with a constraint, and a *totally-constrained population* accessibility case, interpreted as constrained market potential.
+A total constraint proportionally adjusts zonal accessibility values based on the total population and/or opportunities in the region. The introduction of this constraint introduces a form of competition, as all zonal values are a proportion of the system total, be it the regional opportunities or regional population depending on the case. We define two cases: (a) a case where accessibility is constrained by the total number of opportunities (aka *totally-constrained opportunity*) and which is interpreted as Hansen's accessibility with a constraint, and (b) a case where accessibility is constrained by the total population (aka *totally-constrained population*) and which is interpreted as constrained market potential.
 
 ### Totally-constrained opportunity: Hansen's accessibility with a constraint
 
@@ -707,6 +720,9 @@ $$
 \sum_i V^T_{i} = \sum_i\sum_j V^T_{ij} = D
 $$ {#eq-total-constraint-accessibility}
 
+<!-- rafa: do we need to keep equations 31 and 32 -->
+
+
 This constraint is analogous to the total constraint of @eq-constraint0-gravitymodel which is congruent with Wilson's framework. We can then substitute @eq-total-constrained-accessibility in @eq-total-constraint-accessibility and solve for $K^T$ to yield: $$
 K^T =\frac{D}{\sum_i\sum_j V^0_{ij}} = \frac{D}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
 $$ {#eq-total-opportunity-balancing-factor}
@@ -723,9 +739,13 @@ $$
 \kappa^T = \frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
 $$
 
-\noindent and therefore $V^T_i$ is now in the units of $W^{(2)}_j$, that is, the mass at the destination ($V^T_i = \kappa^T\sum_j W^{(2)}_j$). The role of $\kappa^T$ in this reformulation of accessibility is to adjust the number of opportunities accessible from $i$ so that they represent a proportion of the total number of opportunities in the region. Constant $\kappa^T$ then assigns opportunities in proportion to the impedance between $i$ and $j$. For this reason, we refer to it as a proportional allocation factor.
+\noindent and therefore $V^T_i$ is now in the units of $W^{(2)}_j$, that is, the mass at the destination ($V^T_i = \kappa^T\sum_j W^{(2)}_j$). The role of $\kappa^T$ in this reformulation of accessibility is to transform between units and to adjust the number of opportunities accessible from $i$ so that they represent a proportion of the total number of opportunities in the region. Constant $\kappa^T$ then assigns opportunities in proportion to the impedance between $i$ and $j$. For this reason, we refer to it as a proportional allocation factor.
 
 <!-- kappa in equations now? -->
+
+
+<!-- rafa: 'The role of $\kappa^T$ in this reformulation of accessibility is to..'. This sentence is gold and it should be said earlier on. My personal preference is that first we need to explain to the reader in plain language what the constraint is, and what it means in practical terms (why it matters). Then we can show this with the equations.  -->
+
 
 Referring to our simple numeric example, proportionality constant for the $f_1(c_{ij}) = 1/c_{ij}^3$ travel behaviour scenario would then be: $$
 \begin{array}{l}
