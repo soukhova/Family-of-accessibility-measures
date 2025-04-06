@@ -229,7 +229,7 @@ $$ {#eq-constraint2-gravitymodel}
 
 It is also possible to have information about both $O_i$ and $D_j$, in which case both constraints could be imposed on the model.
 
-Building on this, a family of spatial interaction models can be derived. In the framework introduced in @wilson1971, this includes the "unconstrained" model in @eq-phys-gravity-model. In practical terms, this means that the total number of trips predicted by the mode must be equal to sum of all flows from origin i to destinations j. The balancing constant $K$ in this case is [see @cliff_evaluating_1974; @fotheringham_spatial_1984]:
+Building on this, a family of spatial interaction models can be derived. In the framework introduced in @wilson1971, this includes the "unconstrained" model in @eq-phys-gravity-model. In practical terms, this means that the total number of trips predicted by the model must be equal to sum of all flows from origins i to destinations j. The balancing constant $K$ in this case is [see @cliff_evaluating_1974; @fotheringham_spatial_1984]:
 
 <!-- rafa: the terminology is confusing because first you say it is "unconstrained", and then you say it is "total flow constrained". I've adjusted the text trying say in plain English what means to be 'unconstrained' here. Not sure my interpretation is accurate, though -->
 
@@ -486,23 +486,22 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 # A family of accessibility measures
 
-As argued in the preceding section, the literatures on accessibility and spatial interaction modelling have evolved as largely separate streams with little contact since @hansen1959 and @wilson1971. This may explain why the constraints/proportionality constant(s) of spatial interaction models did not cross over to accessibility analysis. This is intriguing since Wilson himself made an effort to connect his developments in spatial interaction modelling to accessibility, noting the denominator of @eq-production-constrained-balancing-factor is the inverse of $A_i$, offering a potential interpretation for the proportionality constant [@wilson1971 p. 10]:
-
-<!-- "offering a potential interpretation for the proportionality constant", which would be..... -->
+As argued in the preceding section, the streams of research on accessibility and spatial interaction modelling have evolved as largely separate streams with little contact since @hansen1959 and @wilson1971. This may explain why the constraints/proportionality constant(s) of spatial interaction models did not cross over to accessibility analysis. This is intriguing since Wilson himself made an effort to connect his developments in spatial interaction modelling to accessibility, noting the denominator of the proportionality constants specific to origins (@eq-production-constrained-balancing-factor) is the inverse of $A_i$, offering a potential interpretation for the proportionality constant [@wilson1971 p. 10]:
+<!-- "offering a potential interpretation for the proportionality constant...", which would be..... -->
 
 $$
 S_i = \frac{1}{A_i} = \sum_j W_j^{(2)} f(c_{ij})
 $$ {#eq-Ai-as-accessibility}
 
-This, however, only helps to illustrate the ease with which confusion may arise in this context. The relationship in @eq-Ai-as-accessibility appears to be misaligned. In the preceding section on early research, we noted that Hansen, and Stewart before him, defined accessibility as a partial sum of the demographic force $F$, essentially going from the demographic force ($F = G\frac{M_1\cdot M_2}{d_{12}^2}$ to the pairwise population potential $V_1 = G\frac{M_2}{d_{12}}$ and from there to the system-wide population potential (after losing $G$) $V_i = \sum_j \frac{M_j}{d_{ij}}$. While the inverse of $A_i$ may appear to be accessibility, its functional role in Wilson's general model $T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})$ is that of a balancing factor $k$ (maintaining proportionality).
+This, however, only helps to illustrate the ease with which confusion may arise in this context. The relationship in @eq-Ai-as-accessibility appears to be misaligned. In the preceding section on early research, we noted that Hansen, and Stewart before him, defined accessibility as a partial sum of the demographic force $F$, essentially going from the demographic force ($F = G\frac{M_1\cdot M_2}{d_{12}^2}$ to the pairwise population potential $V_1 = G\frac{M_2}{d_{12}}$ and from there to the system-wide population potential (after losing $G$) $V_i = \sum_j \frac{M_j}{d_{ij}}$. While the inverse of $A_i$ is pretty much identical to Hansen's accessibility, its functional role in Wilson's general model $T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})$ is that of a balancing factor $k$ (maintaining proportionality).
 
-Hence, we propose a more useful definition: accessibility as a partial sum of the spatial interaction. A way to define the *potential for spatial interaction* (i.e., accessibility) is as follows:
+Hence, we propose a more general definition of accessibility as a partial sum of the spatial interaction. Once we bring back Wilson's proportionality constant into the picture, we can define the *potential for spatial interaction* between two locations i and j is as follows:
 
 $$
 V_{ij} = k W_j^{(2)} f(c_{ij})
 $$ {#eq-access-01}
 
-\noindent where $V_{ij}$ is the potential for interaction, and therefore:
+\noindent where $V_{ij}$ is the potential for interaction, and therefore the accessibility from origin i is defined as:
 
 $$
 V_{i} = k \sum_j W_j^{(2)} f(c_{ij})
@@ -510,7 +509,7 @@ $$ {#eq-accesssibility-01}
 
 Similar to @eq-phys-gravity-model, $W_j^{(2)}$ above is the mass at the destination, and the sub-indices are for $i = 1,\cdots, n$ origins and $j = 1,\cdots, m$ destinations.
 
-In the following subsections, we detail how various accessibility measures can be defined depending on selected constraints: how $k$ is specified and depending on the combination of population and opportunity data is available and measurement focus. Together, these constraints delineate different members of the family of accessibility measures and which fall under four categories: (1) the unconstrained case, which is equivalent to @hansen1959's formulation; (2) then total constrained cases, which is constrained by total population and opportunities.; (3) the singly-constrained cases, which is opportunity-constrained or population-constrained; and (4) the doubly-constrained case, which is constrained simultaneously by population and opportunities. In the next section, we use a simple numerical example to illustrate these cases in increasing order of constraint restrictiveness and information availability.
+In the following subsections, we detail what are the implications of bringing this constraint into accessibility measures, and how various accessibility measures can be defined depending on selected constraints: how $k$ is specified and depending on the combination of population and opportunity data is available and measurement focus. Together, these constraints delineate different members of the family of accessibility measures and which fall under four categories: (1) the unconstrained case, which is equivalent to @hansen1959's formulation; (2) the total constrained cases, which is constrained by total population and opportunities.; (3) the singly-constrained cases, which is opportunity-constrained or population-constrained; and (4) the doubly-constrained case, which is constrained simultaneously by population and opportunities. In the next section, we use a simple numerical example to illustrate these cases in increasing order of constraint restrictiveness and information availability.
 
 <!-- confusing terms. what is the difference between total constrained and doubly-constrained case ? we probably need to think of better terms here. I also liked Chris' idea of including a table that summarizes the differences between these measures -->
 
@@ -607,9 +606,9 @@ $$
 V^0_i = \sum_j V^0_{ij} = \sum_j W^{(2)}_jf(c_{ij}) = S_i
 $$ {#eq-unconstrained-accessibility}
 
-Where the sum of $V^0_{i}$ in the region generally does not equal the total number of opportunities $O$ (e.g., $\sum_i V^0_{i} \not= O$), as setting $k$ to 1 to arbitrarily eliminates the term and imposes no meaningful interpretation to the resulting values. To complicate matters, when comparing $V^0_{i}$ values between travel behaviour contexts, their difference depends on the choice of impedance function $f(c_{ij})$, associated parameters, and the number of zones for which an accessibility score is calculated. For this reason, the unconstrained accessibility should more appropriately be used as an ordinal variable to make comparisons of size (i.e., greater than, less than, equal to), not to calculate ratios or intervals (i.e., the magnitude of differences).
+In such case, the the sum of the accessibility from each origin $V^0_{i}$ in the region generally does not equal the total number of opportunities $O$ (e.g., $\sum_i V^0_{i} \not= O$). This is because setting $k$ to 1 to arbitrarily eliminates the constant term and imposes no meaningful interpretation to the resulting values. To complicate matters, when comparing $V^0_{i}$ values between travel behaviour contexts, their difference depends on the choice of impedance function $f(c_{ij})$, associated parameters, and the number of zones for which an accessibility score is calculated. <!-- double check this next sentence . there should be a more explicit mention to the units problem ? --> For this reason, the unconstrained accessibility is not comparable across different contexts and decay functions, and should more appropriately be used as an ordinal variable to make comparisons of size (i.e., greater than, less than, equal to), not to calculate ratios or intervals (i.e., the magnitude of differences).
 
-Returning to the simple example, consider the calculated unconstrained accessibility $V^0_{i}$ for each origin, a sum of all the travel impedance weighted opportunities at each destination ($\sum_i V^0_{i}$), in @tbl-simple-example-unconstrained-accessibility.
+Returning to our numeric example, consider the calculated unconstrained accessibility $V^0_{i}$ for each origin, a sum of all the travel impedance weighted opportunities at each destination ($\sum_i V^0_{i}$), in @tbl-simple-example-unconstrained-accessibility.
 
 ```{r}
 #| label: simple-numerical-example-OD-table
