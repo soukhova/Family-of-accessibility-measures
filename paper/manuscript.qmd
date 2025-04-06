@@ -486,7 +486,9 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 # A family of accessibility measures
 
-As argued in the preceding section, the accessibility and spatial interaction modelling literature streams tended to evolve with little contact after @hansen1959 and @wilson1971. This may explain the failure of the constraints/proportionality constant(s) of spatial interaction models to cross over to accessibility analysis. This is intriguing since Wilson himself made an effort to connect his developments in spatial interaction modelling to accessibility, noting the denominator of @eq-production-constrained-balancing-factor and is the inverse of $A_i$, offering a potential interpretation for the proportionality constant [@wilson1971 p. 10]:
+As argued in the preceding section, the literatures on accessibility and spatial interaction modelling have evolved as largely separate streams with little contact since @hansen1959 and @wilson1971. This may explain why the constraints/proportionality constant(s) of spatial interaction models did not cross over to accessibility analysis. This is intriguing since Wilson himself made an effort to connect his developments in spatial interaction modelling to accessibility, noting the denominator of @eq-production-constrained-balancing-factor is the inverse of $A_i$, offering a potential interpretation for the proportionality constant [@wilson1971 p. 10]:
+
+<!-- "offering a potential interpretation for the proportionality constant", which would be..... -->
 
 $$
 S_i = \frac{1}{A_i} = \sum_j W_j^{(2)} f(c_{ij})
@@ -508,7 +510,9 @@ $$ {#eq-accesssibility-01}
 
 Similar to @eq-phys-gravity-model, $W_j^{(2)}$ above is the mass at the destination, and the sub-indices are for $i = 1,\cdots, n$ origins and $j = 1,\cdots, m$ destinations.
 
-In the following subsections, we detail how various accessibility measures can be defined depending on selected constraints: how $k$ is specified and depending on the combination of population and opportunity data is available and measurement focus. Together, these constraints delineate different members of the family of accessibility measures. Along with a simple numerical example, we detail the unconstrained case (@hansen1959's formulation), then total constrained cases (opportunity-constrained and population-constrained), then singly-constrained cases (opportunity-constrained and population-constrained), and lastly the doubly-constrained case. These cases are presented in increasing order of constraint restrictiveness and information availability.
+In the following subsections, we detail how various accessibility measures can be defined depending on selected constraints: how $k$ is specified and depending on the combination of population and opportunity data is available and measurement focus. Together, these constraints delineate different members of the family of accessibility measures and which fall under four categories: (1) the unconstrained case, which is equivalent to @hansen1959's formulation; (2) then total constrained cases, which is constrained by total population and opportunities.; (3) the singly-constrained cases, which is opportunity-constrained or population-constrained; and (4) the doubly-constrained case, which is constrained simultaneously by population and opportunities. In the next section, we use a simple numerical example to illustrate these cases in increasing order of constraint restrictiveness and information availability.
+
+<!-- confusing terms. what is the difference between total constrained and doubly-constrained case ? we probably need to think of better terms here. I also liked Chris' idea of including a table that summarizes the differences between these measures -->
 
 ## Simple numeric example setup
 
