@@ -1149,7 +1149,7 @@ Like the totally-constrained opportunity case, this case offers a solution to th
 
 ### Singly-constrained population: market potential
 
-Similar to @eq-total-population-balancing-factor in transposing the origins and destinations, we can define a *singly-constrained* measure of market potential that preserves the known population (i.e., the mass weight at the origin $W_i^(1)$ is now represented by $O_i$). In it's per-capita expression, i.e., equivalent to 2SFCA, this constrained concept of market potential been used to express "facility crowdedness" as in @wang_inverted_2018. <!-- Anything else like this in the literature?-->
+Similar to @eq-total-population-balancing-factor in transposing the origins and destinations, we can define a *singly-constrained* measure of market potential that preserves the known population (i.e., the mass weight at the origin $W_i^{(1)}$ is now represented by $O_i$). In it's per-capita expression, i.e., equivalent to 2SFCA, this constrained concept of market potential been used to express "facility crowdedness" as in @wang_inverted_2018. <!-- Anything else like this in the literature?-->
 
 The underlying spatial interaction model is now the production-constrained model in @eq-production-constrained-gravitymodel, and our market potential measure $M^S_i$ becomes:
 
