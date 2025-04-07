@@ -139,6 +139,7 @@ $$ {#eq-stewart-force}
 -   $d_{12}^2$ is the distance between $1$ and $2$
 -   And finally $G$, a constant that Stewart "left for future determination" [-@stewartDemographicGravitationEvidence1948, p. 34]
 
+<<<<<<< HEAD
 <!-- what exactly did he mean by 'molecular weights' ? -->
 
 In addition to demographic force, Stewart defined a measure of the "population potential" of $2$ with respect to $1$ as follows:
@@ -146,15 +147,23 @@ In addition to demographic force, Stewart defined a measure of the "population p
 <!-- in plain language, what do you mean by 'the population potential of 2 with respect to 1' ? the potential number of people from location 2 that would visit location 1 ? but also, I'm not sure we need this equation 7 -->
 
 \
+=======
+In addition to demographic force, Stewart defined a measure of the "population potential" of $2$ with respect to $1$ as follows: 
+
+>>>>>>> ac7b0b2b2c239082d42ca54a294d229e7100fdee
 $$
 V_1 = G\frac{M_2}{d_{12}}
 $$ {#eq-stewart-population-potential}
 
-For a system with more than two population bodies, Stewart formulated the population potential at $i$ as follows (after arbitrarily assuming that $G=1$): $$
+For a system with more than two population bodies, Stewart formulated the population potential at $i$ as follows (after arbitrarily assuming that $G=1$): 
+
+$$
 V_i = \int\frac{D}{r} ds
 $$ {#eq-stewart-population-potential-integral}
 
-\noindent where $D$ is the population density over an infinitesimal area $ds$ and $r$ is the distance to $i$. In @eq-stewart-population-potential-integral, $D\cdot ds$ gives an infinitesimal count of the population, say $dm$, and so, after discretizing space, @eq-stewart-population-potential-integral can be rewritten as: $$
+\noindent where $D$ is the population density over an infinitesimal area $ds$ and $r$ is the distance to $i$. In @eq-stewart-population-potential-integral, $D\cdot ds$ gives an infinitesimal count of the population, say $dm$, and so, after discretizing space, @eq-stewart-population-potential-integral can be rewritten as: 
+
+$$
 V_i = \sum_j \frac{M_j}{d_{ij}}
 $$ {#eq-stewart-population-potential-sum}
 
@@ -223,7 +232,9 @@ $$
 \sum_j T_{ij} = O_i
 $$ {#eq-constraint1-gravitymodel}
 
-Alternatively, if there is information available about the total number of trips attracted by each destination ($D_j$), the following constraint can be used: $$
+Alternatively, if there is information available about the total number of trips attracted by each destination ($D_j$), the following constraint can be used: 
+
+$$
 \sum_i T_{ij} = D_j
 $$ {#eq-constraint2-gravitymodel}
 
@@ -580,7 +591,9 @@ C |>
   as_latex()
 ```
 
-And lastly, we distinguish accessibility measure values for the following three impedance functions that represent the potential for spatial interaction travel behaviour of the population to opportunities in the region are in @eq-travel-behaviour-scenarios: $$
+And lastly, we distinguish accessibility measure values for the following three impedance functions that represent the potential for spatial interaction travel behaviour of the population to opportunities in the region are in @eq-travel-behaviour-scenarios: 
+
+$$
 \begin{array}{l}
 f_1(c_{ij}) = \frac{1}{c_{ij}^3}\\
 f_2(c_{ij}) = \frac{1}{c_{ij}^2}\\
@@ -743,11 +756,17 @@ $$
 
 <!-- kappa in equations now? -->
 
+<<<<<<< HEAD
 
 <!-- rafa: 'The role of $\kappa^T$ in this reformulation of accessibility is to..'. This sentence is gold and it should be said earlier on. My personal preference is that first we need to explain to the reader in plain language what the constraint is, and what it means in practical terms (why it matters). Then we can show this with the equations.  -->
 
 
 Referring to our simple numeric example, proportionality constant for the $f_1(c_{ij}) = 1/c_{ij}^3$ travel behaviour scenario would then be: $$
+=======
+Referring to our simple numeric example, proportionality constant for the $f_1(c_{ij}) = 1/c_{ij}^3$ travel behaviour scenario would then be: 
+
+$$
+>>>>>>> ac7b0b2b2c239082d42ca54a294d229e7100fdee
 \begin{array}{l}
 K^T = \frac{D}{\sum_{i}\sum_{j} O_j f(c_{ij})}\\
 K^T = \frac{D}{\frac{D_1}{c_{11}^3}+\frac{D_1}{c_{21}^3} + \frac{D_1}{c_{31}^3} + \cdots + \frac{D_3}{c_{31}^3} + \frac{D_3}{c_{32}^3} + \frac{D_3}{c_{33}^3}
@@ -863,7 +882,11 @@ The constrained market potential then takes the following form:
 
 $$
 M^T_i = \hat K^T\sum_i W^{(1)}_if(c_{ij}) = \sum_i W^{(2)}_i \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
-$$ Where the following $\hat \kappa^T$ proportional allocation factor is dimensionless: $$
+$$ 
+
+Where the following $\hat \kappa^T$ proportional allocation factor is dimensionless: 
+
+$$
 \hat \kappa^T = \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
 $$
 
@@ -1163,11 +1186,15 @@ $$
 \sum_j M^S_{ij} =  O_i \\
 $$ {#eq-population-constraint}
 
-And the corresponding balancing factor, as per Wilson, is: $$
+And the corresponding balancing factor, as per Wilson, is: 
+
+$$
 A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}
 $$ {#eq-population-constrained-proportionality-constants}
 
-Following the same logic as in the preceding section on totally-constrained population accessibility (market potential), one arrives at the following expression: $$
+Following the same logic as in the preceding section on totally-constrained population accessibility (market potential), one arrives at the following expression: 
+
+$$
 M^S_{j} = \sum_i \hat \kappa^S_{ij} O_i
 $$ {#eq-production-constrained-accessibility-with-proportional-allocation-factor}
 
@@ -1212,7 +1239,9 @@ $$
 
 Calibration of the two sets of proportionality constants is accomplished by means of iterative proportional fitting, whereby the values of $A_i$ are initialized as one for all i to obtain an initial estimate of $B_j$. The values of $B_j$ are used to update the underlying $V_{ij}^D$ matrix, before calibrating $A_i$. This process continues to update $A_i$ and $B_j$ until a convergence criterion is met [see @ortuzar_2011_modelling, p. 193-195].
 
-The proportional allocation factor $\kappa_{ij}^D$ would then be: $$
+The proportional allocation factor $\kappa_{ij}^D$ would then be: 
+
+$$
 \kappa_{ij}^D = \sum_j \frac{1}{\sum_j B_j D_j f(c_{ij})} \frac{1}{\sum_i A_i O_i f(c_{ij})} O_i f(c_{ij})
 $${eq-doubly-constrained-proportional-allocation-factor-forpop}
 
