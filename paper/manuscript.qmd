@@ -1554,6 +1554,11 @@ NOTE: competitive accessibility Literature has explored 'doubly-constrained' but
 
 ## SUMMARY
 
+In this paper, we have examined the historical and mathematical commonalities between spatial interaction models and place-based accessibility measures. As the field of transportation and accessibility research evolved largely influenced by Hansen's work, researchers in the field became oblivious along the way of a proportionality constant that was originally present in gravity-based models. In this study we have demonstrated that by reintroducing such constraints into accessibility analyses, we effectively derive a unifying family of accessibility measures that account for competition.
+
+<!-- rafa: if you agree with the claim above, perhaps we need to mention at some point (section 'A family of accessibility measures') how the measures derived in this paper connect to the family of floating catchment area  metrics. I know the manuscript already says that 2SFCA is one particular case of a more general indicador, and this is great. But perhaps we need to articulate how BFCA fits in the story of this paper. And we might want to state that all other FCA metrics are simply 2SFCA with different decay functions in the end.... but this needs to be said. -->
+
+
 By introducing constraints, we fold in competition considerations into a family of accessibility measures. While previous methodologically clarifying work, such as @wuUnifyingAccess2020, has largely overlooked competition, this paper demonstrates how applying constraints consistent with the spatial interaction model allows for incorporating competition into accessibility. The constraints used depends on the research question, the suitability of assumptions, the granularity of data, but ultimately: the addition of constraints re-introduces unit into accessibility, make comparisons between scenarios and regions more intuitive.
 
 This work builds on spatial interaction modeling principles, following a review of earlier spatial interaction literature. We show that, while recent accessibility research has diverged from its spatial interaction foundations, it can be explicitly linked back. We demonstrate that accessibility can be consistently calculated for an $i$-$j$ pair by stacking constraints that preserve the units of "accessibility" while maintaining zonal or regional constraints.
@@ -1567,10 +1572,13 @@ Lastly, the doubly-constrained case is introduced. In this case, the sums must e
 ## A note on interpretation and possible applications
 
 When to use each of these measures? Embedded assumptions? and dangers of using one over the other?
+<!-- rafa: this info should be part of the summary table, suggested by Chris  -->
+
 
 # Conclusions
 
 Accessibility development has a rich history. There have been developments in the cases/breath of travel impedance functions, competition considerations, and in incorporating individual choice as part of activity-based accessibility. However, no work yet has examined accessibilities explicit connecting to SIM. We examine this connection, and provide a origin-destination ($i$ to $j$) formulation of accessibility as part of the SIM framework. Novel stuff.
+
 
 ````{=html}
 <!--
