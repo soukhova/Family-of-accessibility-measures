@@ -1,3 +1,9 @@
+rafa:
+singly constrained AND balanced
+
+pq o total-opportunity e total-pop constratined tmb usam a single constrained
+
+
 ---
 title: "A family of accessibility measures derived from spatial interaction principles"
 format:
@@ -955,6 +961,9 @@ tot_market |>
 
 ## Singly-constrained accessibility
 
+<!-- rafa: I really like this brief intro, but I think it needs to be more explicit in how the singly-constrained accessibility differs from the total constrained accessibility. If I understand it correctly, the total constrained accessibility simply uses a constant factor to make sure the final estimates respect the limit of the total number of people or opportunities, while the singly-constrained accessibility uses this constant BUT it also balances/reapportions the allocation of masses between origin-destinations based on travel costs. Is this correct ? -->
+
+
 Increasing in restrictiveness relative to the totally-constrained accessibility measure, a single constraint proportionally adjusts the origin-destination zonal accessibility values based on the population or opportunities in the zone for all zones, while still maintaining the total system population or opportunity constraint, depending on the case. We define two cases: a *singly-constrained opportunity* accessibility case and a *singly-constrained population* accessibility case.
 
 ### Singly-constrained opportunity: A.K.A spatial availability
@@ -1212,9 +1221,12 @@ For the sake of brevity, we'll move forward onto the doubly-constrained case.
 
 ## Doubly-constrained accessibility
 
-The accessibility measures above have used either $O_i$, $D_j$, or the regional sums of either, but not both. When $D_j$, the opportunities, was used to constrain @eq-opportunity-constrained-accessibility, the mass of the population at the origin was given by $W_i^{(1)}$ (also in @eq-opportunity-constrained-proportionality-constants). When $O_i$, the population, was used as a constraint in @eq-population-constrained-accessibility, the mass at the destination was given by $W_j^{(2)}$ (also in @eq-population-constrained-proportionality-constants). The reason is that the population and the opportunities are typically different things without a common metric. For example, on the side of the population we usually have people, but on the side of the opportunities we can have physicians, clinics, grocery stores, green space, schools, libraries, and so on. There are a few cases where there might be a one-to-one relationship between the population and the opportunities, with the most commonly studied opportunity in the competitive accessibility literature being employment, e.g., one person with one job. Another possible opportunity type is healthcare, e.g., one person and one unit of capacity.
+The accessibility measures above have used either $O_i$, $D_j$, or the regional sums of either, but not both. When $D_j$, the opportunities, was used to constrain @eq-opportunity-constrained-accessibility, the mass of the population at the origin was given by $W_i^{(1)}$ (also in @eq-opportunity-constrained-proportionality-constants). When $O_i$, the population, was used as a constraint in @eq-population-constrained-accessibility, the mass at the destination was given by $W_j^{(2)}$ (also in @eq-population-constrained-proportionality-constants). The reason is that the population and the opportunities are typically different things without a common metric. For example, on the side of the population we usually have people, but on the side of the opportunities we can have physicians, clinics, grocery stores, green space, schools, libraries, and so on. There are a few cases where there might be a one-to-one relationship between the population and the opportunities, with the most commonly studied opportunity in the competitive accessibility literature being employment, e.g., one person with one job. Another possible opportunity type is healthcare, e.g., one person and one unit of capacity, e.g. a vaccine shot.
 
 In these latter cases, a doubly-constrained approach can be implemented when one-to-one relationships between population and opportunities are present. This is required because the production- and attraction- constraints in Wilson's doubly-constrained case (@eq-constraint1-gravitymodel and @eq-constraint2-gravitymodel) are imposed simultaneously. The accessibility-specific forms are used in the singly-constrained opportunities and population cases in the preceding section (@eq-opportunity-constraint and @eq-population-constraint). To simultaneously impose both population- and destination- constraints, they must match (@eq-opportunity-population-equality):
+
+<!-- You mean that (a) the indicator uses an underlying assumption that the number of people and opportunities should match one-to-one; or (2) that it is *not* possible to calculate the indicator unless the number of people and opportunities match one-to-one ? -->
+
 
 $$
 \sum_i O_i = \sum_j D_j
@@ -1269,7 +1281,9 @@ D_j2 <- c(7, 5, 8) #in units of 10,000 physician-capacity
 LU2 <- data.frame(id, O_i2, D_j2)
 ```
 
-Let's return to the numeric example with a new objective. Say, we're interested in measuring the zonal values of accessed physician-capacity. And we have new information: given the same zonal populations, a region-wide survey indicates the number of people that live in each zone, and the number of physician capacity per zone. The survey does not tell use what person is matched with what physician (assume that's confidential), we only have the numbers of population at $i$ and the number of physician-capacity at $j$. Lucky for us, this survey keeps our example simple: we find out that the physician-capacity at each zone is a approximately scaled version of the number of destination-side physicians at each zone. With this new information, we are interested in understanding what does the zonal access to physician-capacity for the population looks under different travel behaviour scenarios. @tbl-small-system-land-use-doubly-constrained-case summarises this adjusted simple example: with the population (in units of 10,000s of people) and the opportunities (in units of 10,00s of physician-capacity) per zone <!-- check -->. Considering this new definition of 'provider', the new (realized) Provider-to-Population-Ratio is simply `r sum(LU2$D_j2) / sum(LU2$O_i2)`. The zonal cost matrix, and travel impedance functions for three types of travel behaviour are the same as before (@tbl-small-system-cost and @eq-travel-behaviour-scenarios).
+<!-- in the paragraph below you say "we're interested in measuring the zonal values of accessed physician-capacity"...". This is quite different from saying "measuring the number of physicians accessible". This is because the Doubly-constrained measure has a fundamentally different interpretation compared to the other measures. right? The paragraph below seems to take this for granted, but I believe this needs to be explained more explicitly -->
+ 
+Let's return to the numeric example with a new objective. Say, we're interested in measuring the zonal values of accessed physician-capacity. And we have new information: given the same zonal populations, a region-wide survey indicates the number of people that live in each zone, and the number of physician capacity per zone. The survey does not tell us what person is matched with what physician (assume that's confidential), we only have the numbers of population at $i$ and the number of physician-capacity at $j$. Lucky for us, this survey keeps our example simple: we find out that the physician-capacity at each zone is a approximately scaled version of the number of destination-side physicians at each zone <!-- "Lucky for us, this..." what does this mean? -->. With this new information, we are interested in understanding what does the zonal access to physician-capacity for the population looks under different travel behaviour scenarios. @tbl-small-system-land-use-doubly-constrained-case summarises this adjusted simple example: with the population (in units of 10,000s of people) and the opportunities (in units of 10,00s of physician-capacity) per zone <!-- check -->. Considering this new definition of 'provider', the new (realized) Provider-to-Population-Ratio is simply `r sum(LU2$D_j2) / sum(LU2$O_i2)`. The zonal cost matrix, and travel impedance functions for three types of travel behaviour are the same as before (@tbl-small-system-cost and @eq-travel-behaviour-scenarios).
 
 ```{r}
 #| label: tbl-small-system-land-use-doubly-constrained-case
@@ -1301,7 +1315,12 @@ OD2 <- C |># mutate(f3=100) |>
             by = c("did" = "id"))
 ```
 
+<!-- remind the reader, what is $V_{ij}^D$ ? -->
+
+<!-- I believe the title pf table 10 is incorrect. Table 10 simply presents the balancing factors, right ? -->
+
 In this case, $V_{ij}^D$ for the most decay travel behaviour scenario is presented in @tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-access-values.
+
 
 ```{r, quiet = TRUE}
 doubly_constrained_gravity_model <- function(
@@ -1514,13 +1533,18 @@ OD2  |>
   as_latex()
 ```
 
+<!-- rafa: if I understand it correctly, this paragraph is basically saying that the doubly-constrained accessibility measure is not an accessibility measure, and that it works best as a spatial interaction model that models the most likely distribution of trips between origins and destinations. Correct ? If so, this needs to be said right at the start of this sub-section -->
+
 Recall that accessibility is defined as "the potential for interaction" and is traditionally presented as a summary zonal measure. In the doubly-constrained case, we force the zonal population and zonal opportunities to match one-to-one, hence providing a zonal summary is no longer relevant: the sum of $V_{ij}^D$ for all $i$s ends up being equal to the population at the zone. However, if what interests readers is the "potential for interaction" in the case population and opportunities do match one-to-one, perhaps reframing the investigation is needed. In this sense, it would be examining "interaction" (much less room for potential) through the values of $V_{ij}^D$ e.g., how many opportunities are being allocated to an origin from a destination (or in a transposed sense for $M_{ij}^D$). In this sense, the doubly-constrained case it better thought of as an estimate of "access" instead of "accessibility". It is also formulaically identical to the doubly-constrained spatial interaction model, but with specific interpretations of the origin and destination weights as 'population' and 'opportunity' respectively.
 
 As Wilson explicitly noted, origin and destination weights defined in the spatial interaction model *can* be defined using any unit. Accessibility, however, is a summary of *potential* for interaction: it's typically been used and understood as a zonal summary. Arriving at the doubly-constrained case through the unconstrained, totally, and singly-constrained case make the connection between the *potential* for spatial interaction (accessibility) and spatial interaction (access) more clear(?).
 
+<!-- rafa: I like the idea of this paragraph above, but perhaps we need to articulate it more clearly. I understand you are saying that the analysis presented in this paper should help clarify that (1) gravity-based spatial interaction models and accessibility measures all derive from the same root, and (2) all of them can be derived from Wilson's original formulation; and (3) what differentiates such various spatial interaction models and accessibility metrics is simply the way in which proportionality constants (and balancing factors?) are explicitly or implicitly incorporated into their calculations -->
+
+
 ```{=html}
 <!--
-NOTE: competitive accessibility Literature has explored 'doubly-constrained' but -- it's not the same as this: they they just use the Wilson balancing factors , etc. Ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAccess2020.
+NOTE: competitive accessibility Literature has explored 'doubly-constrained' but -- it's not the same as this: they just use the Wilson balancing factors , etc. Ex. @hornerExploringMetropolitanAccessibility2004 and @allenMeasureCompetitiveAccess2020.
 -->
 ```
 
