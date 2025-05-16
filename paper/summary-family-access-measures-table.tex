@@ -1,0 +1,65 @@
+{\tiny
+\begin{longtable}{|p{2.5cm}|p{2.5cm}|p{2.5cm}|p{3cm}|p{3cm}|}
+\hline
+\textbf{Name of Case and Variant} & \textbf{Constraint Explanation and Balancing Factor} & \textbf{Proportional Allocation Factor} & \textbf{Measure Equation} & \textbf{Interpretation} \\
+\hline
+\endfirsthead
+
+\hline
+\textbf{Name of Case and Variant} & \textbf{Constraint Explanation and Balancing Factor} & \textbf{Proportional Allocation Factor} & \textbf{Measure Equation} & \textbf{Interpretation} \\
+\hline
+\endhead
+
+Unconstrained Accessible Opportunities or Population ($V_i^0$, $M_j^0$)
+& No constraints; marginals not preserved.
+& None
+& $V_i^0 = \sum_j O_j f(c_{ij})$;
+
+$M_j^0 = \sum_i P_i f(c_{ij})$
+
+& Impedance-weighted values (e.g., "opportunities × decay"); no marginal control. \\
+\hline
+
+Total Constrained Accessible Opportunities or Population ($V_i^T$, $M_j^T$)
+& Single balancing factor preserves total marginal.
+
+$K^T = \frac{D}{\sum_i V_i^0}$;
+
+$\hat{K}^T = \frac{O}{\sum_j M_j^0}$
+
+& $\kappa_i^T = \sum_j K^T f(c_{ij})$; $\hat{\kappa}_j^T = \sum_i \hat K^T f(c_{ij})$
+& $V^T_i = \kappa_i^T \sum_j W^{(2)}_j$;
+
+$M_j^T = \hat{\kappa}_j^T \sum_i W^{(1)}_i$
+
+& Values reflect total regional opportunities or population. \\
+\hline
+
+Singly Constrained Accessible Opportunities ($V_i^S$)
+& Destination-side constraint:
+
+$B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}$
+& $\kappa^S_i = W_i^{(1)} B_j$
+& $V^S_i = \kappa^S_i \sum_j D_j$
+& Shares of destination-side opportunities based on origin population and impedance. \\
+\hline
+
+Singly Constrained Accessible Population ($M_j^S$)
+& Origin-side constraint:
+
+$A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}$
+
+& $\hat \kappa^S_j = W_j^{(2)} A_i$
+& $M_j^S = \hat \kappa^S_j \sum_i P_i$
+& Shares of origin population based on destination mass and impedance. \\
+\hline
+
+Doubly Constrained Access ($V_{ij}^D$ or $M_{ij}^D$)
+& Both marginals constrained via $A_i$, $B_j$ simultaneously.
+& —
+& $V_{ij}^D = A_i B_j P_i O_j f(c_{ij})$
+& Realized interactions between population and opportunities (i.e., access). \\
+\hline
+
+\end{longtable}
+}
