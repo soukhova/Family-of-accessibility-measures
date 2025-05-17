@@ -9,9 +9,9 @@ author:
           department: School of Earth, Environment & Society
           city: Hamilton, Canada
   - name: Rafael H. M. Pereira
-    email: rafa.pereira.br@gmail.com
+    email: rafael.pereira@ipea.gov.br
     affiliations:
-        - name: Institute for Applied Economic Research
+        - name: Institute for Applied Economic Research - Ipea
           city: Brasília, Brazil
   - name: Christopher D. Higgins
     email: cd.higgins@utoronto.ca
@@ -45,7 +45,7 @@ bibliography: "`r system('kpsewhich ../bibliography/bibliography.bib', intern=TR
       #\usepackage{float}
 
 abstract: |
-  Transportation planning has long prioritized the efficiency of movement, or mobility. However, the concept of accessibility represents a more comprehensive evolution, shifting focus from mere movement to the potential to reach (i.e., spatially interact) with desired destinations. Despite growing recognition of accessibility-based planning approaches, the concept remains fragmented, with inconsistent definitions and unclear interpretations. This work's aim is to clarify and unify the concept of accessibility by connecting it into spatial interaction modeling. We demonstrate that widely used mobility and accessibility models, such as gravity-based accessibility and spatial interaction models, share common theoretical roots. From this foundation, we define a family of accessibility measures within the principles of spatial interaction. In demonstrating these developments, three contributions emerge: A) the definition and linkages between four members of the family: specifically, the 'unconstrained' measure (i.e., Hansen-type measure), the 'total constrained' measure  (i.e., a constrained version of the Hansen-type measure), the 'singly constrained' measure (i.e., related to the popular two step floating catchment approach (2SFCA)), and the 'doubly constrained' measure representing realized interactions or 'access', effectively equal to the doubly constrained spatial interaction model in formulation. B) How to formulaically specify the total-, singly- and doubly- constrained accessibility measures. C) The interpretability advantages of the family, as these constrained accessibility measures yield values in units of the number of potential "opportunities for spatial interaction" or "population for spatial interaction" for each zone and zonal flow. By clarifying the concept of 'potential' in accessibility, demonstrating theoretical and formulaic linkages across popular accessibility and spatial interaction models, and reintroducing units, this work contributes a family of measures that unlock a clearer, more interpretable, and cohesive foundation for accessibility analysis. 
+  Transportation planning has long prioritized the efficiency of movement, or mobility. However, the concept of accessibility represents a more comprehensive evolution, shifting focus from mere movement to the potential to reach (i.e., spatially interact) with desired destinations. Despite growing recognition of accessibility-based planning approaches, the concept remains fragmented, with inconsistent definitions and unclear interpretations. This work's aim is to clarify and unify the concept of accessibility by connecting it into spatial interaction modeling. We demonstrate that widely used mobility and accessibility models, such as gravity-based accessibility and spatial interaction models, share common theoretical roots. From this foundation, we define a family of accessibility measures within the principles of spatial interaction. In demonstrating these developments, three contributions emerge: A) the definition and linkages between four members of the family: specifically, the 'unconstrained' measure (i.e., Hansen-type measure), the 'total constrained' measure (i.e., a constrained version of the Hansen-type measure), the 'singly constrained' measure (i.e., related to the popular two step floating catchment approach (2SFCA)), and the 'doubly constrained' measure representing realized interactions or 'access', effectively equal to the doubly constrained spatial interaction model in formulation. B) How to formulaically specify the total-, singly- and doubly- constrained accessibility measures. C) The interpretability advantages of the family, as these constrained accessibility measures yield values in units of the number of potential "opportunities for spatial interaction" or "population for spatial interaction" for each zone and zonal flow. By clarifying the concept of 'potential' in accessibility, demonstrating theoretical and formulaic linkages across popular accessibility and spatial interaction models, and reintroducing units, this work contributes a family of measures that unlock a clearer, more interpretable, and cohesive foundation for accessibility analysis. 
   
 keywords: [accessibility; spatial interaction model; balancing factors; competitive accessibility; constraints; singly constrained; doubly constrained; total constrained]
 ---
@@ -81,9 +81,9 @@ options(gt.html_tag_check = FALSE)
 
 # Introduction
 
-<!-- SUMMARY *AND OUTLINE FOR ABSTRACT*: Transportation planning, historically, has been mobility-oriented. Accessibility, however, should be the primary focus, and institutionalized mobility-based transportation practice has treated accessibility as its proxy. This has had problematic consequences. Conceptually, accessibility is a more complete and comprehensive evolution of mobility: from movement, to the potential movement to destinations. As such, there has been recognition that the adoption of accessibility planning approaches are needed; however there are  too many definitions and uncertainty in meaning of the outputs. This work's goal is to enhance interpretation of values, clarify the concept of accessibility, and unify other measures of accessibility such as the popular Hansen-type measure the 2SFCA. 
+<!-- SUMMARY *AND OUTLINE FOR ABSTRACT*: Transportation planning, historically, has been mobility-oriented. Accessibility, however, should be the primary focus, and institutionalized mobility-based transportation practice has treated accessibility as its proxy. This has had problematic consequences. Conceptually, accessibility is a more complete and comprehensive evolution of mobility: from movement, to the potential movement to destinations. As such, there has been recognition that the adoption of accessibility planning approaches are needed; however there are too many definitions and uncertainty in meaning of the outputs. This work's goal is to enhance interpretation of values, clarify the concept of accessibility, and unify other measures of accessibility such as the popular Hansen-type measure the 2SFCA. 
 
-To do so, this work demonstrates that accessibility and mobility oriented models (i.e., gravity-based accessibility and the spatial interaction model) share the same roots in spatial interaction modelling, and a family of accessibility measures can be specified within the spatial interaction modelling principles. In demonstrating these developments, three significant contributions emerge: A) we demonstrate numerically how constrained accessibility can be specified, and doing so brings interpretable units to each accessibility value, units of 'number of potential opportunities for spatial interaction'. B) we provide a clarifying framework for understanding the concept of 'potential' through constraints. Namely, demonstrating accessibility's maximum potential is captured by the the 'total constraint' (constrained version of Hansen-type measure), a restricted amount of potential is captured by the 'single constraint' (i.e., competition, such as the 2SFCA), and potential is fully restricted in the 'double constraint', effectively restricting potential such that this case is equivalent to access or simply spatial interaction. C) Demonstrate how the two most popular accessibility measures, the Hansen-type measure (non-competitive) and the 2SFCA (competitive), link into the  family of accessibility measures. 
+To do so, this work demonstrates that accessibility and mobility oriented models (i.e., gravity-based accessibility and the spatial interaction model) share the same roots in spatial interaction modelling, and a family of accessibility measures can be specified within the spatial interaction modelling principles. In demonstrating these developments, three significant contributions emerge: A) we demonstrate numerically how constrained accessibility can be specified, and doing so brings interpretable units to each accessibility value, units of 'number of potential opportunities for spatial interaction'. B) we provide a clarifying framework for understanding the concept of 'potential' through constraints. Namely, demonstrating accessibility's maximum potential is captured by the the 'total constraint' (constrained version of Hansen-type measure), a restricted amount of potential is captured by the 'single constraint' (i.e., competition, such as the 2SFCA), and potential is fully restricted in the 'double constraint', effectively restricting potential such that this case is equivalent to access or simply spatial interaction. C) Demonstrate how the two most popular accessibility measures, the Hansen-type measure (non-competitive) and the 2SFCA (competitive), link into the family of accessibility measures. 
 
 In fewer words: this work makes an important contribution to accessibility literature, by providing accessibility with a more interpretable, clarified and unified definition through the introduction of constraints from spatial interaction modelling, that reintroduce units to enhance interpretability of raw values, clarify the concept of potential, and loops the most popular forms of accessibility measures into the family. -->
 
@@ -292,7 +292,7 @@ SUMMARY: Accessibility developed separate from SIM.
 
 SIM focuses on trips and was institutionalized to develop the US Interstate highway systems. Many guidelines and practical training was done - a lot of funding. SIM development has integrated accessibility in a few ways: 1) within the SIM itself as a balancing factor, 2) as an additional independent variable in the SIM, 3) SIM and HAM in parallel in the context of location allocation problems and within the steps of transportation demand modelling (trip distribution or trip generation). 
 
-Accessibility research has separated SIM almost entirely. When Wilson is cited: 1) typically when using a different impedance function, 2) when using the SIM to predict trip flows for accessibility input or vice versa, 3) a few exceptional papers that interpret the doubly-constraints as an inverse HAM in the context of competitive accessibility, and 4) it was only until recently, that a singly-constrain was introduced in Soukhov et al. 2023.  -->
+Accessibility research has separated SIM almost entirely. When Wilson is cited: 1) typically when using a different impedance function, 2) when using the SIM to predict trip flows for accessibility input or vice versa, 3) a few exceptional papers that interpret the doubly-constraints as an inverse HAM in the context of competitive accessibility, and 4) it was only until recently, that a singly-constrain was introduced in Soukhov et al. 2023. -->
 
 ```{r}
 #| label: load-data
@@ -418,7 +418,7 @@ ggsave(filename = glue::glue(here::here(),
 docs_per_year_plot
 ```
 
-To illustrate this point, we conducted a bibliographic analysis of the literature that cites @hansen1959, @wilson1971, or both. We retrieved all relevant documents using the Web of Science "Cited References" functionality, and the digital object identifiers of @hansen1959 and @wilson1971. As a result of this search, we identified `r n_h |> prettyNum(big.mark = ",")` documents that cite @hansen1959, only `r n_w  |> prettyNum(big.mark = ",")` documents that cite @wilson1971, and `r n_b |> prettyNum(big.mark = ",")` that cite both. The earliest document in this corpus dates to `r min(corpus$PY)` and the most recent is from `r max(corpus$PY)`. The number of documents per year appears in @fig-docs-per-year, where we see the frequency of documents over a span of almost fifty years. In particular, we notice the remarkable growth in the number of papers that cite @hansen1959 compared to those that cite @wilson1971.
+To illustrate this point, we conducted a bibliographic analysis of the literature that cites @hansen1959, @wilson1971, or both. We retrieved all relevant documents using the Web of Science "Cited References" functionality, and the digital object identifiers of @hansen1959 and @wilson1971. As a result of this search, we identified `r n_h |> prettyNum(big.mark = ",")` documents that cite @hansen1959, only `r n_w |> prettyNum(big.mark = ",")` documents that cite @wilson1971, and `r n_b |> prettyNum(big.mark = ",")` that cite both. The earliest document in this corpus dates to `r min(corpus$PY)` and the most recent is from `r max(corpus$PY)`. The number of documents per year appears in @fig-docs-per-year, where we see the frequency of documents over a span of almost fifty years. In particular, we notice the remarkable growth in the number of papers that cite @hansen1959 compared to those that cite @wilson1971.
 
 As noted, literature that cites both @wilson1971 and @hansen1959 are sparse (only `r (n_b / (n_b+n_h+n_w) )|> scales::percent(0.1)` of the corpus) but highly coupled. However, we can discern from a reading of these works that they too are divergent, with one stream focused on developing accessibility (i.e., *potential for* spatial interaction) and another on spatial interaction. The focuses of these divergent streams contribute this paper's broader hypothesis that the concepts of accessibility and spatial interaction have remained largely disconnected.
 
@@ -486,7 +486,7 @@ As an additional overview, we define four distinct members of the constrained ac
   - The first variant $V_i^S$ includes a set of destination-side balancing factors $B_j$ which ensure opportunities (or destination masses) are allocated to each origin $i$ based on the population (i.e, origin mass) of the origin $i$ and travel impedance from that $j$ to all $i$s. Hence, $B_j$ ensures that each $V_i^S$ is the product sum of a _proportional share_ of opportunities allocated from each destination $j$ implicitly also being a share of the total opportunities in the region. Similar to the total constrained case, each $V_i^S$ and $V_ij^S$ accessibility value is expressed in units of 'opportunities' accessible. But unlike the total constrained case, the singly constrained case explicitly incorporates population by allocating a balanced share of a destination's total opportunities to populations at reachable origins.
   - The second variant $M_j^S$ includes a set of opportunity-side balancing factors $A_i$ which ensure population (or origin masses) are allocated to each destination $j$ based on the destination mass of the destination $j$ and all possible travel impedance from that $i$ to all $j$s. $A_i$ ensures similar, but transposed, so constraints are satisfied. Specifically, each $M_j^S$ represents both a share of the total regional population and the sum of balanced proportions of population from all origins, allocated to each destination based on the opportunities sought and travel impedance. Each zonal value is expressed in units of 'population' accessible.
   
-4. **The doubly constrained case**. It is constrained simultaneously by population (origin masses) and opportunities (destination masses), so each $V_{ij}^D$ (equivalent to $M_{ij}^D$) is expressed in units of 'population-opportunity capacity' that is accessible between $i$ to $j$. This case requires the number of opportunities and population to match, e.g., the analyst must know the matching spatial interaction capacity of the population (demand) and opportunities (supply). By using this one-to-one matching data and the double constraints (i.e., $A_i$ and $B_j$ at once, ensuring both the double constraint maintaints both marginals in @fig-analytical-device-conc-accessibility), this case restricts the _potential_ to spatially interact completely. In other words, the doubly constrained accessibility values reflect the number of predicted interactions between the opportunities and population, effectively, this case is equivalent formulaically as Wilson's doubly constrained spatial interaction model (i.e., _attraction-production constrained_). It can be understood as predicting a value of 'access', and not accessibility.  
+4. **The doubly constrained case**. It is constrained simultaneously by population (origin masses) and opportunities (destination masses), so each $V_{ij}^D$ (equivalent to $M_{ij}^D$) is expressed in units of 'population-opportunity capacity' that is accessible between $i$ to $j$. This case requires the number of opportunities and population to match, e.g., the analyst must know the matching spatial interaction capacity of the population (demand) and opportunities (supply). By using this one-to-one matching data and the double constraints (i.e., $A_i$ and $B_j$ at once, ensuring both the double constraint maintaints both marginals in @fig-analytical-device-conc-accessibility), this case restricts the _potential_ to spatially interact completely. In other words, the doubly constrained accessibility values reflect the number of predicted interactions between the opportunities and population, effectively, this case is equivalent formulaically as Wilson's doubly constrained spatial interaction model (i.e., _attraction-production constrained_). It can be understood as predicting a value of 'access', and not accessibility. 
 
 In the next sections, we will assign values to the simple 3x3 numeric example shown in the analytical device (@fig-analytical-device-conc-accessibility).
 
@@ -583,7 +583,7 @@ $$
 V^0_i = \sum_j V^0_{ij} = \sum_j W^{(2)}_jf(c_{ij}) = S_i
 $$ {#eq-unconstrained-accessibility}
 
-The sum of the unconstrained accessibility values for each origin $V^0_{i}$ generally does not equal the total number of opportunities $O$ (e.g., $\sum_i V^0_{i} \not= O$), since arbitrarily setting $k$ to 1 (or neglecting $k$ all together) strips the values of any meaningful unit-based interpretation, the units are in 'summed opportunities by some travel impedance value'. Moreover, comparisons of these $V^0_{i}$ values across different contexts such as different impedance functions $f(c_{ij})$ or varying number of zones  exacerbates this issue as the units between $V^0_{i}$ values change i.e., comparisons between a value of 'summed opportunities by a travel impedance value' to a value of 'summed opportunities by another travel impedance value' are not directly interpretable. From this perspective, the raw unconstrained accessibility scores are not intuitively comparable across different contexts and decay functions. They should more appropriately be used as an ordinal variable to make comparisons of size (i.e., greater than, less than, equal to), not to calculate ratios or intervals (i.e., the magnitude of differences).
+The sum of the unconstrained accessibility values for each origin $V^0_{i}$ generally does not equal the total number of opportunities $O$ (e.g., $\sum_i V^0_{i} \not= O$), since arbitrarily setting $k$ to 1 (or neglecting $k$ all together) strips the values of any meaningful unit-based interpretation, the units are in 'summed opportunities by some travel impedance value'. Moreover, comparisons of these $V^0_{i}$ values across different contexts such as different impedance functions $f(c_{ij})$ or varying number of zones exacerbates this issue as the units between $V^0_{i}$ values change i.e., comparisons between a value of 'summed opportunities by a travel impedance value' to a value of 'summed opportunities by another travel impedance value' are not directly interpretable. From this perspective, the raw unconstrained accessibility scores are not intuitively comparable across different contexts and decay functions. They should more appropriately be used as an ordinal variable to make comparisons of size (i.e., greater than, less than, equal to), not to calculate ratios or intervals (i.e., the magnitude of differences).
 
 Returning to our numeric example, the calculated unconstrained accessibility $V^0_{i}$ for each origin, a sum of all the travel impedance weighted opportunities at each destination ($\sum_i V^0_{i}$), in displayed in @tbl-simple-example-unconstrained-accessibility.
 
@@ -655,7 +655,7 @@ unc_acc |>
   as_latex()
 ```
 
-As the different impedance functions represent different travel behaviours, comparing the raw unconstrained accessibility values across groups is meaningless beyond notions of higher or lower. For instance, at zone 1 the  difference between the least decay ($f_3(c_{ij})$) and most decay ($f_1(c_{ij})$) groups is `r round(unc_acc$V_unc_i_3[1] - unc_acc$V_unc_i_1[1], 2)`, but in what units? These two values are a product of different impedance functions, making the comparison uninterpretable in absolute terms. Likewise, we could compare values within the same travel behaviour scenario across different zones, as they are in the same units, however the issue of unit interpretability will also be apparent. Considering the most decaying scenario $f_1(c_{ij})$ and zone 1 (the zone with a healthcare cluster at the edge of the city): zone 1 captures `r unc_acc$V_unc_i_1[3] - unc_acc$V_unc_i_1[1]` fewer physicians-minute$^{-1}$ than zone 3 (urban core). Again, the fundamental uninterpretability of what is a _physicians-minute$^{-1}$_ or _opportunity-weighted-travel-impedance_ unit remains. 
+As the different impedance functions represent different travel behaviours, comparing the raw unconstrained accessibility values across groups is meaningless beyond notions of higher or lower. For instance, at zone 1 the difference between the least decay ($f_3(c_{ij})$) and most decay ($f_1(c_{ij})$) groups is `r round(unc_acc$V_unc_i_3[1] - unc_acc$V_unc_i_1[1], 2)`, but in what units? These two values are a product of different impedance functions, making the comparison uninterpretable in absolute terms. Likewise, we could compare values within the same travel behaviour scenario across different zones, as they are in the same units, however the issue of unit interpretability will also be apparent. Considering the most decaying scenario $f_1(c_{ij})$ and zone 1 (the zone with a healthcare cluster at the edge of the city): zone 1 captures `r unc_acc$V_unc_i_1[3] - unc_acc$V_unc_i_1[1]` fewer physicians-minute$^{-1}$ than zone 3 (urban core). Again, the fundamental uninterpretability of what is a _physicians-minute$^{-1}$_ or _opportunity-weighted-travel-impedance_ unit remains. 
 
 While one could attempt to adjust the units post-calculation (e.g., scaling, population normalization) or select impedance functions to facilitate comparison across scenarios (potentially at the expense of accurately reflecting travel behavior), such adjustments may introduce bias. Hence, the raw unconstrained accessibility values themselves are challenging to compare due to their units. To enable more meaningful comparison, the following sections will detail the introduction of constraining constants to ensure consistent units across scenarios and demonstrate results on the same numeric example.
 
@@ -726,7 +726,7 @@ k_tot <- unc_acc_ij |>
             k3 = sum(LU$D_j)/sum(V_unc_ij_3)) # f_3
 ```
 
-Using the calculated proportionality constants for all zones and multiplying them by the unconstrained accessibility value $V^0_i$, the total opportunity constrained accessibility values for all zones and different travel behaviour scenarios is presented in @tbl-simple-example-total-opportunity-accessibility. $\kappa_i^T$ for each zone is not shown, but can be understood to be the unitless proportion of opportunities (of the total opportunities) allocated to each zone based on travel impedance.  
+Using the calculated proportionality constants for all zones and multiplying them by the unconstrained accessibility value $V^0_i$, the total opportunity constrained accessibility values for all zones and different travel behaviour scenarios is presented in @tbl-simple-example-total-opportunity-accessibility. $\kappa_i^T$ for each zone is not shown, but can be understood to be the unitless proportion of opportunities (of the total opportunities) allocated to each zone based on travel impedance. 
 
 ```{r}
 #| label: tbl-simple-example-total-opportunity-accessibility
@@ -911,7 +911,7 @@ Readers may note the difference in trends in accessible population (@tbl-simple-
 
 ## Singly constrained accessibility
 
-Similar to the total constrained accessibility measure, the singly constrained case includes a balancing factor that adjusts the unconstrained zonal accessibility values $V^0_i$ such that a _single_ constraint is satisfied. Two variants are defined: (a) the _singly constrained accessible opportunities_  case (an alternative formula to spatial availability in @soukhovIntroducingSpatialAvailability2023), and (b) the _singly constrained accessible population_ case, its transpose, or singly constrained market potential.
+Similar to the total constrained accessibility measure, the singly constrained case includes a balancing factor that adjusts the unconstrained zonal accessibility values $V^0_i$ such that a _single_ constraint is satisfied. Two variants are defined: (a) the _singly constrained accessible opportunities_ case (an alternative formula to spatial availability in @soukhovIntroducingSpatialAvailability2023), and (b) the _singly constrained accessible population_ case, its transpose, or singly constrained market potential.
 
 Unlike the total constraint (i.e., @eq-total-constraint-accessibility), the single constraint--as will be defined in @eq-opportunity-constraint and @eq-population-constraint for the first and second variants-- incorporates additional information. In the opportunities-accessible variant, the associated balancing factor constrains the 'potential' for spatial interaction by ensuring that only a proportional amount of opportunities at each destination are allocated to 'demanding' origins. This allocation is informed by demand, or the relative amount of population, and associated travel impedance connecting the zones. In the population-accessible variant (i.e., the $i$ -> $j$ transpose of the first variant), population at each origin is proportionally allocated to destinations based on the share of opportunities and travel impedance.
 
@@ -1219,7 +1219,7 @@ LU2 <- data.frame(id, O_i2, D_j2)
 
 To calculate doubly constrained accessibility, the interpretation of the population data and the counts of the opportunity data in the numeric example must be modified. Namely, a count of physician _capacity_ per destination is needed instead of just the number of physicians, as used to calculated total and singly constrained cases. We also must be able to clearly state that the population is a count of people seeking opportunities at the new capacities, i.e., the population must reflect the _capacity_ of the population to interact with opportunities. 
 
-So, this adjusted simple example is summarised in @tbl-small-system-land-use-doubly-constrained-case: with the population (in units of 10,000s of people seeking physicians) and the opportunities (in units of 10,00s of physician-capacity) per zone. For the population, we leave this unchanged numerically but theoretically know that each person interacts with one physician capacity (i.e., our opportunities with a _capacity_). Hence, the number of opportunities per destination is new: the example is modified such that the physician-capacity at each zone is an approximately scaled version of the number of destination-side physicians at each zone from the unmodified example (@tbl-small-system-land-use). To emphasis the new definition of 'provider' as physician capacity,  the new system PPR is simply `r sum(LU2$D_j2) / sum(LU2$O_i2)`, this is compared to the unmodified example which yields system PPR of`r sum(LU$D_j) / sum(LU$O_i)`. We keep the same zonal cost matrix, and travel impedance functions for three types of travel behaviour as before (@tbl-small-system-cost and @eq-travel-behaviour-scenarios). 
+So, this adjusted simple example is summarised in @tbl-small-system-land-use-doubly-constrained-case: with the population (in units of 10,000s of people seeking physicians) and the opportunities (in units of 10,00s of physician-capacity) per zone. For the population, we leave this unchanged numerically but theoretically know that each person interacts with one physician capacity (i.e., our opportunities with a _capacity_). Hence, the number of opportunities per destination is new: the example is modified such that the physician-capacity at each zone is an approximately scaled version of the number of destination-side physicians at each zone from the unmodified example (@tbl-small-system-land-use). To emphasis the new definition of 'provider' as physician capacity, the new system PPR is simply `r sum(LU2$D_j2) / sum(LU2$O_i2)`, this is compared to the unmodified example which yields system PPR of`r sum(LU$D_j) / sum(LU$O_i)`. We keep the same zonal cost matrix, and travel impedance functions for three types of travel behaviour as before (@tbl-small-system-cost and @eq-travel-behaviour-scenarios). 
 
 ```{r}
 #| label: tbl-small-system-land-use-doubly-constrained-case
@@ -1495,14 +1495,14 @@ Table 8: Summary of constrained accessibility measure types and interpretations
 # References
 
 
-<!-- Of note RE DOUBLE CONSTRAINT: the accessibility case methodogy should be based selected based on the input data and the theory. For instance, the doubly constrained accessibility method requires pportunities and population to matched one-to-one both mathematically (i.e., the balancing factors will not converge if they do not match) and theoretically (i.e., each person should seek one opportunity). By forcing these assumptions, the resulting accessibility value that is calculated can be interpreted with less 'potential', than in the total and singly- constrained cases using the unmodified example. This is because, the unmodified example inherently carries more 'potential', i.e., we only know where people are (who can potentially interact) and we know where there are opportunities (who can be potentially interacted with), but not the capacities of which this interaction happens.  As mentioned earlier, in accessibility work, the capacities of which population and opportunities interact is not often known: in fact, accessibility research is often interested in capturing potential at a less granular level: the _potential_ for a population (whether the have interacted, or have not interacted) to interact with opportunities - the capacity of this interaction is not often known, and not the focus.  -->
+<!-- Of note RE DOUBLE CONSTRAINT: the accessibility case methodogy should be based selected based on the input data and the theory. For instance, the doubly constrained accessibility method requires pportunities and population to matched one-to-one both mathematically (i.e., the balancing factors will not converge if they do not match) and theoretically (i.e., each person should seek one opportunity). By forcing these assumptions, the resulting accessibility value that is calculated can be interpreted with less 'potential', than in the total and singly- constrained cases using the unmodified example. This is because, the unmodified example inherently carries more 'potential', i.e., we only know where people are (who can potentially interact) and we know where there are opportunities (who can be potentially interacted with), but not the capacities of which this interaction happens. As mentioned earlier, in accessibility work, the capacities of which population and opportunities interact is not often known: in fact, accessibility research is often interested in capturing potential at a less granular level: the _potential_ for a population (whether the have interacted, or have not interacted) to interact with opportunities - the capacity of this interaction is not often known, and not the focus. -->
 
-<!-- Using the doubly constrained measure with the unmodified example is both mathematically impossible (as there is no one-to-one match) but also theoretically uncompitable as the capacities at both ends are not known. Conversely, the total and singly- constrained cases can be used to calculate values using inputs from the modified example, but, the results will be more impresice. If capacities of population and opportunities are both known, and the objective of the exercise is to calculate the number of _capacity_ of the opportunity (or population) that is accessible, than by using the singly constrained case, capacities at  either the opportunity or population would be neglected. In using the total constrained case, capacities at both would be neglected. In this way, if the goal was to calculated acccessibility to opportunity or population capacity, the answer would be only a more imprecise estimation than if the doubly constrained method was used.  -->
-
-
+<!-- Using the doubly constrained measure with the unmodified example is both mathematically impossible (as there is no one-to-one match) but also theoretically uncompitable as the capacities at both ends are not known. Conversely, the total and singly- constrained cases can be used to calculate values using inputs from the modified example, but, the results will be more impresice. If capacities of population and opportunities are both known, and the objective of the exercise is to calculate the number of _capacity_ of the opportunity (or population) that is accessible, than by using the singly constrained case, capacities at either the opportunity or population would be neglected. In using the total constrained case, capacities at both would be neglected. In this way, if the goal was to calculated acccessibility to opportunity or population capacity, the answer would be only a more imprecise estimation than if the doubly constrained method was used. -->
 
 
-<!-- BELOW IS THE TEXT GRAVEYARD!  -->
+
+
+<!-- BELOW IS THE TEXT GRAVEYARD! -->
 
 <!-- # APPENDIX (some musings... destined for the commented-out graveyard) -->
 
@@ -1728,9 +1728,9 @@ Firstly, many of these works attribute @wilson1971 for using different context-d
 
 Secondly, in the 2000s and beyond, the concept of spatial interaction and accessibility are conflated throughout the years [e.g., @giuliano2010accessibility; @grengs2010intermetropolitan; @grengs2010job; @grengs2012equity; @levine2012does; @levinson2012positive; @tong2015transportation; @liu2015spatial; @he2017measuring; @wuUnifyingAccess2020; @ng2022reflection; @naqavi2023mobility; @suel2024measuring]; indeed, accessibility is an expression of _potential_ spatial interaction, and should not be interpreted the same way as the SIM is commonly used. Surprisingly, @hansen1959 and @wilson1971 are further conflated by being co-cited as being 'gravity models' [e.g., @liu2004accessibility; @dai2017visualization; @shen2019segregation; @chia2020extending]. 
 
-And thirdly, accessibility-based literature cite @wilson1971's balancing factors, and re-iterate how they can be interpreted as the inverse of HAM and hence can capture competition [@vickermanAccessibilityAttractionPotential1974; @karstEvaluationAccessibilityImpacts2003;@geurs2006accessibility; @willigers2007accessibility;@el2011place; @curtis2010planning; @manaugh2012makes; @chen2013regional; @alonso2014labour; @albacete2017measuring; @sahebgharani2019computing; @mayaud2019future; @allenMeasureCompetitiveAccess2020; @levinsonGeneralTheoryAccess2020; @marwal2022literature; @su2023untangling]. However, we argue that this interpretation is fraut, considering @fotheringhamSpatialCompetitionAgglomeration1985's demonstration that SIM does not completely incorporate accessibility. However some work does consider competition more scrupulously; these works use SIMs to estimate trip (or some other interaction flows) alongside accessibility indicators [e.g., @clarke2002deriving; @grengs2004measuring; @turk2019socio] or integrate accessibility within the SIM, in line with @fotheringhamSpatialCompetitionAgglomeration1985's demonstration and most often in context with retailing [@beckers2022incorporating]. Only the work of @soukhovIntroducingSpatialAvailability2023 and @soukhovMultimodalSpatialAvailability2024 cite @wilson1971's use of balancing factors as ways to maintaining constraints in opportunities in the context of competitive accessibility.  
+And thirdly, accessibility-based literature cite @wilson1971's balancing factors, and re-iterate how they can be interpreted as the inverse of HAM and hence can capture competition [@vickermanAccessibilityAttractionPotential1974; @karstEvaluationAccessibilityImpacts2003;@geurs2006accessibility; @willigers2007accessibility;@el2011place; @curtis2010planning; @manaugh2012makes; @chen2013regional; @alonso2014labour; @albacete2017measuring; @sahebgharani2019computing; @mayaud2019future; @allenMeasureCompetitiveAccess2020; @levinsonGeneralTheoryAccess2020; @marwal2022literature; @su2023untangling]. However, we argue that this interpretation is fraut, considering @fotheringhamSpatialCompetitionAgglomeration1985's demonstration that SIM does not completely incorporate accessibility. However some work does consider competition more scrupulously; these works use SIMs to estimate trip (or some other interaction flows) alongside accessibility indicators [e.g., @clarke2002deriving; @grengs2004measuring; @turk2019socio] or integrate accessibility within the SIM, in line with @fotheringhamSpatialCompetitionAgglomeration1985's demonstration and most often in context with retailing [@beckers2022incorporating]. Only the work of @soukhovIntroducingSpatialAvailability2023 and @soukhovMultimodalSpatialAvailability2024 cite @wilson1971's use of balancing factors as ways to maintaining constraints in opportunities in the context of competitive accessibility. 
 
-Indeed, @hansen1959 offers a relatively straightforward and practical application of accessibility, while @wilson1971's contribution is methodological and dense. Accessibility-based literature that has flourished since the 1990s, sprouting from the rise of GIS technologies, the plethora of _bigger_ data and different qualities of opportunities and populations to examine, it has developed in a different direction. However, HAM and SIM share similar roots, there are plenty of insights to be shared across these sibling branches. A relevant and contemporary connection between HAM and SIM is in the realm of competitive accessibility, and how the SIM can be reconceptualised as measuring _potential for interaction_ and competition can be interpreted through the regional and zonal constraints ensured by the balancing factors. How these balancing factors are applied in the context of _interaction_ like trips  can be applied to accessibility outputs like the "number of opportunities potentially interacted with".
+Indeed, @hansen1959 offers a relatively straightforward and practical application of accessibility, while @wilson1971's contribution is methodological and dense. Accessibility-based literature that has flourished since the 1990s, sprouting from the rise of GIS technologies, the plethora of _bigger_ data and different qualities of opportunities and populations to examine, it has developed in a different direction. However, HAM and SIM share similar roots, there are plenty of insights to be shared across these sibling branches. A relevant and contemporary connection between HAM and SIM is in the realm of competitive accessibility, and how the SIM can be reconceptualised as measuring _potential for interaction_ and competition can be interpreted through the regional and zonal constraints ensured by the balancing factors. How these balancing factors are applied in the context of _interaction_ like trips can be applied to accessibility outputs like the "number of opportunities potentially interacted with".
 -->
 ```
 
@@ -1761,7 +1761,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- knowns_longer <- rbind(knowns_longer,cbind(t(W_j),T)) -->
 
-<!-- rownames(knowns_longer) <- c("1","2","3", "TOTAL")  -->
+<!-- rownames(knowns_longer) <- c("1","2","3", "TOTAL") -->
 
 <!-- colnames(knowns_longer) <- c("1","2","3", "TOTAL") -->
 
@@ -1777,9 +1777,9 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- C_longer <-C -->
 
-<!-- rownames(C_longer) <- c("1","2","3")  -->
+<!-- rownames(C_longer) <- c("1","2","3") -->
 
-<!-- colnames(C_longer) <- c("1","2","3")  -->
+<!-- colnames(C_longer) <- c("1","2","3") -->
 
 <!-- C_longer #|> as.data.frame() |> gt(rownames_to_stub=TRUE) -->
 
@@ -1811,15 +1811,15 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- T_unc_longer <- rbind(T_unc_longer, cbind(t(W_j_unc),T_TOTAL_unc)) -->
 
-<!-- rownames(T_unc_longer) <- c("1","2","3", "TOTAL")  -->
+<!-- rownames(T_unc_longer) <- c("1","2","3", "TOTAL") -->
 
 <!-- colnames(T_unc_longer) <- c("1","2","3", "TOTAL") -->
 
-<!-- T_unc_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE) -->
+<!-- T_unc_longer |> round() #|> as.data.frame() |> gt(rownames_to_stub=TRUE) -->
 
 <!-- ``` -->
 
-<!-- As we can surmise, the trip ends do not add up to anything we know -- they do not add up to the known trip ends. Instead, they take on the assumptions of all balancing factors $k$ being equal to 1. When would this happen? It's hard to say... as the balancing factors themselves do not have practical meaning; what has meaning are the constraints. By satisfying the constraints, the model gains meaning. In this way, the resulting unconstrained interaction matrix is simply an expression of the magnitude of interaction of $W_i$ to $W_j$ assuming $f(c_{ij})$. In the context of spatial interaction modelling, this model is not entirely useful; it is in units of 'trips' but trips that satisify the macro constraint of $k$ equaling 1, which is practically meaningless.   -->
+<!-- As we can surmise, the trip ends do not add up to anything we know -- they do not add up to the known trip ends. Instead, they take on the assumptions of all balancing factors $k$ being equal to 1. When would this happen? It's hard to say... as the balancing factors themselves do not have practical meaning; what has meaning are the constraints. By satisfying the constraints, the model gains meaning. In this way, the resulting unconstrained interaction matrix is simply an expression of the magnitude of interaction of $W_i$ to $W_j$ assuming $f(c_{ij})$. In the context of spatial interaction modelling, this model is not entirely useful; it is in units of 'trips' but trips that satisify the macro constraint of $k$ equaling 1, which is practically meaningless.  -->
 
 <!-- ## total constrained interaction case -->
 
@@ -1863,11 +1863,11 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- T_tot_longer <- rbind(T_tot_longer, cbind(t(W_j_tot),T_TOTAL_tot)) -->
 
-<!-- rownames(T_tot_longer) <- c("1","2","3", "TOTAL")  -->
+<!-- rownames(T_tot_longer) <- c("1","2","3", "TOTAL") -->
 
 <!-- colnames(T_tot_longer) <- c("1","2","3", "TOTAL") -->
 
-<!-- T_tot_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE) -->
+<!-- T_tot_longer |> round() #|> as.data.frame() |> gt(rownames_to_stub=TRUE) -->
 
 <!-- ``` -->
 
@@ -1875,7 +1875,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- ## Singly constrained -->
 
-<!-- Two versions of this case, either origin-constrained or destination-constrained.  -->
+<!-- Two versions of this case, either origin-constrained or destination-constrained. -->
 
 <!-- For the origin-constrained model, where $k$ is replaced with $A_i$ (@eq-bf-A-gravitymodel satisfying only constraint @eq-constraint1-gravitymodel and implicitly @eq-constraint0-gravitymodel), the model looks as follows: -->
 
@@ -1899,7 +1899,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- A_2 = \frac{1}{160/15+437/2+193/10} =0.004024685 \\ -->
 
-<!-- A_3 = \frac{1}{160/5+437/10+193/2} =0.005807201  -->
+<!-- A_3 = \frac{1}{160/5+437/10+193/2} =0.005807201 -->
 
 <!-- $$ -->
 
@@ -1911,7 +1911,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- A_i<- diag(A_i|> as.numeric(), nrow=3, ncol=3) -->
 
-<!-- T_orig <-  A_i%*%T_unc -->
+<!-- T_orig <- A_i%*%T_unc -->
 
 <!-- W_i_orig <- T_orig |> rowSums() -->
 
@@ -1923,15 +1923,15 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- T_orig_longer <- rbind(T_orig_longer, cbind(t(W_j_orig),T_TOTAL_orig)) -->
 
-<!-- rownames(T_orig_longer) <- c("1","2","3", "TOTAL")  -->
+<!-- rownames(T_orig_longer) <- c("1","2","3", "TOTAL") -->
 
 <!-- colnames(T_orig_longer) <- c("1","2","3", "TOTAL") -->
 
-<!-- T_orig_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE) -->
+<!-- T_orig_longer |> round() #|> as.data.frame() |> gt(rownames_to_stub=TRUE) -->
 
 <!-- ``` -->
 
-<!-- We can see that the $W_i^{(1)}$ values are equal to the trip ends, but not $W_j^{(2)}$ values.  -->
+<!-- We can see that the $W_i^{(1)}$ values are equal to the trip ends, but not $W_j^{(2)}$ values. -->
 
 <!-- Similarly, the singly constrained case can be flipped to be origin-constrained (@eq-bf-B-gravitymodel satisfying only constraint @eq-constraint1-gravitymodel and implicitly @eq-constraint0-gravitymodel): -->
 
@@ -1951,7 +1951,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- ```{r} -->
 
-<!-- B_j <- 1/(t(matrix(W_i))) %*% (1/C)  -->
+<!-- B_j <- 1/(t(matrix(W_i))) %*% (1/C) -->
 
 <!-- B_j <- matrix(B_j) |> t() -->
 
@@ -1959,7 +1959,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- colnames(B_j_longer) <- c("1","2","3") -->
 
-<!-- B_j_longer  #|> as.data.frame()  |> gt() -->
+<!-- B_j_longer #|> as.data.frame() |> gt() -->
 
 <!-- #B_j <- colSums(known_trip_matrix)/colSums(T_unc) #our answer with knowns -->
 
@@ -1971,7 +1971,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- B_j <- diag(B_j|> as.numeric(), nrow=3, ncol=3) -->
 
-<!-- T_dest <-  (B_j)%*%t(T_unc) |> t() -->
+<!-- T_dest <- (B_j)%*%t(T_unc) |> t() -->
 
 <!-- W_i_dest <- T_dest |> rowSums() -->
 
@@ -1983,11 +1983,11 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- T_dest_longer <- rbind(T_dest_longer, cbind(t(W_j_dest),T_TOTAL_dest)) -->
 
-<!-- rownames(T_dest_longer) <- c("1","2","3", "TOTAL")  -->
+<!-- rownames(T_dest_longer) <- c("1","2","3", "TOTAL") -->
 
 <!-- colnames(T_dest_longer) <- c("1","2","3", "TOTAL") -->
 
-<!-- T_dest_longer |> round() #|> as.data.frame()  |> gt(rownames_to_stub=TRUE) -->
+<!-- T_dest_longer |> round() #|> as.data.frame() |> gt(rownames_to_stub=TRUE) -->
 
 <!-- ``` -->
 
@@ -1995,7 +1995,7 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- ## Doubly constrained case -->
 
-<!-- The parameter $k$ is replaced with both $A_i$ and $B_j$ (@eq-bf-A-gravitymodel and @eq-bf-B-gravitymodel satisfying all three constraints @eq-constraint1-gravitymodel,  @eq-constraint2-gravitymodel and implicitly @eq-constraint0-gravitymodel), the model looks as follows: -->
+<!-- The parameter $k$ is replaced with both $A_i$ and $B_j$ (@eq-bf-A-gravitymodel and @eq-bf-B-gravitymodel satisfying all three constraints @eq-constraint1-gravitymodel, @eq-constraint2-gravitymodel and implicitly @eq-constraint0-gravitymodel), the model looks as follows: -->
 
 <!-- $$ -->
 
@@ -2017,57 +2017,57 @@ The approach is based on partition functions from statistical mechanics (the phy
 
 <!-- doubly_constrained_gravity_model <- function( -->
 
-<!--     #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R -->
+<!--   #CREDIT: I converted the python code from (https://github.com/SadraDaneshvar/Gravity_Model) to R -->
 
-<!--   O,  # Origin production weights vector -->
+<!--  O, # Origin production weights vector -->
 
-<!--   D,  # Destination attraction weights vector -->
+<!--  D, # Destination attraction weights vector -->
 
-<!--   impedance_matrix,  # the resulting travel cost impedance matrix -->
+<!--  impedance_matrix, # the resulting travel cost impedance matrix -->
 
-<!--   error_threshold = 0.001,  # Error threshold for stopping condition -->
+<!--  error_threshold = 0.001, # Error threshold for stopping condition -->
 
-<!--   improvement_threshold = 1e-6  # Improvement threshold for stopping condition -->
+<!--  improvement_threshold = 1e-6 # Improvement threshold for stopping condition -->
 
 <!-- ) { -->
 
-<!--   # Normalize O and D -->
+<!--  # Normalize O and D -->
 
-<!--   sum_O <- sum(O) -->
+<!--  sum_O <- sum(O) -->
 
-<!--   sum_D <- sum(D) -->
+<!--  sum_D <- sum(D) -->
 
-<!--   cat("Checking production, attraction balancing:\n") -->
+<!--  cat("Checking production, attraction balancing:\n") -->
 
-<!--   cat("Production: ", sum_O, "\n") -->
+<!--  cat("Production: ", sum_O, "\n") -->
 
-<!--   cat("Attraction: ", sum_D, "\n") -->
+<!--  cat("Attraction: ", sum_D, "\n") -->
 
-<!--   if (sum_O != sum_D) { -->
+<!--  if (sum_O != sum_D) { -->
 
-<!--     cat("Productions and attractions do not balance, scaling to match.\n") -->
+<!--   cat("Productions and attractions do not balance, scaling to match.\n") -->
 
-<!--     if (sum_O < sum_D) { -->
+<!--   if (sum_O < sum_D) { -->
 
-<!--       O <- O * (sum_D / sum_O) -->
-
-<!--     } else { -->
-
-<!--       D <- D * (sum_O / sum_D) -->
-
-<!--     } -->
+<!--    O <- O * (sum_D / sum_O) -->
 
 <!--   } else { -->
 
-<!--     cat("Production, attraction balancing OK.\n") -->
+<!--    D <- D * (sum_O / sum_D) -->
 
 <!--   } -->
 
-<!--   n <- length(O)  # Number of i -->
+<!--  } else { -->
 
-<!--   T <- sum(O)  # Total trips -->
+<!--   cat("Production, attraction balancing OK.\n") -->
 
-<!--   Ai <- rep(1, n)  # Initialize Ai -->
+<!--  } -->
+
+<!--  n <- length(O) # Number of i -->
+
+<!--  T <- sum(O) # Total trips -->
+
+<!--  Ai <- rep(1, n) # Initialize Ai -->
 
 <!--   Bj <- rep(1, n)  # Initialize Bj -->
 
