@@ -10,55 +10,54 @@
 \hline
 \endhead
 
-Unconstrained Accessible Opportunities or Population ($V_i^0$, $M_j^0$)
-& No constraints; marginals not preserved.
+Unconstrained Accessible Opportunities ($V_i^0$) and Unconstrained Accessibile Population ($M_j^0$)
+& No constraints; marginals not equal to any regional or zonal knowns.
 & None
 & $V_i^0 = \sum_j O_j f(c_{ij})$;
 
 $M_j^0 = \sum_i P_i f(c_{ij})$
 
-& Impedance-weighted values (e.g., "opportunities × decay"); no marginal control. \\
+& Values in various units depending on the impedance and destination-mass (e.g., "opportunities x decay") for $V_i^0$ andimpedance and origin-mass (e.g., "population x decay"); no total or marginal constraint \\
 \hline
 
-Total Constrained Accessible Opportunities or Population ($V_i^T$, $M_j^T$)
-& Single balancing factor preserves total marginal.
+Total Constrained Accessible Opportunities ($V_i^T$) and Total Constrained Accessibile Population ($M_j^T$)
+& Balancing factors $K^T$ and $\hat{K}^T$ ensures the sum of $ij$ values equals the total marginal, where:
 
 $K^T = \frac{D}{\sum_i V_i^0}$;
 
 $\hat{K}^T = \frac{O}{\sum_j M_j^0}$
 
-& $\kappa_i^T = \sum_j K^T f(c_{ij})$; $\hat{\kappa}_j^T = \sum_i \hat K^T f(c_{ij})$
+& Allocates the total marginal as opportunities based on $\kappa_i^T = \sum_j K^T f(c_{ij})$ and as population based on  $\hat{\kappa}_j^T = \sum_i \hat K^T f(c_{ij})$
+
 & $V^T_i = \kappa_i^T \sum_j W^{(2)}_j$;
 
 $M_j^T = \hat{\kappa}_j^T \sum_i W^{(1)}_i$
 
-& Values reflect total regional opportunities or population. \\
+
+& Values reflect a share of total regional opportunities ($V^T_i$) or population ($M^T_j$). \\
 \hline
 
-Singly Constrained Accessible Opportunities ($V_i^S$)
-& Destination-side constraint:
+Singly Constrained Accessible Opportunities ($V_i^S$) and Singly Constrained Accessible Population ($M_j^S$)
+& Single balancing factor $B_j$ (for $V_i^S$) that ensures the destination-mass marginal is constrained, and $A_i$ (for $M_j^S$) ensures the origin-mass marginal is constrained:
 
-$B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}$
-& $\kappa^S_i = W_i^{(1)} B_j$
-& $V^S_i = \kappa^S_i \sum_j D_j$
-& Shares of destination-side opportunities based on origin population and impedance. \\
-\hline
-
-Singly Constrained Accessible Population ($M_j^S$)
-& Origin-side constraint:
+$B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}$;
 
 $A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}$
 
-& $\hat \kappa^S_j = W_j^{(2)} A_i$
-& $M_j^S = \hat \kappa^S_j \sum_i P_i$
-& Shares of origin population based on destination mass and impedance. \\
+& Allocates the single opportunities marginal proportionally based on $\kappa^S_i = W_i^{(1)} B_j$ in the case of $V_i^S$ and the single population marginal proroportionally based on $\hat \kappa^S_j = W_j^{(2)} A_i$ in the case of $M_j^S$
+
+& $V^S_i = \kappa^S_i \sum_j D_j$;
+
+$M_j^S = \hat \kappa^S_j \sum_i P_i$
+
+& $V^S_i$ values reflect a share of the opportunities at each destination based on origin population 'demand' and impedance; $M^S_j$ values reflect a share of the population at each origin based on destination opportunities 'supply' and impedance.\\
 \hline
 
 Doubly Constrained Access ($V_{ij}^D$ or $M_{ij}^D$)
-& Both marginals constrained via $A_i$, $B_j$ simultaneously.
+& Values reflect both single marginals simutaneously, maintained via $A_i$ and $B_j$.
 & —
 & $V_{ij}^D = A_i B_j P_i O_j f(c_{ij})$
-& Realized interactions between population and opportunities (i.e., access). \\
+& The spatial interactions between population and opportunities (i.e., access). \\
 \hline
 
 \end{longtable}
