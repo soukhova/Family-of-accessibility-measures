@@ -29,6 +29,7 @@ author:
           city: Hamilton, Canada
 format:
   pdf:
+    keep-tex: true
     documentclass: article
     header-includes: |
       \usepackage{draftwatermark} 
