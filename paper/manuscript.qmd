@@ -1506,9 +1506,7 @@ We then introduce the singly constrained case, which *does* takes into account t
 
 Lastly, the doubly constrained case is introduced. In this case, the sums must equal both the regional total and ensure that no zone allocates more opportunities than it has available. Specifically, accessibility values for each $i$-$j$ pair must be a proportion of he zonal opportunity and population values simultaneously. For example, the accessibility at zone 1 must equal the sum of opportunities from zones 1, 2, and 3, as well as the sum of the population at zone 1. Satisfying the double constraint means the opportunities and population data must match one-to-one, so working with the accessibility $i$-$j$ pair values should be of interest. In this sense, the research question should be concerned with 'access' (how many opportunities accessed from $j$ at $i$ based on given zonal opportunities and populations) instead of potential spatial interaction (e.g., typically expressed as a zonal summary measure of how many opportunities one could reach (out of a regional total and/or zonal-allocation).
 
-<!-- rafa 7: final paragraph with take aways -->
-666666
- 
+<!-- rafa 7: final paragraph with takeaways -->
 
 In summary, building on @wilson1971's foundational work, this paper proposed a unified framework for accessibility that is able to account for competition. By reintroducing Wilson's proportionality constant, the proposed family of constrained accessibility measures restores measurement units to accessibility estimates. This enhancement provides a more interpretable, consistent, and theoretically grounded basis for accessibility analysis, which could help advance the adoption of accessibility-oriented planning.
 
