@@ -192,7 +192,7 @@ interaction principles}
   \apptocmd{\@title}{\par {\large #1 \par}}{}{}
 }
 \makeatother
-\subtitle{Preprint submitted to peer-review in May 2025}
+\subtitle{Submitted preprint for peer-review (May 2025)}
 \author{Anastasia Soukhov \and Rafael H. M. Pereira \and Christopher D.
 Higgins \and Antonio Páez}
 \date{}
@@ -210,27 +210,26 @@ unclear interpretations. This work's aim is to clarify and unify the
 concept of accessibility by connecting it into spatial interaction
 modeling. We demonstrate that widely used mobility and accessibility
 models, such as gravity-based accessibility and spatial interaction
-models, share common theoretical roots. From this foundation, we define
-a family of accessibility measures within the principles of spatial
-interaction. In demonstrating these developments, three contributions
-emerge: A) the definition and linkages between four members of the
-family: specifically, the `unconstrained' measure (i.e., Hansen-type
-measure), the `total constrained' measure (i.e., a constrained version
-of the Hansen-type measure), the `singly constrained' measure (i.e.,
-related to the popular two step floating catchment approach (2SFCA)),
-and the `doubly constrained' measure representing realized interactions
-or `access', effectively equal to the doubly constrained spatial
-interaction model in formulation. B) How to formulaically specify the
-total-, singly- and doubly- constrained accessibility measures. C) The
-interpretability advantages of the family, as these constrained
-accessibility measures yield values in units of the number of potential
-``opportunities for spatial interaction'' or ``population for spatial
-interaction'' for each zone and zonal flow. By clarifying the concept of
-`potential' in accessibility, demonstrating theoretical and formulaic
+models, share common theoretical roots. From this foundation, this paper
+offers three contributions: (A) we introduce a family of accessibility
+measures within the principles of spatial interaction, and (B) formally
+define four members of the family, namely the `unconstrained' measure
+(i.e., Hansen-type accessibility), the `total constrained' measure
+(i.e., a constrained version of the Hansen-type accessibility), the
+`singly constrained' measure (i.e., related to the popular two step
+floating catchment approach - 2SFCA), and the `doubly constrained'
+measure representing realized interactions or `access', effectively
+equal to the doubly constrained spatial interaction model; and (C) we
+demonstrate the interpretability advantages of the family, as these
+constrained accessibility measures yield values in units of the number
+of potential ``opportunities for spatial interaction'' or ``population
+for spatial interaction'' for each zone and zonal flow. The family of
+accessibility measures proposed here clarifies the concept of
+`potential' in accessibility, demonstrates theoretical and formulaic
 linkages across popular accessibility and spatial interaction models,
-and reintroducing units, this work contributes a family of measures that
-unlock a clearer, more interpretable, and cohesive foundation for
-accessibility analysis.
+and reintroduces measurement units into accessibility measures. By doing
+so, we believe this family of measures can unlock a clearer, more
+interpretable, and cohesive foundation for accessibility analysis.
 \end{abstract}
 
 \section{Introduction}\label{introduction}
@@ -259,8 +258,7 @@ traveled, intersection through traffic, etc.) which are not necessarily
 linked to improved accessibility (Silva et al. 2017; Paez et al. 2013;
 S. Handy 2020; El-Geneidy and Levinson 2022).
 
-Accessibility can be seen to represent an evolution of mobility;
-accessibility may be defined as the ``potential of opportunities for
+Accessibility may be defined as the ``potential of opportunities for
 {[}spatial{]} interaction'' (Hansen 1959), in contrast to mobility which
 is simply, movement in itself or `spatial interaction'. Mobility has
 been the basis of traditional transportation planning approaches
@@ -293,60 +291,63 @@ accessibility in planning practice. For instance, the diversity of
 accessibility definitions has been flagged by van Wee (2016), S. Handy
 (2020), and Kapatsila et al. (2023). Further, difficulties in the
 interpretability and communicability of outputs has also been noticed by
-Karst T. Geurs and van Wee (2004), van Wee (2016), and Ferreira and Papa
-(2020).
+many authores, including Karst T. Geurs and van Wee (2004), van Wee
+(2016), and Ferreira and Papa (2020).
 
-Furthermore, the adoption of accessibility in planning practice is not
-necessarily made easier when potential adopters have to contend with a
-plethora of definitions, each seemingly more sophisticated but less
-intuitive than the last (Kapatsila et al. 2023). At a high level, Karst
-T. Geurs and van Wee (2004) identify four families of accessibility
-measures: infrastructure-, place-, person-, and utility-based. Of the
-place-based family, which is the focus of this paper, the menu has grown
-to include gravity-based accessibility (e.g., Hansen 1959; Pirie 1979),
-cumulative opportunities (e.g., Wachs and Kumagai 1973; Pirie 1979; Ye
-et al. 2018), modified gravity (e.g., Schuurman, Berube, and Crooks
-2010), 2-Step Floating Catchment Areas (e.g., Luo and Wang 2003),
-Enhanced 2-Step Floating Catchment Areas (e.g., Luo and Qi 2009),
-3-Stage Floating Catchment Areas (e.g., Wan, Zou, and Sternberg 2012),
-Modified 2-Step Floating Catchment Areas (e.g., Delamater 2013), inverse
-2-Step Floating Catchment Areas (e.g., F. Wang 2021), and n-steps
-Floating Catchment Areas (Liang, Yan, and Yan 2024). How is a
-practitioner to choose among this myriad options? What differences in
-accessibility scores should matter, and how should they be communicated?
-{[}see van Wee (2016); p.~14{]}.
+The adoption of accessibility in planning practice is not necessarily
+made easier when potential adopters have to contend with a plethora of
+definitions, each seemingly more sophisticated but less intuitive than
+the last (Kapatsila et al. 2023). At a high level, Karst T. Geurs and
+van Wee (2004) identify four families of accessibility measures:
+infrastructure-, place-, person-, and utility-based. Of the place-based
+family, which is the focus of this paper, the menu has grown to include
+gravity-based accessibility (e.g., Hansen 1959; Pirie 1979), cumulative
+opportunities (e.g., Wachs and Kumagai 1973; Pirie 1979; Ye et al.
+2018), modified gravity (e.g., Schuurman, Berube, and Crooks 2010),
+2-Step Floating Catchment Areas (e.g., Luo and Wang 2003), Enhanced
+2-Step Floating Catchment Areas (e.g., Luo and Qi 2009), 3-Stage
+Floating Catchment Areas (e.g., Wan, Zou, and Sternberg 2012), Modified
+2-Step Floating Catchment Areas (e.g., Delamater 2013), inverse 2-Step
+Floating Catchment Areas (e.g., F. Wang 2021), and n-steps Floating
+Catchment Areas (Liang, Yan, and Yan 2024). How is a practitioner to
+choose among this myriad options? What differences in accessibility
+scores should matter, and how should they be communicated? {[}see van
+Wee (2016); p.~14{]}.
 
-More specifically, this work seeks to address the breath of place-based
-accessibility's definitions and lack of interpretability by
-demonstrating that mobility-oriented models--such as the commonly used
-gravity-based accessibility (e.g., Hansen 1959) and the spatial
-interaction model (e.g., Wilson 1971)-- are rooted in the same spatial
-interaction modeling foundation. In fact, accessibility can be specified
-using spatial interaction principles and a \emph{family of measures},
-akin to the family of spatial interaction models introduced in Wilson
-(1971), can be defined using balancing factors that constrains values
-based on known information about the land-use.
+Here, we seek to address the breath of place-based accessibility's
+definitions and lack of interpretability by demonstrating that
+mobility-oriented models--such as the commonly used gravity-based
+accessibility (e.g., Hansen 1959) and the spatial interaction model
+(e.g., Wilson 1971)-- are rooted in the same spatial interaction
+modeling foundation. In fact, we propose that accessibility can be
+specified using spatial interaction principles as a \emph{family of
+measures}, akin to the family of spatial interaction models introduced
+in Wilson (1971) that can be defined using balancing factors that
+constrains values based on known information about the land-use.
 
-In this way, this work aims to offer three contributions: (1) introduce
-and (2) define a family of \emph{constrained} accessibility measures,
-namely the total constrained accessibility measure, the singly
-constrained accessibility measure, and the doubly constrained measure.
-These measures are explicitly connected to popular measures such as the
-Hansen-type accessibility (Hansen 1959), the popular competition
-approach of the 2-Step Floating Catchment Area (2SFCA) (Q. Shen 1998a;
-Luo and Wang 2003), and the concept of market potential, or what Reilly
-called `potential trade territories' (Reilly 1929) and further developed
-in other examples (C. D. Harris 1954; R. W. Vickerman 1974). These
-Wilson-analogous balancing factors introduced are also defined in order
-of increasing restrictiveness to shed light on the role of
-\emph{potential} in accessibility and access. (3) This work also aims to
-demonstrate the intuitive value of restoring units to the resulting raw
-accessibility values. Each zonal and zonal flow value from a constrained
-accessibility measure is in interpretable units, namely the number of
+This work aims to offer three contributions: (1) it introduces a family
+of accessibility measures within the principles of spatial interaction;
+(2) it formally defines three \emph{constrained} accessibility measures
+by reintroducing Wilson-analogous balancing factors. These measures are
+the total constrained accessibility measure, the singly constrained
+accessibility measure, and the doubly constrained measure, which are
+explicitly connected to popular measures such as the Hansen-type
+accessibility (Hansen 1959), the popular competition approach of the
+2-Step Floating Catchment Area (2SFCA) (Q. Shen 1998a; Luo and Wang
+2003), and the concept of market potential (C. D. Harris 1954; R. W.
+Vickerman 1974). These Wilson-analogous balancing factors introduced are
+also defined in order of increasing restrictiveness to shed light on the
+role of \emph{potential} in accessibility and access. (3) This work also
+demonstrates that the introduction of balancing factors makes
+accessibility measures easier to interpret and to communicate by
+restoring the measurement units to the resulting raw accessibility
+values. Each zonal and zonal flow value from a constrained accessibility
+measure is always in interpretable units, namely the number of
 `opportunities for spatial interaction' or `population for spatial
-interaction'. This is in contrast to conventional accessibility measures
-that yield values in units of `opportunities weighted by some
-representation of travel friction'.
+interaction'. This is in contrast to conventional accessibility
+measures, particularly gravity based measures, that yield values in
+units of `opportunities weighted by some representation of travel
+friction'.
 
 To achieve these stated objectives, this paper contends that
 accessibility research must reconnect with its spatial interaction
@@ -366,7 +367,7 @@ constraints (and their attendant proportionality constants) has
 contributed to some of accessibility analysis' interpretability issues;
 for instance, the fuzziness of insights beyond simple proportional
 statements like `higher-than' or `lower-than' (E. J. Miller 2018).
-Moreover, without constraints: we lose track of what accessibility
+Moreover, without constraints we lose track of what accessibility
 measures, that is, the number of opportunities that can be spatially
 interacted with. Without a clear sense of measurement units,
 comparability between accessibility measures, across cities, and
@@ -384,7 +385,7 @@ evidence for a narrative highlighting the marked divergence between
 accessibility and spatial interaction modelling research after the work
 of Wilson (1971). Next, we hark back to Wilson (1971)'s spatial
 interaction models, and use them to derive a family of accessibility
-measures based analogous constraints. We illustrate members of this
+measures based on analogous constraints. We illustrate members of this
 family of constrained accessibility measures with a simple numerical
 example. We then conclude by discussing the uses of these measure and
 their interpretation.
@@ -565,7 +566,8 @@ V_i = \sum_j M_jd_{ij}^{-1}
 Alerted readers will notice that
 Equation~\ref{eq-stewart-population-potential-sum}, with some
 re-organization of terms, is formally equivalent to our modern
-definition of accessibility.
+definition of accessibility popularized by Hansen (1959) in the late
+1950s.
 
 Stewart's formulation of demographic force, developed in the context of
 what he called ``social physics'' (Stewart 1947), was problematic. It
@@ -616,13 +618,13 @@ S_{i} = \sum_j O_j \cdot f(d_{ij})
 }\end{equation}
 
 \(S_{i}\) in Equation~\ref{eq-accessibility} is a measure of the
-accessibility of site \(i\). This is a function of \(O_j\) (the mass of
-opportunities at \(j\)), \(d_{ij}\) (the cost, e.g., distance or travel
-time, incurred to reach \(j\) from \(i\)), and \(\beta\) (a parameter
-that modulates the friction of cost). Today, Hansen is frequently cited
-as the father of modern accessibility analysis (e.g., Reggiani and
-Martín 2011), and Hansen-type accessibility is commonly referred to as
-the gravity-based accessibility measure.
+accessibility from site \(i\). This is a function of \(O_j\) (the mass
+of opportunities at \(j\)), \(d_{ij}\) (the cost, e.g., distance or
+travel time, incurred to reach \(j\) from \(i\)), and \(\beta\) (a
+parameter that modulates the friction of cost). Today, Hansen is
+frequently cited as the father of modern accessibility analysis (e.g.,
+Reggiani and Martín 2011), and Hansen-type accessibility is commonly
+referred to as the gravity-based accessibility measure.
 
 However, Hansen's use of Stewart's \emph{population potential} measure
 included one crucial omission that afflicts the literature to this day.
@@ -632,20 +634,19 @@ Equation~\ref{eq-stewart-population-potential} vanished. This constant
 was not explicitly addressed in Hansen (1959) and accessibility research
 continues to evolve without it. Since Hansen (1959), accessibility
 analysis has been widely used in numerous disciplines but, to our
-knowledge, the proportionality constant has remained implicit or
-forgotten, with no notable developments to explicitly acknowledge or
-determine it.
+knowledge, the proportionality constant has remained forgotten, with no
+notable developments to explicitly acknowledge or determine it.
 
 The omission of this constant generates a fundamental problem for the
-measurement unit of accessibility estimates, which has fundamental
-implications for the interpretation, communication and comparability of
-accessibility analysis. Those reading Hansen (1959) must recall that
-Stewart (1948) had set the proportionality constant \(G\) to 1, with a
-note that ``\(G\) {[}was{]} left for future determination: a suitable
-choice of other units can reduce it to unity'' {[}p.~34{]}. In practice,
-the persistent omission of the constant in accessibility analyses means
-that \(G\) continues to be implicitly set to \(1\), even when the
-fundamental relationship in accessibility is proportionality (e.g.,
+measurement unit of accessibility estimates, which undermines the
+interpretation, communication and comparability of accessibility
+analysis. Those reading Hansen (1959) must recall that Stewart (1948)
+had set the proportionality constant \(G\) to 1, with a note that
+``\(G\) {[}was{]} left for future determination: a suitable choice of
+other units can reduce it to unity'' {[}p.~34{]}. In practice, the
+persistent omission of the constant in accessibility analyses means that
+\(G\) continues to be implicitly set to \(1\), even when the fundamental
+relationship in accessibility is proportionality (e.g.,
 \(S_{i} \propto \sum_j g(O_j)f(d_{ij})\)) and not equality (for
 instance, see the formula for accessibility at the top of Figure 1 in Wu
 and Levinson 2020). The direct consequence is that without a
@@ -657,10 +658,10 @@ meters, it will be number of opportunities per \(m^{\beta}\) when
 \(e^{-\beta\cdot m}\) when \(f(c_{ij}) = e^{-\beta\cdot m}\). This
 undermines the comparability of accessibility metrics with different
 decay functions, and renders their results difficult to understand and
-communicate. Hansen-style accessibility, therefore, is better thought of
-as an ordinal measure of potential that can only be interpreted in terms
-of higher and lower accessibility, but which has not palpable meaning
-(E. J. Miller 2018).
+communicate. The Hansen-style accessibility estimates found in the
+literature, therefore, are better thought of as ordinal measures of
+potential that can only be interpreted in terms of higher and lower
+accessibility, but which has not palpable meaning (E. J. Miller 2018).
 
 \section{Wilson's family of spatial interaction
 models}\label{wilsons-family-of-spatial-interaction-models}
@@ -669,7 +670,7 @@ On the other side of the Atlantic, Alan G. Wilson was developing
 related, yet parallel work. In his groundbreaking study (Wilson 1971),
 Wilson defined a general spatial interaction model as follows. While
 accessibility was characterised as an associated concept of `potential',
-the primary focus was on modelling spatial interaction:
+the primary focus was on modelling observed spatial interaction:
 \begin{equation}\phantomsection\label{eq-phys-gravity-model}{
 T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 }\end{equation}
@@ -692,7 +693,7 @@ being modeled. In other words, it balances the units, in a conceptually
 similar sense as the gravitational constant in Newton's Law of Universal
 Gravitation.
 
-Traditionally, development of the spatial interaction model put an
+Traditionally, the development of the spatial interaction model put an
 emphasis on the interpretability of the results (Kirby 1970; Wilson
 1967, 1971). But instead of relying on the heuristic of Newtonian
 gravity (e.g., some interaction between a mass at \(i\) and a mass at
@@ -814,7 +815,7 @@ destinations. As before, destination-specific proportionality constants
 B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}
 }\end{equation}
 
-In the third case in the family of spatial interaction models is the
+The third case in the family of spatial interaction models is the
 production-attraction constrained model. In this case, both
 Equation~\ref{eq-constraint1-gravitymodel} and
 Equation~\ref{eq-constraint2-gravitymodel} hold simultaneously. These
@@ -847,10 +848,10 @@ that although Wilson's approach is built on a different conceptual
 foundation than the old reference to Newtonian gravity, the work
 succeeded at identifying the steps from proportionality to equality to
 yield variations of proportionality constants, including the one that
-eluded Stewart (1948) and that has been ignored in almost all subsequent
-accessibility research. Why was this key element of spatial interaction
-models potentially ignored in accessibility research? In the next
-section we aim to address this question.
+eluded Stewart (1948) and that has been overlooked in almost all
+subsequent accessibility research. Why was this key element of spatial
+interaction models potentially ignored in accessibility research? In the
+next section we aim to address this question.
 
 \section{Accessibility and spatial interaction modelling: two divergent
 research
@@ -862,17 +863,18 @@ public policy for strategic land use and transportation planning''
 (Michael Batty 1994). These dictates and needs were far from trivial. In
 the United States alone, the Federal-Aid Highway Act of 1956 authorized
 the creation of the U.S. Interstate Highway System, with a budget that
-ultimately exceeded one hundred billion dollars (Weiner 2016; MDOT
-2007). Spatial interaction modelling was incorporated into institutional
-modelling practices meant to ``predict and provide'', i.e., predict
-travel demand and supply transportation infrastructure (Kovatch, Zames,
-et al. 1971; Weiner 2016). Accessibility, at the time, did not quite
-have that power, as it did not quantify trips, but rather something
-somewhat more elusive: it predicts the less tangible ``potential'' for
-spatial interaction with opportunities. In this way, where spatial
-interaction modelling became a key element of transportation planning
-practice, accessibility remained a somewhat more academic pursuit, and
-the two streams of literature only rarely connected.
+ultimately exceeded one hundred billion dollars (equivalent to over
+\$600 billion in 2023) (Weiner 2016; MDOT 2007). Spatial interaction
+modelling was incorporated into institutional modelling practices meant
+to ``predict and provide'', i.e., predict travel demand and supply
+transportation infrastructure (Kovatch, Zames, et al. 1971; Weiner
+2016). Accessibility, at the time, did not quite have that power, as it
+did not quantify trips, but rather something somewhat more elusive: it
+predicts the less tangible ``potential'' for spatial interaction with
+opportunities. In this way, where spatial interaction modelling became a
+key element of transportation planning practice, accessibility remained
+a somewhat more academic pursuit, and the two streams of literature only
+rarely connected.
 
 \begin{figure}[H]
 
@@ -898,23 +900,26 @@ corpus dates to 1976 and the most recent is from 2025. The number of
 documents per year appears in Figure~\ref{fig-docs-per-year}, where we
 see the frequency of documents over a span of almost fifty years. In
 particular, we notice the remarkable growth in the number of papers that
-cite Hansen (1959) compared to those that cite Wilson (1971).
+cite Hansen (1959) compared to those that cite Wilson (1971) since the
+year 2000.
 
 As noted, literature that cites both Wilson (1971) and Hansen (1959) are
-sparse (only 3.6\% of the corpus) but highly coupled. However, we can
-discern from a reading of these works that they too are divergent, with
-one stream focused on developing accessibility (i.e., \emph{potential
-for} spatial interaction) and another on spatial interaction. The
-focuses of these divergent streams contribute this paper's broader
-hypothesis that the concepts of accessibility and spatial interaction
-have remained largely disconnected.
+sparse (only 3.6\% of the corpus, visualised in pink in
+Figure~\ref{fig-docs-per-year}). After reading the works, we can also
+discern that they too are divergent, with one stream focused on
+developing accessibility (i.e., \emph{potential for} spatial
+interaction) and another on spatial interaction. The focuses of these
+divergent streams contribute this paper's broader hypothesis that the
+concepts of accessibility and spatial interaction have remained largely
+disconnected, and at times, improperly conflated.
 
 On one hand, the stream of literature focused on spatial interaction
-models inspired by Wilson (1971) and which cites both Hansen (1959) and
+models inspired by Wilson (1971) and which cite both Hansen (1959) and
 Wilson (1971), tends to contribute to understanding how accessibility is
-interpreted and incorporated in spatial interaction models, treating it
-as a separate (but related) phenomenon or variable. Specifically, some
-early works interpret the spatial interaction model's balancing factors
+interpreted and incorporated in spatial interaction models. These works
+treat separate spatial interaction and accessibility as a seperate but
+related phenomenon. Specifically, some early works interpret the spatial
+interaction model's balancing factors
 (Equation~\ref{eq-production-constrained-balancing-factor} or
 Equation~\ref{eq-doubly-constrained-balancing-factors}) as the inverse
 of Hansen (1959)`s model (B. Harris and Wilson 1978; G. Leonardi 1978;
@@ -924,73 +929,91 @@ including accessibility in the spatial interaction model, though further
 exploration of its relationship is warranted (M. Batty and March 1976).
 Some authors have explored this relationship, for instance as in A. S.
 Fotheringham (1985) who demonstrates how the spatial interaction model
-may insufficiently explain spatial patterns and suggest that explicitly
-defining destinations' accessibility as a variable within the model that
-may remedy the issue (e.g., the \emph{competition destination} model).
-Other works used both Hansen (1959) and Wilson (1971)'s framework in
-conjunction, such as in defining location-allocation problems in
-operations research (G. Leonardi 1978; Beaumont 1981), estimating trip
-flows (or some other spatial interaction flows) alongside accessibility
-(e.g., Clarke, Eyre, and Guy 2002; Grengs 2004; Türk 2019), or
-considering accessibility within spatial interaction models, in line
-with A. S. Fotheringham (1985)'s demonstration (e.g., Beckers et al.
-2022). Other works departed from Hansen (1959)'s definition and aligned
-with spatial interaction in different ways, such as using micro-economic
-consumer behaviour concepts to express potential for spatial interaction
-(Morris, Dumble, and Wigan 1979; Giorgio Leonardi and Tadei 1984).
+may insufficiently explain spatial patterns, and suggests that
+explicitly defining destinations' accessibility as a variable within the
+model may remedy the issue (e.g., the \emph{competition destination}
+model). Other works used both Hansen (1959) and Wilson (1971)'s
+framework in conjunction, such as in defining location-allocation
+problems in operations research (G. Leonardi 1978; Beaumont 1981),
+estimating trip flows (or some other spatial interaction flows)
+alongside accessibility (e.g., Clarke, Eyre, and Guy 2002; Grengs 2004;
+Türk 2019), or considering accessibility within spatial interaction
+models, in line with A. S. Fotheringham (1985)'s demonstration (e.g.,
+Beckers et al. 2022). Other works departed from Hansen (1959)'s
+definition and aligned with spatial interaction in different ways, such
+as using micro-economic consumer behaviour concepts to express potential
+for spatial interaction (Morris, Dumble, and Wigan 1979; Giorgio
+Leonardi and Tadei 1984).
 
-On the other hand, we discern that the stream of literature focused on
-accessibility inspired by Hansen (1959) cite Wilson (1971) for three
-general reasons. Firstly, as attribution for using using different
-context-dependent travel cost functions (Weibull 1980; S. L. Handy and
-Niemeier 1997; Kwan 1998; Q. Shen 1998a; Ashiru, Polak, and Noland 2003;
-Rau and Vega 2012; Pan 2013; Margarida Condeço Melhorado et al. 2016;
-Caschili, De Montis, and Trogu 2015; Grengs 2015; Pan, Jin, and Liu
-2020; Chia and Lee 2020; Roblot et al. 2021; Sharifiasl, Kharel, and Pan
-2023; Kharel, Sharifiasl, and Pan 2024). Secondly, associating spatial
-interaction with accessibility's potential for spatial interaction
-(e.g., Giuliano et al. 2010; Grengs et al. 2010; Grengs 2010, 2012;
-Levine et al. 2012; Levinson and Huang 2012; Tong, Zhou, and Miller
-2015; X. Liu and Zhou 2015; He et al. 2017; Wu and Levinson 2020; Ng et
-al. 2022; Naqavi et al. 2023; Suel et al. 2024). While accessibility is
-an expression of \emph{potential for} spatial interaction and Wilson
-(1971) touches on the concept H. J. Miller (1999), it is distinct
-concept from spatial interaction. This distinction, however, is often
-unclear, as Hansen (1959) and Wilson (1971) are frequently co-cited as
-both being `gravity models' (e.g., S. Liu and Zhu 2004; Dai, Wan, and
-Gai 2017; Y. Shen 2019; Chia and Lee 2020). Thirdly, interpretation of
-Hansen (1959)'s model as an inverse balancing factor (R. W. Vickerman
-1974), especially in competitive opportunity or population contexts
-(Karst and Van Eck 2003; Karst T. Geurs, van Wee, and Rietveld 2006;
-Willigers, Floor, and van Wee 2007; El-Geneidy and Levinson 2011; Curtis
-and Scheurer 2010; Manaugh and El-Geneidy 2012; Chen and Silva 2013;
-Alonso et al. 2014; Albacete et al. 2017; Sahebgharani, Mohammadi, and
-Haghshenas 2019; Mayaud et al. 2019; Allen and Farber 2020; Levinson and
-Wu 2020; Marwal and Silva 2022; Su and Goulias 2023). However, as
-outlined in preceding sections, we argue the resulting accessibility
-values are plagued by similar interpretability issues. Of the literature
-in this stream (i.e., accessibility works inspired by Hansen (1959) and
-who cite Wilson (1971)), only the works of Soukhov et al. (2023) and
-Soukhov et al. (2024) cite Wilson (1971)'s use of balancing factors as
-method for maintaining constraints on opportunities within the context
-of competitive accessibility. These works introduce the balancing
-factors as a mechanisms to ensure that opportunities at each destination
-are proportionally allocated to each zone (based on the proportion of
-population seeking opportunities and the relative travel impedance).
-This is to ensure that each zonal accessibility value is the sum of this
-proportional allocation from each destination, and that all zonal values
-ultimately sum to the total number of opportunities in the region.
-However, these balancing factors were deduced intuitively. These works
-do not explicitly state that the mathematical formulation of the
-equations are effectively equivalent to Wilson's singly constrained
-model (derived from entropy maximization), as will be demonstrated in
-this study. They also do not discuss other constrained cases.
+On the other hand, there is another subset of literature that cite both
+Hansen (1959) and Wilson (1971) that is accessibility-focused. We
+categorise their citation of Wilson (1971) for three general reasons.
+Firstly, a group of these works cite Wilson (1971) as attribution for
+using context-dependent travel cost functions (e.g., Weibull 1980; S. L.
+Handy and Niemeier 1997; Kwan 1998; Q. Shen 1998a; Ashiru, Polak, and
+Noland 2003; Rau and Vega 2012; Pan 2013; Margarida Condeço Melhorado et
+al. 2016; Caschili, De Montis, and Trogu 2015; Grengs 2015; Pan, Jin,
+and Liu 2020; Chia and Lee 2020; Roblot et al. 2021; Sharifiasl, Kharel,
+and Pan 2023; Kharel, Sharifiasl, and Pan 2024). These works do not
+necessarily comment on spatial interaction explicitly. Secondly, another
+group of this accessibility-focused ``both'' citing literature
+\emph{does} associate spatial interaction as defined in Wilson (1971)
+with accessibility's potential for spatial interaction more explicitly
+(e.g., H. J. Miller 1999; Giuliano et al. 2010; Grengs et al. 2010;
+Grengs 2010, 2012; Levine et al. 2012; Levinson and Huang 2012; Tong,
+Zhou, and Miller 2015; X. Liu and Zhou 2015; He et al. 2017; Wu and
+Levinson 2020; Ng et al. 2022; Naqavi et al. 2023; Suel et al. 2024). We
+agree accessibility and spatial interaction are related topics:
+accessibility is an expression of its \emph{potential} and the Wilson
+(1971) paper briefly touches on the concept. However, in some of this
+literature, Hansen (1959) and Wilson (1971) are co-cited as both being
+`gravity models' (e.g., S. Liu and Zhu 2004; Dai, Wan, and Gai 2017; Y.
+Shen 2019; Chia and Lee 2020), perhaps revealing the murkiness of the
+distinction between spatial interaction and the \emph{potential for}
+spatial interaction in the literature. Thirdly, there is a group of
+accessibility-focused works that interpret Hansen (1959)'s model as the
+singly- or doubly- constrained spatial interaction model's inverse
+balancing factor (e.g., R. W. Vickerman 1974). This group cities the
+earlier spatial interaction works that make this connection and is
+especially prominent in the investigation of competitive accessibility
+topics (e.g., Karst and Van Eck 2003; Karst T. Geurs, van Wee, and
+Rietveld 2006; Willigers, Floor, and van Wee 2007; El-Geneidy and
+Levinson 2011; Curtis and Scheurer 2010; Manaugh and El-Geneidy 2012;
+Chen and Silva 2013; Alonso et al. 2014; Albacete et al. 2017;
+Sahebgharani, Mohammadi, and Haghshenas 2019; Mayaud et al. 2019; Allen
+and Farber 2020; Levinson and Wu 2020; Marwal and Silva 2022; Su and
+Goulias 2023). As outlined in preceding sections, we argue interpreting
+the singly- or doubly- constrained spatial interaction model's balancing
+factor as accessibility yields output values that are similarly plagued
+by interpretability issues.
+
+Lastly, as an extension of the third reason within this group, only the
+works of Soukhov et al. (2023) and Soukhov et al. (2024) use Wilson
+(1971)'s balancing factors as a method for maintaining constraints on
+opportunities within the context of competitive accessibility. These
+works introduce the balancing factors as a mechanisms to ensure that
+opportunities at each destination are proportionally allocated to each
+zone (based on the proportion of population seeking opportunities and
+the relative travel impedance). This is to ensure that each zonal
+accessibility value is the sum of this proportional allocation from each
+destination, and that all zonal values ultimately sum to the total
+number of opportunities in the region. However, these balancing factors
+were deduced intuitively. These works do not explicitly state that the
+mathematical formulation of the equations are effectively equivalent to
+Wilson's singly constrained model (derived from entropy maximization).
+This equivalence is only discovered in hindsight, as will be
+demonstrated in this study. These two works also do not discuss other
+constrained cases that will be addressed in the next section.
 
 \section{A family of accessibility
 measures}\label{a-family-of-accessibility-measures}
 
-In this section, we introduce a family of accessibility measures, using
-Wilson's spatial interaction modelling framework.
+In this section, we introduce a family of accessibility measures
+inspired by Wilson's spatial interaction modelling framework. At the end
+of this section, Table 8 presents a summary, where each member of the
+family of accessibility measure is explained in plain language,
+alongside their balancing factor, proportional allocation factor and
+mathematical equation and value interpretations.
 
 As argued in the preceding section, the streams of research on
 accessibility and spatial interaction modelling have evolved as largely
@@ -1008,35 +1031,31 @@ inverse of balancing factor \(A_i\) (Wilson 1971, 10):
 S_i = \frac{1}{A_i} = \sum_j W_j^{(2)} f(c_{ij})
 }\end{equation}
 
-Understanding \(S_i\) as the inverse of \(A_i\) offers a potential
-interpretation for the balancing factor, however, \(S_i\) itself is not
-unclear. Also, the relationship in Equation~\ref{eq-Ai-as-accessibility}
-appears to be misaligned. In the preceding Section @ref(grav-to-today),
-we noted that Hansen, and Stewart before him, defined accessibility as a
-partial sum of the demographic force \(F\), essentially going from the
-demographic force (\(F = G\frac{M_1\cdot M_2}{d_{12}^2}\) to the
-system-wide population potential (after losing \(G\))
-\(V_i = \sum_j \frac{M_j}{d_{ij}}\). While the inverse of Wilson's
-\(A_i\) is pretty much identical to Hansen's accessibility, its
-functional role in Wilson's general model
+Understanding \(S_i\) as the inverse of Wilson's \(A_i\) does not
+uncover any new meaning for \(S_i\) itself. Indeed, mathematically it is
+true, \(A_i\)'s role in Wilson's general model
 \(T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})\) is that of a balancing
-factor \(k\) (maintaining proportionality).
+factor \(k\) i.e., keeping units balanced and proportionality based on
+constraints. Understanding \(S_i\) itself as a balancing factor is not
+wholly helpful as Hansen and (Stewart before him) defined accessibility
+as a partial sum of the demographic force \(F\) or the system-wide
+population potential of opportunities for spatial interaction (i.e.,
+(\textbf{q-stewart-population-potential-sum?}) representing
+\(V_i = \sum_j \frac{M_j}{d_{ij}}\) after losing \(G\)).
 
-Hence, we propose a more general definition of accessibility: the
-partial sum of the potential for spatial interaction. Once we bring back
-Wilson's proportionality constant into the picture, we can define the
-\emph{potential for spatial interaction} between two locations \(i\) and
-\(j\) is as follows:
+Hence, we propose stepping back to introduce a revised definition of
+accessibility: the \emph{constrained} potential for spatial interaction.
+Once we bring back Wilson's proportionality constant \(k\) into the
+picture, we can define the \emph{potential for spatial interaction}
+between two locations \(i\) and \(j\) is as follows:
 
 \begin{equation}\phantomsection\label{eq-access-01}{
 V_{ij} = k W_j^{(2)} f(c_{ij})
 }\end{equation}
 
 \noindent where \(V_{ij}\) is the potential for interaction from \(i\)
-to \(j\). \(X\) denotes a sub-indices for the member of the constrained
-accessibility value, either unconstrained \(0\), total constrained
-\(T\), singly constrained \(S\) or doubly constrained \(D\). The
-accessibility from origin \(i\) is defined as:
+to \(j\). The accessibility from origin \(i\) can then be summarised as
+as a partial sum of the potential at \(i\):
 
 \begin{equation}\phantomsection\label{eq-accesssibility-01}{
 V_{i} = k \sum_j W_j^{(2)} f(c_{ij})
@@ -1061,15 +1080,16 @@ Similar to Equation~\ref{eq-phys-gravity-model}, \(W_j^{(2)}\) above is
 the mass at the destination and the sub-indices are for
 \(i = 1,\cdots, n\) origins and \(j = 1,\cdots, m\) destinations.
 
-To demonstrate the anatomy of \(V_{ij}\) and \(M_{ij}\) along with the
+To detail the anatomy of \(V_{ij}\) and \(M_{ji}\) along with the
 partial sums of \(V_i\) and \(M_j\), Figure
-Figure~\ref{fig-analytical-device-conc-accessibility} demonstrates this
-work's accessibility analytical device for a simple 3 zone system. Each
-measure's most disaggregate value is \(X_{ij}\), potential for spatial
-interaction from \(i\) to \(j\). The \(X\) is a stand in for the \(ij\)
-values of all the cases and their variants that will be described (i.e.,
-\(V_{ij}^0, M_{ij}^0, V_{ij}^T, M_{ij}^T, V_{ij}^S, M_{ij}^S\) and
-\(V_{ij}^D, M_{ij}^D\)). The single marginals represent the origin-side
+Figure~\ref{fig-analytical-device-conc-accessibility} illustrates the
+accessibility analytical framework we propose using a simple 3 zone
+system. Each measure's most disaggregate value is \(X_{ij}\), potential
+for spatial interaction from \(i\) to \(j\). The \(X\) is a stand in for
+the \(ij\) values of all the cases and their variants that will be
+described (i.e.,
+\(V_{ij}^0, M_{ji}^0, V_{ij}^T, M_{ji}^T, V_{ij}^S, M_{ji}^S\) and
+\(V_{ij}^D, M_{ji}^D\)). The single marginals represent the origin-side
 and destination-side weights of the zones. The total marginal represent
 the sum of a single marginal.
 
@@ -1082,15 +1102,15 @@ the sum of a single marginal.
 }
 
 \caption{\label{fig-analytical-device-conc-accessibility}The family of
-accessibility measures analytical device: labelling and associating ij
-flows, zonal weights, the single marginals, and the total marginal.}
+accessibility measures analytical framework: labelling and associating
+ij flows, zonal weights, the single marginals, and the total marginal.}
 
 \end{figure}%
 
 As an additional overview, we define four distinct members of the
 constrained accessibility measure family, all delineated based on their
-constant \(k\); either balancing factors \(K^T\), \(B_j\), \(A_i\)
-depending on their case and variant:
+constant \(k\), which takes the form of either balancing factors
+\(K^T\), \(B_j\), \(A_i\) depending on the indicator:
 
 \begin{enumerate}
 \def\labelenumi{\arabic{enumi}.}
@@ -1211,14 +1231,14 @@ depending on their case and variant:
 \item
   \textbf{The doubly constrained case}. It is constrained simultaneously
   by population (origin masses) and opportunities (destination masses),
-  so each \(V_{ij}^D\) (equivalent to \(M_{ij}^D\)) is expressed in
+  so each \(V_{ij}^D\) (equivalent to \(M_{ji}^D\)) is expressed in
   units of `population-opportunity capacity' that is accessible between
   \(i\) to \(j\). This case requires the number of opportunities and
   population to match, e.g., the analyst must know the matching spatial
   interaction capacity of the population (demand) and opportunities
   (supply). By using this one-to-one matching data and the double
   constraints (i.e., \(A_i\) and \(B_j\) at once, ensuring both the
-  double constraint maintaints both marginals in
+  double constraint maintains both marginals in
   Figure~\ref{fig-analytical-device-conc-accessibility}), this case
   restricts the \emph{potential} to spatially interact completely. In
   other words, the doubly constrained accessibility values reflect the
@@ -1229,9 +1249,15 @@ depending on their case and variant:
   predicting a value of `access', and not accessibility.
 \end{enumerate}
 
-In the next sections, we will assign values to the simple 3x3 numeric
-example shown in the analytical device
-(Figure~\ref{fig-analytical-device-conc-accessibility}).
+And as a summary: each member of the family of accessibility measure is
+named, explained in plain language, alongside their balancing factor(s),
+proportional allocation factor(s), and mathematical equation and value
+interpretations in Table 1.
+
+\input{summary-family-access-measures-table.tex}
+
+Table 1: Summary of constrained accessibility measure types and
+interpretations
 
 \subsection{Setup of the simple numeric
 example}\label{setup-of-the-simple-numeric-example}
@@ -1650,24 +1676,26 @@ the transpose of \(i\) to \(j\) of the total constrained accessible
 opportunities measure. This variant, expressed in
 Equation~\ref{eq-total-constrained-market}, represents an expression of
 the concept of market potential (i.e., potential users) as proposed in
-C. D. Harris (1954) and R. W. Vickerman (1974). This unconstrained form
-of market potential \(M_j^0\) (Equation~\ref{eq-unconstrained-market}),
-effectively the \(i\) to \(j\) transpose of \(V^0_{ij}\), has been used
-in recent research to express the potentially accessible population
-(i.e., users) as a result of regional transportation infrastructure
-investment projects (e.g., Gutiérrez 2001; Holl 2007; Condeço-Melhorado
-and Christidis 2018). Put another way, market potential can also be
-thought of as a form of \emph{passive accessibility}, indicating the
-number of people that can reach each destination. However, like
-\(V_{ij}^0\), issues of unit interpretability arise in \(M_j^0\)'s
-unconstrained form. To address this, the constrained variant, the total
-constrained accessible population measure \(M^T_{j}\), is introduced. To
-formulate this variant, the total balancing factor \(K^T\) is applied to
-the mass of the \emph{population} at \(i\) (\(W_i^{(1)}\)) instead of
-the opportunities at \(j\).
+C. D. Harris (1954) and R. W. Vickerman (1974), and which Reilly earlier
+referred to as `potential trade territories' (Reilly 1929). This
+unconstrained form of market potential \(M_j^0\)
+(Equation~\ref{eq-unconstrained-market}), effectively the \(i\) to \(j\)
+transpose of \(V^0_{ij}\), has been used in recent research to express
+the potentially accessible population (i.e., users) as a result of
+regional transportation infrastructure investment projects (e.g.,
+Gutiérrez 2001; Holl 2007; Condeço-Melhorado and Christidis 2018). Put
+another way, market potential can also be thought of as a form of
+\emph{passive accessibility}, indicating the number of people that can
+reach each destination. However, like \(V_{ij}^0\), issues of unit
+interpretability arise in \(M_j^0\)'s unconstrained form. To address
+this, the constrained variant, the total constrained accessible
+population measure \(M^T_{j}\), is introduced. To formulate this
+variant, the total balancing factor \(K^T\) is applied to the mass of
+the \emph{population} at \(i\) (\(W_i^{(1)}\)) instead of the
+opportunities at \(j\).
 
 \begin{equation}\phantomsection\label{eq-total-constrained-market}{
-M^T_{ij} = \hat K^T \cdot W_i^{(1)} f(c_{ij}) = \hat K^T \cdot M_{ij}^0
+M^T_{ji} = \hat K^T \cdot W_i^{(1)} f(c_{ij}) = \hat K^T \cdot M_{ji}^0
 }\end{equation}
 
 \noindent with \(M_j^0\) being the \(i\) \(j\) transpose of
@@ -1681,14 +1709,14 @@ The total constrained accessible population measure (market potential)
 then becomes:
 
 \[
-M^T_j = \sum_i M^T_{ij} = \hat K^T \sum_i W^{(1)}_if(c_{ij})
+M^T_j = \sum_i M^T_{ji} = \hat K^T \sum_i W^{(1)}_if(c_{ij})
 \]
 
 Where we impose the total system known as a constraint, i.e., that the
 total market potential equals the total population \(O\) in the region:
 
 \begin{equation}\phantomsection\label{eq-total-constraint-market}{
-\sum_j M^T_{j} = \sum_i\sum_j M^T_{ij} = O
+\sum_j M^T_{j} = \sum_i\sum_j M^T_{ji} = O
 }\end{equation}
 
 Substituting Equation~\ref{eq-total-constrained-market} in
@@ -1696,7 +1724,7 @@ Equation~\ref{eq-total-constraint-market}, and solving for \(\hat K^T\),
 we obtain:
 
 \begin{equation}\phantomsection\label{eq-total-population-balancing-factor}{
-\hat K^T=\frac{O}{\sum_i\sum_i M^T_{ij}} = \frac{O}{\sum_i\sum_j W^{(1)}_i f(c_{ij})} 
+\hat K^T=\frac{O}{\sum_i\sum_i M^T_{ji}} = \frac{O}{\sum_i\sum_j W^{(1)}_i f(c_{ij})} 
 }\end{equation}
 
 The constrained market potential then takes the following form:
@@ -2077,7 +2105,7 @@ In this case, the measure is singly constrained by the population
 Equation~\ref{eq-constraint2-gravitymodel} from Wilson's framework:
 
 \begin{equation}\phantomsection\label{eq-population-constraint}{
-\sum_j M^S_{ij} =  O_i \\
+\sum_j M^S_{ji} =  O_i \\
 }\end{equation}
 
 And the corresponding balancing factor, as per Wilson, is:
@@ -2101,7 +2129,7 @@ M^S_{j} = \hat \kappa^S_{j} \sum_i  O_i
 
 As well, the single (population) constraint in
 Equation~\ref{eq-population-constraint} ensures that the the total
-constraint (e.g., \(\sum_j M^S_{j} = \sum_i\sum_j  M^S_{ij} = O\)) is
+constraint (e.g., \(\sum_j M^S_{j} = \sum_i\sum_j  M^S_{ji} = O\)) is
 maintained.
 
 With these constraints, \(\frac{M_j^S}{O}\) can be interpreted as the
@@ -2392,7 +2420,7 @@ to match one-to-one, reframing the investigation may be needed. In this
 sense, it would be examining ``interaction'' (much less room for
 potential) through the values of \(V_{ij}^D\) e.g., how many
 opportunities are being allocated to an origin from a destination (or in
-a transposed sense for \(M_{ij}^D\)). In this sense, the doubly
+a transposed sense for \(M_{ji}^D\)). In this sense, the doubly
 constrained case can be thought of as an estimate of \emph{realized}
 accessibility or access: reflecting spatial interaction. It is also
 formulaically identical to the doubly constrained spatial interaction
@@ -2497,15 +2525,14 @@ opportunities and populations) instead of potential spatial interaction
 opportunities one could reach (out of a regional total and/or
 zonal-allocation).
 
-And as a summary: each member of the family of accessibility measure is
-named, explained in plain language, alongside their balancing factor,
-proportional allocation factor and mathematical equation and value
-interpretations in Table 8.
-
-\input{summary-family-access-measures-table.tex}
-
-Table 8: Summary of constrained accessibility measure types and
-interpretations
+In summary, building on Wilson (1971)'s foundational work, this paper
+proposed a unified framework for accessibility that is able to account
+for competition. By reintroducing Wilson's proportionality constant, the
+proposed family of constrained accessibility measures restores
+measurement units to accessibility estimates. This enhancement provides
+a more interpretable, consistent, and theoretically grounded basis for
+accessibility analysis, which could help advance the adoption of
+accessibility-oriented planning.
 
 \section{References}\label{references}
 
