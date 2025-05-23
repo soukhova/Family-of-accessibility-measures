@@ -116,10 +116,6 @@
 \usepackage{array}
 \usepackage{anyfontsize}
 \usepackage{multirow}
-\usepackage{draftwatermark}
-\SetWatermarkText{DRAFT}
-\SetWatermarkScale{1.5}
-\SetWatermarkColor[gray]{0.95}
 \usepackage{float}
 \floatplacement{table}{H}
 \floatplacement{figure}{H}
@@ -173,7 +169,7 @@
 \urlstyle{same} % disable monospaced font for URLs
 \hypersetup{
   pdftitle={A family of accessibility measures derived from spatial interaction principles},
-  pdfauthor={Anastasia Soukhov*; Rafael H. M. Pereira; Christopher D. Higgins; Antonio Páez},
+  pdfauthor={Anastasia Soukhov; Rafael H. M. Pereira; Christopher D. Higgins; Antonio Páez},
   pdfkeywords={accessibility; spatial interaction model; balancing
 factors; competitive accessibility; constraints; singly constrained;
 doubly constrained; total constrained},
@@ -186,14 +182,7 @@ doubly constrained; total constrained},
 
 \title{A family of accessibility measures derived from spatial
 interaction principles}
-\usepackage{etoolbox}
-\makeatletter
-\providecommand{\subtitle}[1]{% add subtitle to \maketitle
-  \apptocmd{\@title}{\par {\large #1 \par}}{}{}
-}
-\makeatother
-\subtitle{Submitted preprint for peer-review (May 2025)}
-\author{Anastasia Soukhov* \and Rafael H. M. Pereira \and Christopher D.
+\author{Anastasia Soukhov \and Rafael H. M. Pereira \and Christopher D.
 Higgins \and Antonio Páez}
 \date{}
 
@@ -230,8 +219,6 @@ linkages across popular accessibility and spatial interaction models,
 and reintroduces measurement units into accessibility measures. By doing
 so, we believe this family of measures can unlock a clearer, more
 interpretable, and cohesive foundation for accessibility analysis.
-
-*Email of corresponding author for preprint: soukhoa@mcmaster.ca
 \end{abstract}
 
 \section{Introduction}\label{introduction}
@@ -1042,7 +1029,7 @@ constraints. Understanding \(S_i\) itself as a balancing factor is not
 wholly helpful as Hansen and (Stewart before him) defined accessibility
 as a partial sum of the demographic force \(F\) or the system-wide
 population potential of opportunities for spatial interaction (i.e.,
-(\textbf{q-stewart-population-potential-sum?}) representing
+Equation~\ref{eq-stewart-population-potential-sum} representing
 \(V_i = \sum_j \frac{M_j}{d_{ij}}\) after losing \(G\)).
 
 Hence, we propose stepping back to introduce a revised definition of
@@ -1275,14 +1262,13 @@ described by three possible travel behaviours.
 
 Firstly, Table~\ref{tbl-small-system-land-use} summarises the population
 (in units of 10,000s of people) and the opportunities (the number of
-physicians) per zone. {[}\^{}1{]}. Considering
+physicians) per zone. For reference, considering
 Table~\ref{tbl-small-system-land-use}'s values, the
-Provider-to-Population-Ratio (PPR) in this system is 24.5. For
-reference, the number of physicians per 10,000 in Canada in 2022 was
-24.97 (WHO 2025). Secondly, to pair the zonal population and opportunity
-information, the assumed cost of movement (in minutes of travel time)
-between origins and destinations is as shown in
-Table~\ref{tbl-small-system-cost}.
+Provider-to-Population-Ratio (PPR) in this system is 24.5. The number of
+physicians per 10,000 in Canada in 2022 was 24.97 (WHO 2025). Secondly,
+to pair the zonal population and opportunity information, the assumed
+cost of movement (in minutes of travel time) between origins and
+destinations is as shown in Table~\ref{tbl-small-system-cost}.
 
 \begin{table}
 
@@ -1551,24 +1537,24 @@ V^T_i = K^T\sum_j W^{(2)}_jf(c_{ij}) = \sum_j W^{(2)}_j\frac{D\cdot f(c_{ij})}{\
 
 Further, we can see that, since \(D\) and \(W^{(2)}_j\) are both in
 units of opportunities, the proportional allocation factor for the total
-constrained opportunity case \(\kappa_i^T\) is dimensionless:
+constrained opportunity case \(\kappa_{ij}^T\) is dimensionless:
 
 \[
-\kappa_i^T = \frac{\sum_j D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
+\kappa_{ij}^T = \frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
 \]
 
 \noindent and therefore \(V^T_i\) is now in the units of \(W^{(2)}_j\),
 that is, the mass at the destination
-(\(V^T_i = \kappa_i^T\sum_j W^{(2)}_j\)). The role of \(\kappa_i^T\) in
-this reformulation of accessibility is to transform between units and to
-adjust the number of opportunities accessible from \(i\) so they
-represent a proportion of the total number of opportunities in the
-region. \(\kappa_i^T\) then assigns opportunities in proportion to the
-impedance between \(i\) and \(j\). This is why we refer to
-\(\kappa_i^T\) as a proportional allocation factor. On the other hand,
-the proportionality constant \(K^T\) balances the units of \(V^0_i\),
-the Hansen-type accessibility values, and is an alternative expression
-of the total constrained accessibility measure.
+(\(V^T_i = \sum_j \kappa_{ij}^T W^{(2)}_j\)). The role of
+\(\kappa_{ij}^T\) in this reformulation of accessibility is to transform
+between units and to adjust the number of opportunities accessible from
+\(i\) so they represent a proportion of the total number of
+opportunities in the region. \(\kappa_{ij}^T\) then assigns
+opportunities in proportion to the impedance between \(i\) and \(j\).
+This is why we refer to \(\kappa_{ij}^T\) as a proportional allocation
+factor. On the other hand, the proportionality constant \(K^T\) balances
+the units of \(V^0_i\), the Hansen-type accessibility values, and is an
+alternative expression of the total constrained accessibility measure.
 
 Referring back to our simple numeric example, balancing factor \(K^T\)
 for the most decay travel behaviour scenario
@@ -1589,14 +1575,14 @@ multiplying them by the unconstrained accessibility value \(V^0_i\), the
 total opportunity constrained accessibility values for all zones and
 different travel behaviour scenarios is presented in
 Table~\ref{tbl-simple-example-total-opportunity-accessibility}.
-\(\kappa_i^T\) for each zone is not shown, but can be understood to be
-the unitless proportion of opportunities (of the total opportunities)
+\(\kappa_{ij}^T\) for each zone is not shown, but can be understood to
+be the unitless proportion of opportunities (of the total opportunities)
 allocated to each zone based on travel impedance.
 
 \begin{table}
 
 \caption{\label{tbl-simple-example-total-opportunity-accessibility}Simple
-system: total opportunity constrained accessibility.}
+system: total constrained accessible opportunities.}
 
 \centering{
 
@@ -1627,7 +1613,7 @@ constraint -in this case a total opportunity constraint for this
 variant- allows for the comparison of differences and ratios between
 regions and across different travel behaviour scenarios as well. Each
 value is effectively in units of physicians, with the impedance units
-already accounted for by \(\kappa_i^T\).
+already accounted for by \(\kappa_{ij}^T\).
 
 Considering the highest decay scenario (\(f_1(c_{ij})\)), zone 1 (a
 healthcare cluster at the edge of the city) captures an intermediate
@@ -1647,10 +1633,10 @@ similar to the unconstrained case. However, the difference between
 travel behaviour scenarios differ in direction. Specifically, Zone 1
 captures 0.6067946 more and 7.9850478 fewer opportunities than the
 lesser decay scenarios \(f_2(c_{ij})\) and \(f_3(c_{ij})\) respectively.
-Why? \(\kappa_i^T\) ensures proportional allocation for each travel
+Why? \(\kappa_{ij}^T\) ensures proportional allocation for each travel
 behaviour scenario. Meaning, while the unconstrained accessibility
-increases, \(\kappa_i^T\) adjusts the values to remain proportional to
-the total number of opportunities (490 physicians accessible in the
+increases, \(\kappa_{ij}^T\) adjusts the values to remain proportional
+to the total number of opportunities (490 physicians accessible in the
 region). As the decay behaviour decreases, more opportunities are
 accessible for all zones. In the medium decay scenario \(f_2(c_{ij})\),
 zone 1 sees a slight increase in values (relative to the highest decay
@@ -1735,11 +1721,11 @@ The constrained market potential then takes the following form:
 M^T_j = \hat K^T\sum_i W^{(1)}_if(c_{ij}) = \sum_i W^{(2)}_i \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
 \]
 
-Where the following \(\hat \kappa_i^T\) proportional allocation factor
-is dimensionless:
+Where the following \(\hat \kappa_{ji}^T\) proportional allocation
+factor is dimensionless:
 
 \[
-\hat \kappa_i^T = \frac{\sum_i O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
+\hat \kappa_{ji}^T = \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
 \]
 
 Returning back to the numerical example, the proportionality constant
@@ -1752,7 +1738,7 @@ Table~\ref{tbl-simple-example-total-population-accessibility}.
 \begin{table}
 
 \caption{\label{tbl-simple-example-total-population-accessibility}Simple
-system: total opportunity constrained accessibility.}
+system: total constrained accessible population.}
 
 \centering{
 
@@ -1880,7 +1866,7 @@ V^S_{i} = \sum_j D_j \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}
 Further, we define the following proportional allocation factor:
 
 \begin{equation}\phantomsection\label{eq-opportunity-constrained-proportional-allocation-factor}{
-\kappa^S_{i} = \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}
+\kappa^S_{ij} = \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}
 }\end{equation}
 
 After this, it is possible to rewrite
@@ -1889,13 +1875,13 @@ as an origin summary expression of proportionally allocated known
 opportunities (i.e., \(D_j\)).
 
 \begin{equation}\phantomsection\label{eq-attraction-constrained-accessibility-with-proportional-allocation-factor}{
-V^S_{i} = \kappa^S_{i} \sum_j   D_j
+V^S_{i} = \sum_j \kappa^S_{ij} D_j
 }\end{equation}
 
-Soukhov et al. (2023) have shown that the role of \(\kappa^S_{i}\) is to
-allocate opportunities \(D_j\) proportionally to the mass at each origin
-\(i\) and the impedance between \(i\) and \(j\). As in the total
-constrained opportunity case, \(\kappa^S_{i}\) is dimensionless and
+Soukhov et al. (2023) have shown that the role of \(\kappa^S_{ij}\) is
+to allocate opportunities \(D_j\) proportionally to the mass at each
+origin \(i\) and the impedance between \(i\) and \(j\). As in the total
+constrained opportunity case, \(\kappa^S_{ij}\) is dimensionless and
 \(V_i^S\) is in the units of opportunities \(D_j\). The singly
 constrained accessibility measure in
 Equation~\ref{eq-attraction-constrained-accessibility-with-proportional-allocation-factor}
@@ -1934,7 +1920,7 @@ opportunity accessibility:
 \begin{table}
 
 \caption{\label{tbl-simple-example-attraction-constrained-accessibility}Simple
-system: singly constrained opportunity accessibility.}
+system: singly constrained accessible opportunities.}
 
 \centering{
 
@@ -1960,36 +1946,37 @@ Sum & — & 490 & 490 & 490 \\
 
 \end{table}%
 
-Imposing the single proportional allocation factor \(\kappa^S_{i}\)
+Imposing the single proportional allocation factor \(\kappa^S_{ij}\)
 allows for the comparison of differences and ratios of the accessibility
 values, like previously discussed in the total constrained accessible
 opportunities case. The proportional allocation factor ensures that
 resulting values are in units of \emph{physicians}, with the impedance
 units already accounted for in the allocation process.
 
-However, unlike the total constrained opportunity case, \(\kappa^S_{i}\)
-reflects zonal competition based on the mass of the origin, i.e.,
-population. Again, consider the highest decay scenario \(f_1(c_{ij})\).
-Under this scenario, zone 1 no longer captures a medium amount of
-physicians as in the total constrained opportunity case: it now captures
-the fewest in the region i.e., 133.4687282 at zone 1, 166.7813387 at
-zone 2, and 189.7499331 at zone 3. Why may zone 1 (healthcare cluster at
-the edge of the city) capture 27\% of the physicians regionally while
-this same zone captures 35\% in the total opportunity constrained case?
+However, unlike the total constrained opportunity case,
+\(\kappa^S_{ij}\) reflects zonal competition based on the mass of the
+origin, i.e., population. Again, consider the highest decay scenario
+\(f_1(c_{ij})\). Under this scenario, zone 1 no longer captures a medium
+amount of physicians as in the total constrained opportunity case: it
+now captures the fewest in the region i.e., 133.4687282 at zone 1,
+166.7813387 at zone 2, and 189.7499331 at zone 3. Why may zone 1
+(healthcare cluster at the edge of the city) capture 27\% of the
+physicians regionally while this same zone captures 35\% in the total
+opportunity constrained case?
 
 This difference is due to the single-opportunity factor
-\(\kappa^S_{i}\)'s role in \(V_i^S\). The only inputs required in the
-total-opportunity factor \(\kappa^T_i\) is the total number of
+\(\kappa^S_{ij}\)'s role in \(V_i^S\). The only inputs required in the
+total-opportunity factor \(\kappa^T_{ij}\) is the total number of
 opportunities in the region \(D\) as well as the associated
 opportunities at each \(j\) and travel impedance. Opportunities are
 allocated to \(i\)s, regardless of the mass weights of origin. Whereas
-the single opportunity constraint \(\kappa^S_{i}\) requires the
-population at \(i\) as an input. In fact, \(\kappa^S_{i}\) is calculated
-as the proportion of impedance-weighted population at an \(i\) to the
-sum of impedance-weighted population for the entire region. Hence, since
-zone 1 has the lowest population in the region, is in close proximity to
-a more populated zone (zone 3, the `urban core'), and is not well
-connected (in terms of travel impedance) to other zones with
+the single opportunity constraint \(\kappa^S_{ij}\) requires the
+population at \(i\) as an input. In fact, \(\kappa^S_{ij}\) is
+calculated as the proportion of impedance-weighted population at an
+\(i\) to the sum of impedance-weighted population for the entire region.
+Hence, since zone 1 has the lowest population in the region, is in close
+proximity to a more populated zone (zone 3, the `urban core'), and is
+not well connected (in terms of travel impedance) to other zones with
 opportunities, \(V_{1}^S\) values, or the number of physicians
 accessible, is lowest.
 
@@ -2036,7 +2023,7 @@ Notably, these per capita rates are equivalent to the 2SFCA values.
 \begin{table}
 
 \caption{\label{tbl-simple-example-attraction-constrained-accessibility-per-capita}Simple
-system: singly constrained opportunity accessibility per capita.}
+system: singly constrained accessible opportunities per capita.}
 
 \centering{
 
@@ -2120,13 +2107,13 @@ Following the same logic as in the preceding section on total
 constrained market potential, one arrives at the following expression:
 
 \begin{equation}\phantomsection\label{eq-production-constrained-accessibility-with-proportional-allocation-factor}{
-M^S_{j} = \hat \kappa^S_{j} \sum_i  O_i
+M^S_{j} = \hat \kappa^S_{ji} \sum_i  O_i
 }\end{equation}
 
 \noindent with:
 
 \begin{equation}\phantomsection\label{eq-attraction-constrained-proportional-allocation-factor}{
-\kappa^S _{j} = \frac{W_j^{(2)} f(c_{ij})}{\sum_i W_j^{(2)} f(c_{ij})}
+\hat \kappa^S_{ji} = \frac{W_j^{(2)} f(c_{ij})}{\sum_i W_j^{(2)} f(c_{ij})}
 }\end{equation}
 
 As well, the single (population) constraint in
@@ -2240,7 +2227,7 @@ One could rewrite Equation~\ref{eq-doubly-constrained-accessibility} as
 an origin summary expression of proportionally allocated opportunities:
 
 \begin{equation}\phantomsection\label{eq-doubly-constrained-accessibility-w-paf}{
-V^D_{i} = \kappa^D_{ij} \sum_j D_j
+V^D_{i} = \sum_j \kappa^D_{ij} D_j
 }\end{equation}
 
 However, \(V^D_{i}\) is not wholly helpful, as it will simply equal the
@@ -2320,8 +2307,8 @@ Table~\ref{tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-acce
 \begin{table}
 
 \caption{\label{tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-access-values}Doubly
-constrained opportunity accessibility assuming the most decay travel
-behaviour scenario in the modified simple system.}
+constrained accessible opportunities assuming highest travel decay in
+the modified simple system.}
 
 \centering{
 
@@ -2387,8 +2374,8 @@ factors \(\kappa_{ij}^D\).
 \begin{table}
 
 \caption{\label{tbl-adjusted-small-system-land-use-doubly-constrained-case-allfs-access-values-for-zone2}Doubly
-constrained opportunity accessibility for all travel behaviour scenarios
-for Zone 2 in the modified simple system.}
+constrained accessible opportunities at Zone 2 for all travel decay
+groups in the modified simple system.}
 
 \centering{
 
