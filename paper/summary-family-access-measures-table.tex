@@ -27,11 +27,11 @@ $K^T = \frac{D}{\sum_i V_i^0}$;
 
 $\hat{K}^T = \frac{O}{\sum_j M_j^0}$
 
-& Allocates the total marginal as opportunities based on $\kappa_{ij}^T = K^T f(c_{ij})$ and as population based on  $\hat{\kappa}_{ji}^T = \hat K^T f(c_{ij})$
+& Allocates the total marginal as opportunities $D$ based on $\kappa_{ij}^T = \frac{W^{(2)}_j f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}$ and as population $O$ based on $\hat \kappa_{ji}^T = \frac{W^{(2)}_i  f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}$
 
-& $V^T_i =  \sum_j \kappa_{ij}^T W^{(2)}_j$;
+& $V^T_i =  \sum_j \kappa_{ij}^T D$;
 
-$M_j^T =  \sum_i \hat{\kappa}_{ji}^T W^{(1)}_i$
+$M_j^T =  \sum_i \hat{\kappa}_{ji}^T O$
 
 
 & Values reflect a share of total regional opportunities ($V^T_i$) or population ($M^T_j$). \\
@@ -44,7 +44,7 @@ $B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}$;
 
 $A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}$
 
-& Allocates the single opportunities marginal proportionally based on $\kappa^S_{ij} =  B_j W_i^{(1)} f(c_{ij})$ in the case of $V_i^S$ and the single population marginal proroportionally based on $\hat \kappa^S_{ji} = A_i W_j^{(2)} f(c_{ij})$ in the case of $M_j^S$.
+& Allocates the single opportunities marginal $D_j$ proportionally based on $\kappa^S_{ij} =  \frac{W_i^{(1)} f(c_{ij})}{\sum_i W_i^{(1)} f(c_{ij})}$ in the case of $V_i^S$ and the single population marginal $O_i$ proroportionally based on $\hat \kappa^S_{ji} = \frac{W_j^{(2)} f(c_{ij})}{\sum_i W_j^{(2)} f(c_{ij})}$ in the case of $M_j^S$.
 
 & $V^S_i = \sum_j \kappa^S_{ij} D_j$;
 

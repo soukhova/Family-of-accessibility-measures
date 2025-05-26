@@ -469,7 +469,7 @@ mathematical terms. Reilly's hypothesis was presented in the following
 form:
 
 \begin{equation}\phantomsection\label{eq-reilly}{
-B_a = \frac{(P_a\cdot P_T)^N}{D_{aT}^n}
+B_a = \frac{(P_a P_T)^N}{D_{aT}^n}
 }\end{equation}
 
 \noindent where \(B_a\) is the amount of business drawn to \(a\) from
@@ -481,7 +481,7 @@ empirical observations of shoppers to choose a value of \(n = 2\).
 Zipf, on the other hand, wrote his hypothesis in mathematical form as:
 
 \begin{equation}\phantomsection\label{eq-zipf}{
-C^2 = \frac{P_1\cdot P_2}{D_{12}}
+C^2 = \frac{P_1 P_2}{D_{12}}
 }\end{equation}
 
 \noindent where \(C\) is the volume of goods exchanged between \(1\) and
@@ -499,7 +499,7 @@ his theorized relationships for human spatial interaction with a
 proportionality constant \(G\), as follows:
 
 \begin{equation}\phantomsection\label{eq-stewart-force}{
-F = G\frac{(\mu_1N_1)(\mu_2N_2)}{d_{12}^2} = G\frac{M_1\cdot M_2}{d_{12}^2} 
+F = G\frac{(\mu_1N_1)(\mu_2N_2)}{d_{12}^2} = G\frac{M_1 M_2}{d_{12}^2} 
 }\end{equation}
 
 \noindent Where:
@@ -542,9 +542,9 @@ V_i = \int\frac{D}{r} ds
 
 \noindent where \(D\) is the population density over an infinitesimal
 area \(ds\) and \(r\) is the distance to \(i\). In
-Equation~\ref{eq-stewart-population-potential-integral}, \(D\cdot ds\)
-gives an infinitesimal count of the population, say \(dm\), and so,
-after discretizing space,
+Equation~\ref{eq-stewart-population-potential-integral}, \(D ds\) gives
+an infinitesimal count of the population, say \(dm\), and so, after
+discretizing space,
 Equation~\ref{eq-stewart-population-potential-integral} can be rewritten
 as:
 
@@ -603,7 +603,7 @@ a variety of impedance functions beyond the inverse power
 \(d^{-\beta}\):
 
 \begin{equation}\phantomsection\label{eq-accessibility-general}{
-S_{i} = \sum_j O_j \cdot f(d_{ij})
+S_{i} = \sum_j O_j  f(d_{ij})
 }\end{equation}
 
 \(S_{i}\) in Equation~\ref{eq-accessibility} is a measure of the
@@ -644,13 +644,13 @@ of ``potential of opportunity for interaction'' is left free to change
 as \(\beta\) is calibrated. For example, if \(c_{ij}\) is distance in
 meters, it will be number of opportunities per \(m^{\beta}\) when
 \(f(c_{ij}) = d^{-\beta}\) but number of opportunities per
-\(e^{-\beta\cdot m}\) when \(f(c_{ij}) = e^{-\beta\cdot m}\). This
-undermines the comparability of accessibility metrics with different
-decay functions, and renders their results difficult to understand and
-communicate. The Hansen-style accessibility estimates found in the
-literature, therefore, are better thought of as ordinal measures of
-potential that can only be interpreted in terms of higher and lower
-accessibility, but which has not palpable meaning (E. J. Miller 2018).
+\(e^{-\beta m}\) when \(f(c_{ij}) = e^{-\beta m}\). This undermines the
+comparability of accessibility metrics with different decay functions,
+and renders their results difficult to understand and communicate. The
+Hansen-style accessibility estimates found in the literature, therefore,
+are better thought of as ordinal measures of potential that can only be
+interpreted in terms of higher and lower accessibility, but which has
+not palpable meaning (E. J. Miller 2018).
 
 \section{Wilson's family of spatial interaction
 models}\label{wilsons-family-of-spatial-interaction-models}
@@ -666,10 +666,10 @@ T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
 
 The model in Equation~\ref{eq-phys-gravity-model} posits a quantity
 \(T_{ij}\) that represents a value in a matrix of flows of size
-\(n \times m\), that is, between \(i = 1,\cdots, n\) origins and
-\(j = 1,\cdots, m\) destinations. The quantities \(W_i^{(1)}\) and
-\(W_j^{(2)}\) are proxies for the masses at \(i=1,\cdots,n\) origins and
-\(j=1,\cdots,m\) destinations. The super-indices \((1)\) and \((2)\) are
+\(n \times m\), that is, between \(i = 1,s, n\) origins and
+\(j = 1,s, m\) destinations. The quantities \(W_i^{(1)}\) and
+\(W_j^{(2)}\) are proxies for the masses at \(i=1,s,n\) origins and
+\(j=1,s,m\) destinations. The super-indices \((1)\) and \((2)\) are
 meant to indicate that these masses could be different things, i.e.,
 \(W_i^{(1)}\) could be populations, and \(W_j^{(2)}\) hectares of park
 space. Finally, \(f(c_{ij})\) is some function of travel cost \(c_{ij}\)
@@ -1051,8 +1051,8 @@ V_{i} = k \sum_j W_j^{(2)} f(c_{ij})
 }\end{equation}
 
 Similar to Equation~\ref{eq-phys-gravity-model}, \(W_j^{(2)}\) above is
-the mass at the destination and the sub-indices are for
-\(i = 1,\cdots, n\) origins and \(j = 1,\cdots, m\) destinations.
+the mass at the destination and the sub-indices are for \(i = 1,s, n\)
+origins and \(j = 1,s, m\) destinations.
 
 The market potential variant can also be generally defined, which is
 effectively the transpose of \(i\) and \(j\) in
@@ -1066,8 +1066,8 @@ M_{j} = k \sum_j W_i^{(1)} f(c_{ji})
 }\end{equation}
 
 Similar to Equation~\ref{eq-phys-gravity-model}, \(W_j^{(2)}\) above is
-the mass at the destination and the sub-indices are for
-\(i = 1,\cdots, n\) origins and \(j = 1,\cdots, m\) destinations.
+the mass at the destination and the sub-indices are for \(i = 1,s, n\)
+origins and \(j = 1,s, m\) destinations.
 
 To detail the anatomy of \(V_{ij}\) and \(M_{ji}\) along with the
 partial sums of \(V_i\) and \(M_j\), Figure
@@ -1497,14 +1497,14 @@ Unlike in Equation~\ref{eq-access-01}, the proportionality constant
 \(K^T\):
 
 \begin{equation}\phantomsection\label{eq-total-constrained-access}{
-V^T_{ij} = K^T \cdot W_j^{(2)} \cdot f(c_{ij})
+V^T_{ij} = K^T  W_j^{(2)}  f(c_{ij})
 }\end{equation}
 
 In this way, the total constrained accessibility measure now becomes
 Hansen's accessibility with a balancing factor \(K^T\):
 
 \begin{equation}\phantomsection\label{eq-total-constrained-accessibility}{
-V^T_i = \sum_j V^T_{ij} = K^T \sum_j W^{(2)}_jf(c_{ij}) = K^T \cdot V^0_i
+V^T_i = \sum_j V^T_{ij} = K^T \sum_j W^{(2)}_jf(c_{ij}) = K^T  V^0_i
 }\end{equation}
 
 Imagine that the only system known is the total number of opportunities
@@ -1532,7 +1532,7 @@ opportunities and the proportional constant distinctly represented, our
 total constrained accessibility model is:
 
 \[
-V^T_i = K^T\sum_j W^{(2)}_jf(c_{ij}) = \sum_j W^{(2)}_j\frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
+V^T_i = K^T\sum_j W^{(2)}_jf(c_{ij}) = \sum_j D\frac{W^{(2)}_j f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
 \]
 
 Further, we can see that, since \(D\) and \(W^{(2)}_j\) are both in
@@ -1540,16 +1540,15 @@ units of opportunities, the proportional allocation factor for the total
 constrained opportunity case \(\kappa_{ij}^T\) is dimensionless:
 
 \[
-\kappa_{ij}^T = \frac{D\cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
+\kappa_{ij}^T = \frac{W^{(2)}_j f(c_{ij})}{\sum_i\sum_j W^{(2)}_jf(c_{ij})}
 \]
 
-\noindent and therefore \(V^T_i\) is now in the units of \(W^{(2)}_j\),
-that is, the mass at the destination
-(\(V^T_i = \sum_j \kappa_{ij}^T W^{(2)}_j\)). The role of
-\(\kappa_{ij}^T\) in this reformulation of accessibility is to transform
-between units and to adjust the number of opportunities accessible from
-\(i\) so they represent a proportion of the total number of
-opportunities in the region. \(\kappa_{ij}^T\) then assigns
+\noindent and therefore \(V^T_i\) is now in the units of \(D\), that is,
+the mass at the destination (\(V^T_i = \sum_j \kappa_{ij}^T D\)). The
+role of \(\kappa_{ij}^T\) in this reformulation of accessibility is to
+transform between units and to adjust the number of opportunities
+accessible from \(i\) so they represent a proportion of the total number
+of opportunities in the region \(D\). \(\kappa_{ij}^T\) then assigns
 opportunities in proportion to the impedance between \(i\) and \(j\).
 This is why we refer to \(\kappa_{ij}^T\) as a proportional allocation
 factor. On the other hand, the proportionality constant \(K^T\) balances
@@ -1563,7 +1562,7 @@ for the most decay travel behaviour scenario
 \[
 \begin{array}{l}
 K^T = \frac{D}{\sum_{i}\sum_{j} W_j^{(2)} f(c_{ij})}\\
-K^T = \frac{D}{\frac{W_1^{(2)}}{c_{11}^3}+\frac{W_1^{(2)}}{c_{21}^3} + \frac{W_1^{(2)}}{c_{31}^3} + \cdots + \frac{W_3^{(2)}}{c_{31}^3} + \frac{W_3^{(2)}}{c_{32}^3} + \frac{W_3^{(2)}}{c_{33}^3}
+K^T = \frac{D}{\frac{W_1^{(2)}}{c_{11}^3}+\frac{W_1^{(2)}}{c_{21}^3} + \frac{W_1^{(2)}}{c_{31}^3} + s + \frac{W_3^{(2)}}{c_{31}^3} + \frac{W_3^{(2)}}{c_{32}^3} + \frac{W_3^{(2)}}{c_{33}^3}
 }\\
 K^T = \frac{490}{0.6233422} \\
 K^T = 786.085
@@ -1683,7 +1682,7 @@ the \emph{population} at \(i\) (\(W_i^{(1)}\)) instead of the
 opportunities at \(j\).
 
 \begin{equation}\phantomsection\label{eq-total-constrained-market}{
-M^T_{ji} = \hat K^T \cdot W_i^{(1)} f(c_{ij}) = \hat K^T \cdot M_{ji}^0
+M^T_{ji} = \hat K^T  W_i^{(1)} f(c_{ij}) = \hat K^T  M_{ji}^0
 }\end{equation}
 
 \noindent with \(M_j^0\) being the \(i\) \(j\) transpose of
@@ -1712,23 +1711,20 @@ Equation~\ref{eq-total-constraint-market}, and solving for \(\hat K^T\),
 we obtain:
 
 \begin{equation}\phantomsection\label{eq-total-population-balancing-factor}{
-\hat K^T=\frac{O}{\sum_i\sum_i M^T_{ji}} = \frac{O}{\sum_i\sum_j W^{(1)}_i f(c_{ij})} 
+\hat K^T=\frac{O}{\sum_i\sum_i M^T_{ji}} = \frac{O}{\sum_i\sum_j W^{(1)}_i f(c_{ij})}
 }\end{equation}
 
-The constrained market potential then takes the following form:
-
-\[
-M^T_j = \hat K^T\sum_i W^{(1)}_if(c_{ij}) = \sum_i W^{(2)}_i \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
+The constrained market potential then takes the following form: \[
+M^T_j = \hat K^T \sum_i W^{(1)}_if(c_{ij}) = O \sum_i \frac{W_i^{(1)} f(c_{ij})}{\sum_i\sum_j W^{(1)}_i f(c_{ij})}
 \]
 
-Where the following \(\hat \kappa_{ji}^T\) proportional allocation
-factor is dimensionless:
-
-\[
-\hat \kappa_{ji}^T = \frac{O \cdot f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
+Where the following \(\hat\kappa_{ji}^T\) proportional allocation factor
+is dimensionless, reflecting the proportional allocation of population
+in the region \(O\) (i.e., \(M^T_j = \sum_i \hat \kappa_{ji}^T O\)) \[
+\hat \kappa_{ji}^T = \frac{W^{(2)}_i  f(c_{ij})}{\sum_i\sum_j W^{(2)}_if(c_{ij})}
 \]
 
-Returning back to the numerical example, the proportionality constant
+Returning back to the numerical example, the balancing factor
 \(\hat K^T\) is solved for each travel behaviour scenario, and the
 market potential of each zone \(M^T_j\) is expressed as units of
 population (e.g., the number of people accessible from each origin at
@@ -2107,7 +2103,7 @@ Following the same logic as in the preceding section on total
 constrained market potential, one arrives at the following expression:
 
 \begin{equation}\phantomsection\label{eq-production-constrained-accessibility-with-proportional-allocation-factor}{
-M^S_{j} = \hat \kappa^S_{ji} \sum_i  O_i
+M^S_{j} = \sum_i \hat \kappa^S_{ji} O_i
 }\end{equation}
 
 \noindent with:
