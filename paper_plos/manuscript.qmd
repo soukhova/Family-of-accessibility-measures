@@ -31,10 +31,10 @@ format:
   pdf:
     keep-tex: true
     documentclass: article
-    header-includes:
-      - \usepackage{float}
-      - \floatplacement{table}{H}
-      - \floatplacement{figure}{H}
+    header-includes: |
+      \usepackage{float}
+      \floatplacement{table}{H}
+      \floatplacement{figure}{H}
 bibliography: "`r system('kpsewhich ../bibliography/bibliography.bib', intern=TRUE)`"
 #includes:
 #      in_header: 'gt_packages.sty'
