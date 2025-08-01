@@ -1,0 +1,40 @@
+---
+title: Response to reviewer
+---
+
+Thank you for your responses. Below are replies, with our response in black font and the reviewers comments in \textcolor{blue}{blue}.
+
+# Review 1
+
+\textcolor{blue}{Thanks for the opportunity to review a paper that handles an interesting topic. I think the major contribution of the paper lies in 1) combining the concept of accessibility and spatial interaction modeling and 2) classifying the numerous accessibility measures into four categories based on the constraints. While the topic is really interesting and handles the important topic, I would like to ask the authors to revise the paper due to the following reasons.}
+
+\textcolor{blue}{Most importantly, the manuscript is too lengthy and verbose. I am having a hard time evaluating the manuscript since the length is about 30 pages. Given that the typical length of the paper is about 10 pages, I would like to request a summary of the key points for better deliverability.}
+
+\textcolor{blue}{Related to the first issue, I am not sure about the point that the authors explain the details of Newtonian’s roots and early research on human spatial interactions from Ravenstein to Stewart. Of course, I think mentioning those contents is beneficial, but it is hard to get the key point given that it is verbose.}
+
+\textcolor{blue}{Third, I believe the main contribution of this paper lies in classifying the accessibility measures into four groups. However, I also had a hard time finding the definition of those four groups. Given that the research articles aim to reveal previously unknown facts, the literacy level of this manuscript is relatively low. Additionally, the introduction of too many equations makes it difficult to establish connections between them. Therefore, I recommend that the authors revise and reconstruct the manuscript.}
+
+
+THank you for these comments. We've heavily revised the manuscript, focusing now on explaining things concisely and putting forward the focus. We did this by:
+
+- reducing the length of the manuscript, it is now 10 pages
+- removed tangental details (e.g., )
+- streamlined the historical section (e.g., )
+- highlight the main contribution of the paper, namely how it provides constrained definitions to accessibility
+- reduced the number of equations where possible, and make it clear why those that remain are there.
+
+# Reviewer #2
+
+\textcolor{blue}{This manuscript presents a theoretically motivated and conceptually rich framework that bridges spatial interaction modeling and accessibility measures. The authors introduce a family of accessibility metrics grounded in Wilson’s spatial interaction models and argue convincingly for the reintroduction of interpretability and measurement units in accessibility analysis. The historical tracing of accessibility theory development and the synthesis of divergent literature streams are timely and valuable contributions to the field.}
+
+\textcolor{blue}{1. While the authors provide a detailed numerical example, the manuscript lacks any empirical case study or application to real-world accessibility data. This limits the reader’s ability to evaluate the practical utility and robustness of the proposed framework. The authors can draw inspiration from several studies such as "Factoring in temporal variations of public transit-based healthcare accessibility and equity" to better understand this concept.}
+
+\textcolor{blue}{2. The manuscript frequently shifts between concepts such as "potential for spatial interaction," "accessibility," and "access," especially in the discussion of the doubly constrained model. However, the terminological distinction remains conceptually blurry.}
+
+\textcolor{blue}{3. The historical literature review is valuable but disproportionately long. Pages are devoted to recapping classical gravitational thinking, while the more innovative contributions of the paper (e.g., balancing factor reinterpretation) are condensed. The authors should also focus on more recent publications such as "Evaluating temporal variations in access to multi-tier hospitals using personal vehicles and public transit: Implications for healthcare equity" instead of older ones.}
+
+\textcolor{blue}{4. The paper pays limited attention to recent methodological developments such as time-sensitive, network-based, or multi-modal accessibility models, as well as behavioral or utility-based approaches.}
+
+\textcolor{blue}{5. The authors argue that the constrained models restore interpretability by attaching meaningful units (e.g., number of people or opportunities). However, this is not substantiated with user- or practitioner-oriented tests.}
+
+\textcolor{blue}{6. Some sections suffer from repetition and overly technical language without summarizing takeaways (e.g., Table 1 is helpful, but the text before and after it repeats much of the same information).}
