@@ -356,7 +356,7 @@ FCA \citep{wan2012three}, Modified 2-Step FCA
 \citep{wang_2sfca_2021}, and n-steps FCA \citep{liang_novel_2024}. While
 these methods are tailored to address specific research contexts,
 overall this diversity does not demystify existing questions like those
-raised in \citet{vanweeAccessible2016}: How should practitioners
+raised in \citep{vanweeAccessible2016}: How should practitioners
 interpret difference in scores between modes, and how should results be
 communicated?
 
@@ -384,32 +384,26 @@ such as the 2SFCA method \citep{shen1998, luo2003}, and market potential
 models
 \citep{harris_market_1954, vickermanAccessibilityAttractionPotential1974}.
 
-We contend that accessibility research should reengage with spatial
+We contend that accessibility research should re-engage with spatial
 interaction modeling, particularly the use of Wilson's system
 constraints. While spatial interaction models embraced such constraints
 to improve interpretability, most accessibility models have not. This
 lack of adoption contributes to fuzziness in current analyses, limiting
 interpretive clarity to simple proportional comparisons (e.g.,
-``higher-than,'' ``lower-than'')
+``higher-than'', ``lower-than'')
 \citep{millerAccessibilityMeasurementApplication2018}. Without such
 constraints, accessibility scores lack clear units and comparability
 across cities or modes. In contrast, constrained measures yield values
 that can be tied to tangible values without any post-hoc treatment,
-making them more interpretable, communicable, and actionable in
-planning.
-
-This paper lays the historical and theoretical groundwork for a
-companion empirical study demonstrating how these constrained forms
-restore interpretability through concrete measurement units (e.g.,
-number of accessible opportunities), as opposed to the abstract weighted
-outputs typical of conventional gravity models.
+theoretically making them more interpretable, communicable, and
+actionable in planning.
 
 Accessibility and spatial interaction modelling literature share common
 headwaters, and the latter has given careful attention to measurement
 units and their interpretability. Following this introduction, this
 paper revisits that lineage--from Ravenstein's Newtonian gravitational
 expression of spatial interaction \citep{ravensteinLawsMigration1889},
-through Hansen \citep{hansen1959}, to Wilson \citep{wilson1971}--to
+through Hansen \citep{hansen1959} to Wilson \citep{wilson1971}--to
 propose a unified family of constrained accessibility measures. We
 illustrate each case of the family with a numerical toy example and
 conclude by discussing how these constrained measures can inform
@@ -419,12 +413,11 @@ planning decisions and improve clarity in accessibility analysis.
 research}\label{newtonians-roots-of-human-spatial-interaction-research}
 
 The patterns of people's movement in space have been a subject of
-scientific inquiry for at least a century and a half. From as far back
+scientific inquiry for at least a century and a half, from as far back
 as Henry C. Carey's \emph{Principles of Social Science}
-\citep{careyPrinciplesSocialScience1858}, a concern with the scientific
-study of human spatial interaction can be observed. It was in this work
-where Carey stated that ``man {[}is{]} the molecule of society {[}and
-their interaction is subject to{]} the direct ratio of the mass and the
+\citep{careyPrinciplesSocialScience1858}. It was in this work where
+Carey stated that ``man {[}is{]} the molecule of society {[}and their
+interaction is subject to{]} the direct ratio of the mass and the
 inverse one of distance'' \citep[pp.~37-38]{mckeanManual1883}. This
 statement shows how investigations into human spatial interaction have
 often been explicitly coloured by the features of Newton's Law of
@@ -439,11 +432,12 @@ This famous equation expresses that the attractive force \(F\) between
 two bodies is directly proportional to the product of their masses and
 inversely proportional to the square of the distance between them. As
 mass increases, so does force; as distance increases, force decreases.
-However, Eq~\ref{eq-phys-grav-prop} only demonstrates a proportional
-relationship. To quantify the magnitude (not the proportional magnitude)
-of the force, it must be \emph{constrained} with an empirical constant.
-This constant \(G\) converts Eq~\ref{eq-phys-grav-prop} from an
-expression of proportionality to the following expression of equality:
+However, Eq~\ref{eq-phys-grav-prop} only demonstrates a
+\emph{proportional} relationship. To quantify the magnitude (not the
+\emph{proportional} magnitude) of the force, it must be
+\emph{constrained} with an empirical constant. This constant \(G\)
+converts Eq~\ref{eq-phys-grav-prop} from an expression of
+proportionality to the following expression of equality:
 
 \begin{equation}\phantomsection\label{eq-phys-grav}{
 F_{ij} = G \frac{M_i M_j} {D_{ij}^{2}}
@@ -454,15 +448,18 @@ value that ensures the model reflects observed forces. Newton's initial
 estimate of \(G\) was based on a speculation that the mean density of
 earth was between five or six times that of water, an assumption that
 received support after Hutton's experiments of 1778
-\citep[p.~783]{hutton_xxxiii_1778}. Still, it took over a century from
-the publication of \emph{Principia} to refine the estimate of the
-proportionality constant to within 1\% accuracy, with Cavendish's 1798
-experiment \citep{cavendish_xxi_1798}.
+\citep[p.~783]{hutton_xxxiii_1778} and Cavendish's 1798 experiment
+\citep{cavendish_xxi_1798} to estimate of the proportionality constant
+to within 1\% accuracy. In sum: it took over a century from the
+publication of \emph{Principia} to refine the estimate of the
+proportionality constant.
 
-This gravitational framing laid the conceptual groundwork for later
-empirical studies of human spatial interaction, such as those by
-Ravenstein, Stewart, and others, who began translating these principles
-into observed patterns of human movement.
+The Newtonian gravitational relationship laid the conceptual groundwork
+for later empirical studies of human spatial interaction, such as those
+by Ravenstein, Stewart, and others, who began translating these
+principles into observed patterns of human movement. However, the
+majority of these attempts described a proportional relationship, or one
+arbitrarily set to equality.
 
 \section{Early research on human spatial interaction: from Ravenstein
 (1889) to Stewart
@@ -532,10 +529,10 @@ theory, revealing a shared mathematical structure across migration,
 trade, and communication models. However, none included a
 proportionality constant--highlighting a consistent omission of the
 empirical calibration necessary to convert these proportional
-relationships into measurable and comparable quantities
+relationships into measurable and comparable quantities.
 
-After Carey and folowing Reilly and Zipf, it is only in
-\citet{stewartDemographicGravitationEvidence1948} that we find the most
+After Carey and folowing Reilly and Zipf, it is only in Stewart
+\citep{stewartDemographicGravitationEvidence1948} that we find the most
 explicit connection yet to Newton's Gravitational law and the use of a
 proportionality constant. Besides awareness of preceding research (i.e.,
 Stewart cites both Reilly and Zipf as predecessors in the analysis of
@@ -590,31 +587,32 @@ V_i = \sum_j M_jd_{ij}^{-1}
 
 \noindent Where \(M_j\) is the demographic mass at location \(j\) and
 \(d_{ij}\) is the distance between \(i\) and \(j\). A version of this
-discrete form is what was used in \citet{hansen1959}, going on to become
-a foundation of modern accessibility definitions, as will be discussed.
+discrete form is what was used in Hansen \citep{hansen1959}, going on to
+become a foundation of modern accessibility definitions, as will be
+discussed.
 
 Although Stewart's concept of ``social physics'' eventually fell out of
 favour--due to inconsistent mathematical notation (e.g., \(G\) is used
 as both a proportionality constant p.~34 and then later as
-\emph{demographic energy} on p.~53.) and its foundation in racist and
-unscientific assumptions (e.g., view of humans as particles following
-physical laws and assumptions of the molecular weight \(\mu\) of the
-average American being one, but ``presumably\ldots much less than
-one\ldots.for an Australian aborigine'' {[}p.~35{]})--his introduction
-of a proportionality constant \(G\) in modeling demographic force marks
-an important conceptual step: recognizing that moving from
-proportionality to equality requires empirical calibration. In other
-words, the addition of \(G\) shifts results from being abstract
-indicators of potential (i.e., people\textsuperscript{2-distance}-2) to
-having interpretable units grounded in consistent, albeit still
-abstract, quantities (i.e., units of demographic force).
+\emph{demographic energy} on p.~53.) and its racist and unscientific
+assumptions (e.g., view of humans as particles following physical laws
+and assumptions of the molecular weight \(\mu\) of the average American
+being one, but ``presumably\ldots much less than one\ldots.for an
+Australian aborigine'' {[}p.~35{]})--his introduction of a
+proportionality constant \(G\) in modeling demographic force marks an
+important conceptual step: recognizing that moving from proportionality
+to equality requires empirical calibration. In other words, the addition
+of \(G\) shifts results from being abstract indicators of potential
+(i.e., \(\frac{\text{people}^2}{\text{distance}^{2}}\)) to having
+interpretable units grounded in consistent, albeit still abstract,
+quantities (i.e., units of demographic force).
 
-As will be discussed, when Hansen later adopted Stewart's formula
-(Eq~\ref{eq-stewart-population-potential-sum}) for accessibility, he
-omitted any mention of \(G\), effectively setting it to 1 arbitrarily as
-Stewart had done. This omission has persisted in accessibility research,
-leaving a conceptual gap in how such measures are interpreted and
-compared.
+As will be discussed, when Hansen \citep{hansen1959} later adopted
+Stewart's formula (Eq~\ref{eq-stewart-population-potential-sum}) for
+accessibility, he omitted any mention of \(G\), effectively setting it
+to 1 arbitrarily as Stewart had done. This omission has persisted in
+accessibility research, leaving a conceptual gap in how such measures
+are interpreted and compared.
 
 \section{Hansen's gravity-based accessibility to
 today}\label{grav-to-today}
@@ -630,16 +628,16 @@ generalization of the population-over-distance relationship or
 being a student of city and regional planning at the Massachusetts
 Institute of Technology, Hansen was also an engineer with the Bureau of
 Roads, and preoccupied with the power of transportation to shape land
-uses in a very practical sense. \citet{hansen1959} drew directly from
-Stewart's population potential (see
+uses in a very practical sense. Hansen \citep{hansen1959} drew directly
+from Stewart's population potential formula (see
 Eq~\ref{eq-stewart-population-potential-sum}), but left aside the
-broader (and often problematic) framework of ``social physics.''.
+broader (and often problematic) framework of ``social physics''.
 
 Hansen recast Stewart's population potential to reflect accessibility, a
 model of human behaviour useful to capture regularities in mobility
 patterns. Hansen replaced \(M_j\) in
 Eq~\ref{eq-stewart-population-potential-sum} with \emph{opportunities}
-to derive an \emph{opportunity potential}, or more accurately, a
+to derive an \emph{opportunity potential}, or more specifically, a
 \emph{potential of opportunities for interaction} as
 \(S_{i} = \sum_j \frac{O_j }{d_{ij}^\beta}\) with a contemporary
 rewriting to accounts for a variety of impedance functions beyond the
@@ -676,39 +674,38 @@ Recognition of the nature of this relationship is not common in the
 literature, but is known, i.e., this proportional equation is shown in
 Figure 1 in Wu and Levinson \citep{wuUnifyingAccess2020}.
 
-However, the omission of a proportionality constants and working with a
-proportional relationship generates fundamental issues in comparability
-between and, arguably within, studies. As the absence of \(G\) means
-accessibility estimates have no fixed unit--this renders them sensitive
-to the choice of impedance functions. For instance, if travel cost
-\(d_{ij}\) is measured in meters, then when the travel impedance
-function \(f(d_{ij})\) equals \(d_{ij}^{-\beta}\), the resulting \(S_i\)
-has units of opportunities per \(\text{metres}^{\beta}\); but when
-\(f(d_{ij})\) is set to equal \(e^{-\beta d_{ij}}\), the units become
-opportunities per \(e^{\beta \text{metres}}\). Such variation impairs
-comparability across analysis and obscures the meaning of accessibility
-scores renders their results difficult to understand and communicate
-without post-hoc treatment.
+Furthermore, working with a proportional relationship generates
+fundamental issues in comparability between and, arguably within,
+studies. Namely, accessibility estimates have no fixed unit, rendering
+them sensitive to the choice of impedance functions. For instance, if
+travel cost \(d_{ij}\) is measured in meters, then when the travel
+impedance function \(f(d_{ij})\) equals \(d_{ij}^{-\beta}\), the
+resulting \(S_i\) has units of opportunities per
+\(\text{metres}^{\beta}\). However, when \(f(d_{ij})\) is set to equal
+\(e^{-\beta d_{ij}}\), the units become opportunities per
+\(e^{\beta \text{metres}}\). Such variation impairs comparability across
+analysis and obscures the meaning of accessibility scores, making them
+difficult to understand and communicate without post-hoc treatment.
 
-Therefore in practice, Hansen-type measures (of proportionality) are
-better understood as \emph{ordinal indicators}--they rank accessibility
-but lack cardinal meaning or consistent units
+Therefore in practice, Hansen-type measures are ones of proportionality
+and are better understood as \emph{ordinal indicators}; they rank
+accessibility but lack cardinal meaning or consistent units
 \citep{millerAccessibilityMeasurementApplication2018}. The continued
-absence of \(G\) leaves a conceptual and practical gap in accessibility
-analysis: a missing link between theoretical form and empirical
-measurement.
+absence of a sort of proportionality constant \(G\) leaves a conceptual
+and practical gap in accessibility analysis: a missing link between
+theoretical form and empirical measurement.
 
 \section{Wilson's family of spatial interaction
 models}\label{wilsons-family-of-spatial-interaction-models}
 
-While accessibility research evolved in North America with
-\citet{hansen1959}, a parallel development was taking place across the
-Atlantic with Alan G. Wilson. In his groundbreaking study
+While accessibility research evolved in North America with Hansen
+\citep{hansen1959}, a parallel development was taking place across the
+Atlantic with Alan G. Wilson. Wilson's ground breaking paper
 \citep{wilson1971}, advanced a general framework for spatial interaction
-modeling--focused not on potential (as accessibility), but on modeling
-observed flows of interaction between places. \citet{wilson1971}
-formalized the general spatial interaction model through the following
-equation:
+modeling--focused on modeling flows of interaction between places. This
+work was not focused on the `potential' concept as accessibility has
+been. Wilson \citep{wilson1971} formalized the general spatial
+interaction model through the following equation:
 
 \begin{equation}\phantomsection\label{eq-phys-gravity-model}{
 T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
@@ -724,12 +721,17 @@ number of different things associated with the zones, i.e.,
 \(W_i^{(1)}\) could be population at a zone as an origin, and
 \(W_j^{(2)}\) hectares of park space at a zone as a destination.
 \(f(c_{ij})\) is some function of travel cost \(c_{ij}\) which reflects
-travel impedance. Finally, \(k\) acts as a proportionality constant,
+travel impedance.
+
+Of important note for this paper, \(k\) in
+Eq~\ref{eq-phys-gravity-model} acts as a proportionality constant,
 shifting the equation from a proportional to an equal relationship by
-incorporating known system totals. In this specific sense, we infer that
-\(k\) serves a role similar to the gravitational constant in Newton's
-law--it calibrates the model so that outputs match real-world
-quantities.
+incorporating known system totals. In this sense, we infer that \(k\)
+serves a role similar to the gravitational constant in Newton's law--it
+calibrates the model so that outputs match real-world quantities.
+However, these real-world quantities was not a set empirical constant
+(like Newton's \(G\)) but instead, sensitive to the system and known
+information about the system.
 
 From the outset, spatial interaction models emphasized interpretability
 of results
@@ -754,8 +756,8 @@ of flows \(T\) in the system, leading to the basic constraint:
 
 Additional information can be introduced. For example, when information
 is available about the total number of flows produced by each origin,
-\(W_i^{(1)}\) is represented as \(O_i\) and the following constraint can
-be used:
+\(W_i^{(1)}\) in Eq~\ref{eq-phys-gravity-model} is represented as
+\(O_i\) and the following constraint can be used:
 
 \begin{equation}\phantomsection\label{eq-constraint1-gravitymodel}{
 \sum_j T_{ij} = O_i
@@ -770,10 +772,10 @@ flows attracted by each destination, \(W_j^{(2)}\) is represented as
 }\end{equation}
 
 It is also possible to have information about both \(O_i\) and \(D_j\),
-in which case both constraints could be imposed on the model at once.
+in which case both constraints can be imposed on the model at once.
 
-Depending on which system constraints are applied---fully, partially, or
-not at all---a family of spatial interaction models can be derived from
+Depending on which of the three system constraints are applied a family
+of spatial interaction models can be derived from
 Eq~\ref{eq-phys-gravity-model}. The proportionality constant \(k\) is
 replaced with different \emph{balancing factors}. This change in name is
 more useful as these factors not only preserve proportionality but also
@@ -781,11 +783,11 @@ ensure that the predicted flows \(T_{ij}\) align with the known
 constraints considered in the system. In other words, the different
 balancing factors adjust the model so that flows become statistical
 averages consistent with observed origin and/or destination data. In the
-framework introduced and inferred from \citet{wilson1971}, three types
-of balancing factors are specified: (1) an unconstrained model that only
-matches the total volume of interaction \(K\), (2) a singly constrained
-model (either by origins \(A_i\) or destinations \(B_j\)), and (3) a
-doubly constrained model that satisfies both.
+framework introduced and inferred from Wilson \citep{wilson1971}, three
+types of balancing factors are specified: (1) an unconstrained model
+that only matches the total volume of interaction \(K\), (2) a singly
+constrained model (either by origins \(A_i\) or destinations \(B_j\)),
+and (3) a doubly constrained model that satisfies both.
 
 In the unconstrained model, constraints in
 Eq~\ref{eq-constraint1-gravitymodel} and
@@ -793,8 +795,8 @@ Eq~\ref{eq-constraint2-gravitymodel} do not hold. In practical terms,
 this means that the total number of flows predicted by the model must be
 equal to sum of all flows from origins \(i\) to destinations \(j\). The
 balancing factor \(K\) takes the place of \(k\) and is equal to the
-following \citep[as specified in][ and
-\citet{fotheringham_spatial_1984}]{cliff_evaluating_1974}:
+following (as specified in \citep{cliff_evaluating_1974} and
+\citep{fotheringham_spatial_1984}):
 
 \begin{equation}\phantomsection\label{eq-total-flow-balancing-factor}{
 K=\frac{T}{\sum_i\sum_j T_{ij}}
@@ -804,55 +806,33 @@ In the singly-constrained model, only constraint
 Eq~\ref{eq-constraint1-gravitymodel} or constraint
 Eq~\ref{eq-constraint2-gravitymodel} hold. When only
 Eq~\ref{eq-constraint1-gravitymodel} holds, entropy maximisation leads
-to the following production-constrained singly-constrained model:
-
-\begin{equation}\phantomsection\label{eq-production-constrained-gravitymodel}{
-T_{ij} = A_i O_i W_j^{(2)} f(c_{ij})
-}\end{equation}
-
-Notice how, in this model, the proxy for the mass at the origin
-\(W_i^{(1)}\) is replaced with \(O_i\), representing what we know about
-the system, the spatial interaction outbound flow, i.e., outbound flows
-produced at \(i\). Also, there is no longer a single system-wide
-balancing factor \(K\), but rather a set of balancing factors specific
-to origins \(A_i\).
-
-For this model, the balancing factors ensure that constraint
-Eq~\ref{eq-constraint1-gravitymodel} is satisfied, meaning that the sum
-of predicted flows from one origin going to all destinations must equal
-the known mass at that origin \(O_i\) e.g., the total number of outbound
-flows. Satisfying this constraint also implicitly fulfills the total
-constraint (Eq~\ref{eq-constraint0-gravitymodel}), since the sum of
-\(O_i\) values across all origins equals the total number of flows.
-
-The production-constrained singly-constrained model is useful when flows
-ends are unknown but the number of flows originating from each location
-is known. The balancing factors for the production-constrained model are
-solved for each origin \(A_i\), and according to Wilson are:
+to the production-constrained singly-constrained version of
+Eq~\ref{eq-phys-gravity-model}, where the proxy for the mass at the
+origin \(W_i^{(1)}\) is replaced with \(O_i\). Also, \(k\) is replaced
+with a set of balancing factors specific to origins \(A_i\) which
+ensures that constraint Eq~\ref{eq-constraint1-gravitymodel} is
+satisfied (i.e., the sum of predicted flows from one origin going to all
+destinations must equal the known mass at that origin \(O_i\)).
+Satisfying this constraint also implicitly fulfills the total constraint
+(Eq~\ref{eq-constraint0-gravitymodel}), since the sum of \(O_i\) values
+across all origins equals the total number of flows. \(A_i\) takes the
+following form:
 
 \begin{equation}\phantomsection\label{eq-production-constrained-balancing-factor}{
 A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}
 }\end{equation}
 
-The attraction-constrained model is similar to the
-production-constrained model as it is also singly constrained but from
-the perspective of the mass at the destination. From the
-attraction-constrained model, the proxy for the mass at the destination
-\(W_j^{(2)}\) is now replaced with \(D_j\), representing the spatial
-interaction inbound flow e.g., flows attracted to the destination, and
-takes the following form:
-
-\begin{equation}\phantomsection\label{eq-attraction-constrained-gravitymodel}{
-T_{ij} = B_j D_j W_i^{(1)} f(c_{ij})
-}\end{equation}
-
-In this model (Eq~\ref{eq-attraction-constrained-gravitymodel}), the
-balancing factors ensure that Eq~\ref{eq-constraint2-gravitymodel} is
-satisfied (hence the total constraint
-Eq~\ref{eq-constraint0-gravitymodel} is as well), meaning that the sum
-of predicted flows going to one destination from all origins must equal
-the known mass of that destination \(D_j\) i.e., the total number of
-inbound flows to \(j\). This should hold for all destinations. As
+The singly-constrained attraction-constrained model is similar to the
+production-constrained version but from the perspective of the mass at
+the destination. For the attraction-constrained model, the proxy for the
+mass at the destination \(W_j^{(2)}\) is replaced with \(D_j\) in
+Eq~\ref{eq-phys-gravity-model}, representing the spatial interaction
+inbound flow. Also, \(k\) is replaced with a set of destination-specific
+balancing factors \(B_j\) that ensure that
+Eq~\ref{eq-constraint2-gravitymodel} is satisfied (hence the total
+constraint Eq~\ref{eq-constraint0-gravitymodel} is as well), meaning
+that the sum of predicted flows going to one destination from all
+origins must equal the known mass of that destination \(D_j\). As
 before, destination-specific balancing factors \(B_j\) were derived by
 Wilson as:
 
@@ -861,26 +841,18 @@ B_j = \frac{1}{\sum_i W_i^{(1)} f(c_{ij})}
 }\end{equation}
 
 Lastly, the doubly-constrained model is the production-attraction
-constrained model in \citet{wilson1971}. In this case, both constraints
-Eq~\ref{eq-constraint1-gravitymodel} and
+constrained model in Wilson \citep{wilson1971}. In this case, both
+constraints Eq~\ref{eq-constraint1-gravitymodel} and
 Eq~\ref{eq-constraint2-gravitymodel} hold simultaneously. These
 constraints ensure that the sum of predicted flows from one origin to
 all destination, and the predicted flows going to one destination from
 all origins must equal the known mass of the origin \(O_i\) and of the
 destination \(D_j\). This should hold for all origins and destinations.
-The resulting model is, in Wilson's terms, doubly constrained, and takes
-the following form:
-
-\begin{equation}\phantomsection\label{eq-doubly-constrained-gravitymodel}{
-T_{ij} = A_i B_j O_i D_j f(c_{ij})
-}\end{equation}
-
-In this model, both proxies for the masses are replaced with the known
-masses, that is, the flows produced by the origin and the flows
-attracted by the destination. There are now two sets of mutually
-dependent proportionality constants shown in
-Eq~\ref{eq-doubly-constrained-balancing-factors}. Derivation of these
-models is demonstrated in detail elsewhere
+The resulting model is, in Wilson's terms, doubly constrained, and from
+Eq~\ref{eq-phys-gravity-model}, \(k\) becomes both \(A_i\) and \(B_j\)
+shown in Eq~\ref{eq-doubly-constrained-balancing-factors}, and
+\(W_i^{(1)}\) and \(W_j^{(2)}\) is replaced with \(O_i\) and \(D_j\).
+Derivation of these models is demonstrated in detail elsewhere
 \citep[e.g.,][]{ortuzar_2011_modelling, wilsonSTATISTICALTHEORYSPATIAL1967}.
 
 \begin{equation}\phantomsection\label{eq-doubly-constrained-balancing-factors}{
@@ -895,7 +867,7 @@ from the metaphor of Newtonian gravitational physics. Instead, he
 grounded his models in statistical mechanics, particularly the principle
 of entropy maximisation. For accessibility research, Wilson's approach
 is especially significant because it can address a problem that has
-quietly plagued this field (as this work has argued): the transition
+quietly afflicted this field (as this paper has argued): the transition
 from proportionality to equality.
 
 Rather than relying on a universal constant like \(G\), Wilson's models
@@ -903,10 +875,10 @@ calibrate interaction flows through known empirical constraints (e.g.,
 total system flows, or origin-side and destination-side flow totals).
 This results in interpretable, balanced (given the constraints), and
 unit-consistent \(ij\) flows. In short, when aspects of the systems are
-inputs into the balacing factors, \(ij\) flows can be robustly predicted
-in tangible units of `flow', units that align with the system being
-modelled. In this way, spatial interaction modeling tradition can be
-seen to have succeeded where accessibility modeling stalled. While
+inputs into the balancing factors, \(ij\) flows can be robustly
+predicted in tangible units of `flow', units that align with the system
+being modelled. In this way, spatial interaction modeling tradition can
+be seen to have succeeded where accessibility modeling stalled. While
 Wilson's model produces results that are in units of flow tethered to
 the system of analysis, Hansen-type measures (still widely used today)
 yield outputs that \emph{indicate} a proportional relationship and not
@@ -926,7 +898,7 @@ measures that are sensitive to constraints, in the next section we
 review how conceptually intertwined the spatial interaction modelling
 and accessibility literatures are, and where they began to diverge. This
 investigation sheds light on why accessibility research may have failed
-to adopt a comparable approach focused, until this work.
+to adopt a comparable approach focused, until this paper.
 
 \section{Accessibility and spatial interaction modelling: two divergent
 research
@@ -960,7 +932,7 @@ this mechanism was never widely adopted in accessibility analysis.
 
 This divergence is especially striking given the context in which both
 frameworks emerged. As noted in
-\citet{battyChronicleScientificPlanning1994}, large scale spatial
+\citep{battyChronicleScientificPlanning1994}, large scale spatial
 interaction models (like Wilson's) responded to important developments
 at the time, a need ``to meet the dictates and needs of public policy
 for strategic land use and transportation planning''. And these needs
@@ -1077,7 +1049,7 @@ spatial interaction and the \emph{potential for} spatial interaction in
 the literature.
 
 Thirdly, there is a group of accessibility-focused works that interprets
-the measure used in \citet{hansen1959} as the singly- or doubly-
+the measure used in Hansen \citep{hansen1959} as the singly- or doubly-
 constrained spatial interaction model's inverse balancing factor
 \citep[e.g.,][]{vickermanAccessibilityAttractionPotential1974}. This
 group often cites the spatial interaction works that make this
@@ -1108,20 +1080,21 @@ demonstrated in the following section. These two works also do not
 discuss other constrained cases that will also be addressed.
 
 In sum, despite the interpretative advantaged offered by the statistical
-logic of \citet{wilson1971}'s framework, the spatial
-interaction-oriented \citet{hansen1959} citing literature nor the
-accessibility-oriented literature that cite \citet{wilson1971} have yet
-to meaningfully adopt Wilson's constraint-based logic to the concept of
-accessibility. So, in the next section, we demonstrate how applying
-Wilson's framework enables accessibility to move from a proportional
-relationship to calibrated equality--tying outputs to tangible system
-knowns. This re-expression of accessibility using constraints yields
-interpretable, unit-consistent measures of opportunity. This approach
-takes the same path of entropy-maximisation as in \citet{wilson1971},
-and does not rely on specifying some universal constant \(G\) like
-initially proposed in \citet{stewartDemographicGravitationEvidence1948}
-(recall, Eq~\ref{eq-stewart-population-potential-sum} which
-\citet{hansen1959} operationalised).
+logic of Wilson \citep{wilson1971}'s framework, the spatial
+interaction-oriented Hansen \citep{hansen1959} citing literature nor the
+accessibility-oriented literature that cite Wilson \citep{wilson1971}
+have yet to meaningfully adopt Wilson's constraint-based logic to the
+concept of accessibility. So, in the next section, we demonstrate how
+applying Wilson's framework enables accessibility to move from a
+proportional relationship to calibrated equality--tying outputs to
+tangible system knowns. This re-expression of accessibility using
+constraints yields interpretable, unit-consistent measures of
+opportunity. This approach takes the same path of entropy-maximisation
+as in Wilson \citep{wilson1971}, and does not rely on specifying some
+universal constant \(G\) like initially proposed in Stewart
+\citep{stewartDemographicGravitationEvidence1948} (recall,
+Eq~\ref{eq-stewart-population-potential-sum} which Hansen
+\citep{hansen1959} operationalised).
 
 \section{A family of accessibility measures: from proportionality to
 equality}\label{a-family-of-accessibility-measures-from-proportionality-to-equality}
@@ -1131,27 +1104,27 @@ interaction modeling, the former has not meaningfully absorbed the
 constraint-based logic of the latter. This section introduces this
 reframing: defining a family of accessibility measures using Wilson's
 approach grounded in statistical mechanics, shifting place-based
-accessibility (a la \citet{hansen1959}) from a relationship describing
-proportionality to equality.
+accessibility (a la Hansen \citep{hansen1959}) from a relationship
+describing proportionality to equality.
 
 This shift addresses the fundamental issue of interpretability
 associated with the proportional nature of Hansen-type accessibility
 indicators we previous outlined. Rather than relying on arbitrary or
-uncalibrated proportional relationships--or invoking a universal
-constant \(G\) as proposed in
-\citet{stewartDemographicGravitationEvidence1948} --we adopt Wilson's
+uncalibrated proportional relationships (or invoking a universal
+constant \(G\) as proposed in Stewart
+\citep{stewartDemographicGravitationEvidence1948}) we adopt Wilson's
 approach grounded in statistical mechanics.
 
 To do so, we propose a revised definition of accessibility considerate
-of the constraint-based spatial intereaction model: the potential for
-spatial interaction with opportunities or population.We can bring \(k\)
-as a proportional allocation factor which encorporates Wilson's
-balancing factor, to define the \emph{potential for spatial interaction
-with opportunities} \(V_{ij}\) and the \emph{potentnial for spatial
-intereaction with population} \(M_{ji}\). In effect, \(\kappa\) is
-unitless and proportionally allocates (based on the constraints of the
-case) opportunities (for \(V_{ij}\)) and population (for \(M_{ji}\)).
-The equation is as follows:
+of the constraint-based spatial interaction model: the potential for
+spatial interaction with opportunities (or population). We can specify
+\(k\) as a type of proportional allocation factor \(\kappa\) which
+incorporates Wilson's balancing factor(s) to define the \emph{potential
+for spatial interaction with opportunities} \(V_{ij}\) and the
+\emph{potential for spatial interaction with population} \(M_{ji}\). In
+effect, \(\kappa\) is unitless and proportionally allocates (based on
+the constraints of the case) opportunities (for \(V_{ij}\)) and
+population (for \(M_{ji}\)). The equation is as follows:
 
 \begin{equation}\phantomsection\label{eq-access-01}{
 \begin{array}{l}
@@ -1163,9 +1136,11 @@ M_{ji}^X = \hat \kappa_{ji}^X W_X^{(1)}
 \noindent Where \(W_X^{(2)}\) and \(W_X^{(1)}\) is the mass of the
 destination (i.e., opportunities) and mass of the origin (i.e.,
 population) at either the zone or for the full region, depending on the
-case. Accessibility flows can also be summarised as as a partial sum of
-the potential at \(i\) and at \(j\) to express accessibility at the
-origin zone or at the destination zone, respectively, as often done in
+case (hence represented by a \(X\)).
+
+Accessibility flows can also be summarised as as a partial sum of the
+potential at \(i\) and at \(j\) to express accessibility at the origin
+zone or at the destination zone, respectively, as often done in
 accessibility research:
 
 \begin{equation}\phantomsection\label{eq-accesssibility-01}{
@@ -1290,7 +1265,9 @@ used, and can be grouped into the following four cases:
 \tightlist
 \item
   Constrained on both origin and destination sides using both \(A_i\)
-  and \(B_j\) simultaneously; equivalent in interpretation to Wilson's
+  and \(B_j\) simultaneously, which can also be expressed as
+  proportional allocation factors (\(\kappa_{ij}^D\),
+  \(\hat \kappa_{ji}^D\)); equivalent in interpretation to Wilson's
   \citep{wilson1971} doubly constrained spatial interaction model.
 \item
   Simultaneous application ensures both the destination-side \emph{and}
@@ -1299,7 +1276,7 @@ used, and can be grouped into the following four cases:
 \item
   Interpretable only as \(ij\) and \(ji\) flows, since aggregation at
   \(i\) and \(j\) simply reproduces known totals. Represents
-  `interaction capacity' or `realized access,' serving as predictions of
+  `interaction capacity' or `realized access' serving as predictions of
   real interaction flows.
 \end{itemize}
 
@@ -1629,9 +1606,9 @@ behaviours.
 
 The total constrained accessibility measure resolves the
 interpretability issue of Hansen's accessibility (i.e., unconstrained
-accessibility) by grounding values in a meaningful total--enabling
-robust comparisons across zones and scenarios--but also by keeping
-values proportional to \(V_i^0\) so interpretation is similar.
+accessibility) by grounding values in a meaningful total, enabling
+robust comparisons across zones and scenarios but also by keeping values
+proportional to \(V_i^0\) so interpretation is similar.
 
 \subsubsection{Total constrained accessible population: Reilly's
 potential trade territories with a total
@@ -1812,9 +1789,7 @@ This is comparable to the single attraction-constraint
 }\end{equation}
 
 The underlying spatial interaction model is now the
-attraction-constrained model in
-Eq~\ref{eq-attraction-constrained-gravitymodel}, and our accessibility
-measure becomes:
+attraction-constrained model and our accessibility measure becomes:
 
 \begin{equation}\phantomsection\label{eq-opportunity-constrained-accessibility}{
 V^S_{i} = \sum_j B_j D_j W_i^{(1)} f(c_{ij})
@@ -1861,10 +1836,10 @@ origins. As in the total constrained case, \(V_i^S\) is expressed in the
 units of accessible opportunities. Finally, the \textbf{per capita}
 version of this measure:
 
-\citet{soukhovIntroducingSpatialAvailability2023} also showed that the
-following expression (accessibility per capita) is a constrained version
-of the popular 2SFCA approach of Shen \citep{shen1998} and Luo and Wang
-\citep{luo2003}:
+Soukhov et al., 2023 \citep{soukhovIntroducingSpatialAvailability2023}
+also showed that the following expression (accessibility per capita) is
+a constrained version of the popular 2SFCA approach of Shen 1998
+\citep{shen1998} and Luo and Wang 2003 \citep{luo2003}:
 
 \begin{equation}\phantomsection\label{eq-opportunity-constrained-accessibility-per-capita}{
 v^S_{i} = \frac{V^S_{i}}{W^{(1)}_i}
@@ -2025,9 +2000,8 @@ constrained concept of market potential been used to express ``facility
 crowdedness'' as in Wang \citep{wang_inverted_2018}.
 
 The underlying spatial interaction model is now the
-production-constrained model in
-Eq~\ref{eq-production-constrained-gravitymodel}, and our market
-potential measure \(M^S_j\) becomes:
+production-constrained model version of Eq~\ref{eq-phys-gravity-model},
+and our market potential measure \(M^S_j\) becomes:
 
 \begin{equation}\phantomsection\label{eq-population-constrained-accessibility}{
 M^S_j = \sum_i A_i O_i W_j^{(2)} f(c_{ij})
@@ -2086,9 +2060,8 @@ to each destination must match the number of opportunities supplied:
 \sum_j V_{ij}^D = O_i \text{ and }  \sum_i V_{ij}^D =  D_j
 }\end{equation}
 
-Because both margins are fixed, this measure reflects fully allocated
-interaction flows, not latent potential. As such, accessibility cannot
-be interpreted as a traditional summary at \(i\) or \(j\) (e.g.,
+Because results are made to match both margins, the results cannot be
+interpreted as a traditional summary at \(i\) or \(j\) (e.g.,
 ``opportunities accessible from \(i\)'')--those sums simply reproduce
 the constraint totals. Instead, the meaningful unit of analysis is the
 \(ij\) flow itself.
@@ -2097,11 +2070,8 @@ This distinguishes doubly constrained accessibility from the total and
 singly constrained cases discussed previously. In those cases, only one
 side of the interaction--either the total marginal or
 opportunity/population marginal--was constrained, while the other was
-treated as a demand/supply weight (e.g., \(D\)/\(O\) or
-\(W_j^{(2)}\)/\(W_i^{(1)}\)), without any allocation details. As a
-result, total constrained models express more `potential' from both
-sides of the system, and singly constrained models express potential
-access from one side.
+treated as a demand/supply weight (e.g., \(D\) or \(O\) for total
+constrained and \(W_j^{(2)}\) or \(W_i^{(1)}\) for singly constrained).
 
 By contrast, the doubly constrained model assumes both the demand
 (population) and the supply (opportunity) are known and bounded, and
@@ -2129,15 +2099,13 @@ origins should match the sum of opportunities in all destinations
 }\end{equation}
 
 As before, the simultaneous imposition of both constraints ensures the
-total system constraint is maintained i.e., the sum of all doubly
-constrained accessibility values
+total system constraint is maintained i.e.,
 \(\sum_i V^D_{i} = \sum_i\sum_j  V^D_{ij} = D\) remains equal to the
 total number of opportunities in the region \(O\).
 
 As the doubly constrained accessibility measure \(V_{ij}^D\) takes the
 form of the production-attraction (doubly constrained) spatial
-interaction model, as shown in
-Eq~\ref{eq-doubly-constrained-gravitymodel}, \(V_{i}^D\) is as follows:
+interaction model as follows:
 
 \begin{equation}\phantomsection\label{eq-doubly-constrained-accessibility}{
 V_{ij}^D = A_i B_j O_i D_j f(c_{ij})
@@ -2155,8 +2123,8 @@ B_j = \frac{1}{\sum_i A_i O_i f(c_{ij})}
 
 Calibration of the two sets of proportionality constants is accomplished
 by means of iterative proportional fitting, whereby the values of
-\(A_i\) are initialized as one for all i to obtain an initial estimate
-of \(B_j\). The values of \(B_j\) are used to update the underlying
+\(A_i\) are initialized as 1 for all i to obtain an initial estimate of
+\(B_j\). The values of \(B_j\) are used to update the underlying
 \(V_{ij}^D\) matrix, before calibrating \(A_i\). This process continues
 to update \(A_i\) and \(B_j\) until a convergence criterion is met
 \citep[see][p.~193-195]{ortuzar_2011_modelling}.
@@ -2178,7 +2146,7 @@ such that:
 \kappa_{ij}^D = \sum_j \frac{1}{\sum_j B_j D_j f(c_{ij})} \frac{1}{\sum_i A_i O_i f(c_{ij})} O_i f(c_{ij})
 \] \noindent and represent \(V^D_{ij}\) as equal to
 \(\kappa^D_{ij} D_j\), allowing the analyst to understand the
-proportional allocation of D\_js to each \(ij\) flow.
+proportional allocation of \(D_j\)s to each \(ij\) flow.
 
 Following this logic, the market potential form \(M^D_{ji}\) is
 effectively equivalent to \(V_{ij}^D\), but can be read with a different
@@ -2191,7 +2159,6 @@ population.
 Moving onto the toy example, to calculate doubly constrained
 accessibility, the interpretation of the population data and the counts
 of the opportunity data in the numeric example must be reinterpreted.
-
 Namely, a count of physician \emph{capacity} per destination \(D_j\) is
 needed instead of simply the number of physicians. Also, we must be able
 to clearly state that the population is the \emph{capacity} of the
@@ -2202,14 +2169,14 @@ This adjusted simple example is summarised in
 Table~\ref{tbl-small-system-land-use-doubly-constrained-case}: with the
 population (in units of 10,000s of people seeking physicians) and the
 opportunities (in units of 10,00s of physician-capacity) per zone. For
-the population, we leave this unchanged numerically but theoretically
-note that each person interacts with one physician capacity. However,
-the number of providers per destination is revised to represent
+the population, we leave this unchanged numerically but we now must keep
+in mind that each person interacts with one physician capacity. The
+number of providers per destination is however revised to represent
 physician capacity, scaled approximately from the original number of
 physicians used in previous cases
-(Table~\ref{tbl-small-system-land-use}).The system-wide
-provider-to-population ratio (PPR) is now:1, this is compared to the
-unmodified example which yields system PPR of24.5.
+(Table~\ref{tbl-small-system-land-use}). The system-wide PPR is now:1,
+this is compared to the unmodified example which yields system PPR
+of24.5.
 
 We keep the same zonal cost matrix, and travel impedance functions for
 three types of travel behaviour as before
@@ -2240,12 +2207,13 @@ ID (i or j) & Population & Opportunities \\
 
 \end{table}%
 
-However, despite the modifications to the example, our objective remains
-the same: to measure accessibility under different travel behavior
-scenarios. We aim to quantify the number of \emph{potential} spatial
-interactions between the physician-seeking population in each zone \(i\)
-to the physician capacity in a zone \(j\) i.e., \(V_{ij}^D\). The
-highest decay travel behaviour scenario (\(f_1(c_ij)\)) is presented in
+And with these modifications to the example, our objective is slightly
+different: to predict the flows from \(j\) knowing that the amount of
+physician-capacity at each \(j\) must be preserved and all flows to
+\(i\) should match the number of people at \(i\), under different travel
+behaviour scenarios. Put another way, we're interested in the \(ij\)
+flows assuming we already know accessibility at each \(i\). The highest
+decay travel behaviour scenario (\(f_1(c_ij)\)) is presented in
 Table~\ref{tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-access-values}.
 
 \begin{table}
@@ -2281,7 +2249,7 @@ Table~\ref{tbl-adjusted-small-system-land-use-doubly-constrained-case-f1cij-acce
 for the highest-decay scenario \(f_1(c_{ij})\), accessibility is no
 longer meaningfully represented as zonal summaries like \(V^D_i\) or
 \(M^D_j\), since these values reproduce the original constraints--i.e.,
-\(V^D_i = O_i\) so the physican-capacity accessible for Zones 1, 2, and
+\(V^D_i = O_i\) so the physician-capacity accessible for Zones 1, 2, and
 3 would be 4.0018381, 9.9963656, and 6.0017963. Hence, the usefulness of
 the doubly constrained measure lies in the interpretation as
 \(V_{ij}^D\) values. \(V^D_{ij}\) values represent the number of
@@ -2328,37 +2296,43 @@ Dest. & Population at 2 (units: \emph{people in 10,000s}) & Opportunities (units
 
 \end{table}%
 
-Recall, accessibility is defined as ``the potential of spatial
-interaction'' and is traditionally presented as a summary zonal measure.
-In the doubly constrained case, we force the allocation of zonal
-population demand and zonal opportunities supplied to be paired and
-allocation to be proportional, hence the sum of \(V_{ij}^D\) for all
-\(i\)s ends up being equal to the population at the zone (and
-\(\sum_i V_{ij}^D\) being the opportunities at the zone).
+Recall, accessibility is traditionally presented as a summary zonal
+measure. However, in the doubly constrained case, since we force the
+allocation of zonal population demand and zonal opportunities supplied
+to be paired and allocation to be proportional, \(V_i^D\) is simply the
+number of opportunities that matches our known population at \(i\). So
+following the logic of the family of accessibility measures, in the
+doubly constrained case, \(V_{ij}^D\) flows are the only relevant unit
+of analysis: spatial proportional allocations between population and
+opportunity capacity. Furthermore, \(V^D_{ij}\) and its transposed
+counterpart \(M^D_{ji}\) are structurally identical, differing only in
+interpretation (referring to \(kappa_{ij}^D\) and
+\(\hat kappa_{ij}^D\)): one reflects the proportional allocation of
+opportunity to population flows; the other, population to opportunity
+flows.
 
-So, in the doubly-constrained case, accessibility flows becomes simply
-equivalent to spatial interaction flows--spatial proportional
-allocations between population and opportunity capacity. In fact,
-\(V^D_{ij}\) and its transposed counterpart \(M^D_{ji}\) are
-structurally identical, differing only in interpretation (referring to
-\(kappa_{ij}^D\) and \(\hat kappa_{ij}^D\)): one reflects the
-proportional allocation of opportunity to population flows; the other,
-population to opportunity flows.
+Readers should recall, \(V_{ij}^D\) are also mathematically equivalent
+to Wilson's spatial interaction flows. And as Wilson \citep{wilson1971}
+explicitly noted, origin and destination weights defined in the spatial
+interaction model \emph{can} be defined using any unit. However,
+traditionally the focus of these models have typically on \(ij\) flows
+and often calibrated using trips (i.e., outbound and inbound trips,
+inherently in the same units).
 
-As Wilson \citep{wilson1971} explicitly noted, origin and destination
-weights defined in the spatial interaction model \emph{can} be defined
-using any unit; but the focus of these models have typically on \(ij\)
-flows and often calibrated using trips (i.e., outbound and inbound
-trips, inherently in the same units). On the other hand, accessibility
-has been interpreted differently: often understood as a zonal summary of
-the \emph{potential} for spatial interaction, conceptualising origins
-and destinations in inherently different units.
-
-Tracing the application of increasing more restrictive constraints: from
-the total, to the singly- and now in the doubly-constrained measure,
-sheds light on how the balancing factors embedded in the unitless
-proportional allocation factors restrict the range in ``potential''
-spatial interaction values that can be taken.
+Accessibility is often understood as a zonal summary of potential
+spatial interaction, often involving origin and destination masses in
+different units. These units also often misaligned--for instance, we may
+not know how much park space, grocery area, or childcare capacity is
+accessible per person. When they do align--such as people to physician
+capacity--we're essentially modeling realised access flows based on
+known quantities of \emph{those that interact} and the
+\emph{interacted}. In such cases, the traditional accessibility question
+is already answered by the known information (i.e., how many
+opportunities can be reached by a zone? the number of people at that
+zone). This is why we do not foresee the doubly constrained measure
+being widely used in accessibility analysis: the literature has largely
+focused on questions of potential access, not on predicting flows of
+realised access.
 
 \section{Conclusions}\label{conclusions}
 
@@ -2401,7 +2375,7 @@ considering the population size at the origins.
 We then introduce the singly-constrained case, which \emph{does} take
 into account the population size at the origin in the allocation of
 opportunities. It is also mathematically equivalent to the spatial
-availability introduced in Soukhov et al.
+availability introduced in Soukhov et al.~2023
 \citep{soukhovIntroducingSpatialAvailability2023}. In this case, all
 accessibility values are fixed to sum to a known zonal opportunity-size
 value (implicitly, the regional total of opportunities), but they are
@@ -2433,14 +2407,13 @@ opportunities and populations) instead of potential spatial interaction
 opportunities one could reach (out of a regional total and/or
 zonal-allocation).
 
-In summary, building on Wilson's \citep{wilson1971} foundational work,
-this paper proposed a unified framework for accessibility that is able
-to account for competition. By reintroducing Wilson's proportionality
-constant, the proposed family of constrained accessibility measures
-restores measurement units to accessibility estimates. This enhancement
-provides a more interpretable, consistent, and theoretically grounded
-basis for accessibility analysis, which could help advance the adoption
-of accessibility-oriented planning.
+Building on Wilson's \citep{wilson1971} foundational work, this paper
+proposed a unified framework for accessibility.. By reintroducing
+Wilson's proportionality constant, the proposed family of constrained
+accessibility measures restores measurement units to accessibility
+estimates. This enhancement provides a more interpretable, consistent,
+and theoretically grounded basis for accessibility analysis, which could
+help advance the adoption of accessibility-oriented planning.
 
 
 \nolinenumbers
