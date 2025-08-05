@@ -1,5 +1,6 @@
 ---
-title: Response to reviewer
+title: Response to reviewers
+format: pdf
 ---
 
 Thank you for your responses. Below are replies, with our response in black font and the reviewers comments in \textcolor{blue}{blue}.
@@ -10,18 +11,27 @@ Thank you for your responses. Below are replies, with our response in black font
 
 \textcolor{blue}{Most importantly, the manuscript is too lengthy and verbose. I am having a hard time evaluating the manuscript since the length is about 30 pages. Given that the typical length of the paper is about 10 pages, I would like to request a summary of the key points for better deliverability.}
 
+Thank you for the kind words and for this helpful feedback. We've signfigicantly revised the manuscript, focusing on explaining things concisely and ensuring each paragraph is move forward the key points of each section. In summary:
+
+- We've reduced the length of the manuscript from 34 to 28 pages (without references).
+- We've removed tangential details and minimised the equations where possible, particularly in the “Early Research” section.
+- We've streamlined the manuscript's text--to make each sections purpose more clear.
+- We've removed redundancies where possible, especially in the "Family of Accessibility" section. 
+- We've more clearly highlighted the paper's main contribution: namely, a review of the shared origins of spatial interaction modeling and accessibility, how their interpretations have diverged over time, and the introduction of a family of accessibility measures grounded in spatial interaction principles--including total, singly, and doubly constrained cases, as well as variants of “accessible opportunities” and “accessible population".
+
 \textcolor{blue}{Related to the first issue, I am not sure about the point that the authors explain the details of Newtonian’s roots and early research on human spatial interactions from Ravenstein to Stewart. Of course, I think mentioning those contents is beneficial, but it is hard to get the key point given that it is verbose.}
+
+The main aim of these two sections is to demonstrate how Newton's gravitational equation (with its proportionality factor $G$) inspired early research on human spatial interactions. The majority of early researchers relied on the underlying proportional mass/distance relationship to model human spatial interaction, but did not use $G$--except for Stewart. However, Stewart didn't have an answer to what $G$ should be, just that it is needed to move from a relationship of proportionality to one of equality.
+
+Stewart is especially important because Hansen later adopted it into his equation but ommitted both the $G$ (i.e., kept it set to 1) and was quiet on the broader issue of moving from proportionality to equality. 
+
+We've revised these sections, hopefully we've clarifed these points and the purpose of these sections in the process!
 
 \textcolor{blue}{Third, I believe the main contribution of this paper lies in classifying the accessibility measures into four groups. However, I also had a hard time finding the definition of those four groups. Given that the research articles aim to reveal previously unknown facts, the literacy level of this manuscript is relatively low. Additionally, the introduction of too many equations makes it difficult to establish connections between them. Therefore, I recommend that the authors revise and reconstruct the manuscript.}
 
+Good point. We now clearly summarize all four groups of constrained measures at the start of the “A Family of Accessibility Measures: From Proportionality to Equality” section. These definitions build on the preceding sections, which trace how spatial interaction modeling followed the Newtonian analogy while neglecting $G$, how Wilson shifted to an entropy-maximisation formulation without requiring an empirical $G$ (but instead, a constraint that functions to tether the results to system knowns), and how the place-based accessibility literature has largely overlooked this solution. The main section then presents the mathematical formulations and a toy example to illustrate the full family of measures.
 
-THank you for these comments. We've heavily revised the manuscript, focusing now on explaining things concisely and putting forward the focus. We did this by:
-
-- reducing the length of the manuscript, it is now 10 pages
-- removed tangental details (e.g., )
-- streamlined the historical section (e.g., )
-- highlight the main contribution of the paper, namely how it provides constrained definitions to accessibility
-- reduced the number of equations where possible, and make it clear why those that remain are there.
+Furthermore, regarding the equations--many have now been removed when possible if they don't directly further the argument of the section or are redundant. For instance, some equations in "Early research on human spatial interaction" have been removed, and rewritings of Wilson's general formula from "Wilson's family of spatial interaction models" section have been removed.
 
 # Reviewer #2
 
@@ -29,12 +39,75 @@ THank you for these comments. We've heavily revised the manuscript, focusing now
 
 \textcolor{blue}{1. While the authors provide a detailed numerical example, the manuscript lacks any empirical case study or application to real-world accessibility data. This limits the reader’s ability to evaluate the practical utility and robustness of the proposed framework. The authors can draw inspiration from several studies such as "Factoring in temporal variations of public transit-based healthcare accessibility and equity" to better understand this concept.}
 
+Thannk you for your time and effort in reviewing our manuscript. We appreciate the constructive feedback and comments. 
+
+Thank you for this point. We agree, the inclusion of an empirical example would demonstrate the real-world applicability of the measures. However, due to the existing length of the document, the addition of an empirical example (even if we replaced the toy example) would still add additional length: we would need to add a condensed methods and data section, and dedicate more room for tests. 
+
+The length of the current document is an issue, so the addition of additional pages isn't feasible--especially given the concern over paper length that was raised by Reviewer 1 and how we’ve already reduced it by six pages in response to these concerns. However, we've put great thought into how the manuscript could be restructured to included an additional empirical example, but it just isn't possible given the manuscript's current format. 
+
+As such, we’ve clarified that the contribution of this work is primarily theoretical and methodological. We’ve also tempered earlier claims about the measure’s real-world applicability, instead allowing readers to consider potential uses and the potential value of reuniting accessibility measures with interpretable units. We plan to explore an empirical application in a future publication which make this contribution more practically clear--where we may have enough space to develop and explore an empirical example without shortchanging the historical context. 
+
 \textcolor{blue}{2. The manuscript frequently shifts between concepts such as "potential for spatial interaction," "accessibility," and "access," especially in the discussion of the doubly constrained model. However, the terminological distinction remains conceptually blurry.}
+
+Agreed, the use of these words--especially in the doubly constrained model subsection should be tuned up. We've substantially revised this subsection. Namely, we've removed the discussion about the meaning of "potential", and instead focus on the embedded assumption of the doubly constrained measure i.e., how it simultaneously considers both origin-side and destination-side constraints--or that all people are matched with opportunities, and vice versa. We discuss how this is not a frequent situation in place-based accessibility analysis (i.e., we don't know how much parkland space capacity is matched to each person). 
+
+Also, the double constraint ends up fixomg the aggregated zonal value to match the 'mass' at the zone itself (i.e., reproducing what we already imposed onto the model). In this way, the $ij$ flows are the only useful thing for analysis. This focus has not tradtionally occupied the research context of accessibility-based work.
 
 \textcolor{blue}{3. The historical literature review is valuable but disproportionately long. Pages are devoted to recapping classical gravitational thinking, while the more innovative contributions of the paper (e.g., balancing factor reinterpretation) are condensed. The authors should also focus on more recent publications such as "Evaluating temporal variations in access to multi-tier hospitals using personal vehicles and public transit: Implications for healthcare equity" instead of older ones.}
 
+Thank you for this comment. The historical literature review section (Accessibility and spatial interaction modelling: two divergent research streams) covers upward of 76 papers citing Wilson and Hansen, condensed into about 3 pages. This section sets the stage by outlining Wilson’s balancing factors and highlighting how place-based accessibility literature (largely based on Hansen-type measures) has not adopted these balancing factors. This context is needed for the subsequent, more detailed 16-page section, which introduces the newly proposed family of accessibility measures which incorporate Wilson's balancing factors. We believe this structure balances breadth and depth appropriately--we've tried to reduce redundancies and improve when possible. We hope you find the revised manuscript easier to follow.
+
 \textcolor{blue}{4. The paper pays limited attention to recent methodological developments such as time-sensitive, network-based, or multi-modal accessibility models, as well as behavioral or utility-based approaches.}
+
+
+Thank you for this fair point. In the newly revised manuscript, we make it more clear that our focus is on place-based accessibility, which remains widely used by practitioners and prominent in the literature, as well as Wilson's spatial interaction model which is also popular in spatial interaction modeling still to this day. Given the broad scope and space constraints (the current manuscript is already quite long and conceptually broad), incorporating additional detailed discussions of novel approaches is challenging, and somewhat tangential. 
+
+However, we do acknowledge some utility-based approaches within the spatial interaction literature--for example, "The third subset of the spatial-interaction focused literature, depart from Hansen's [@hansen1959] definition, aligning instead with microeconomic or utility-based interpretations of potential spatial interaction e.g., [@morrisAccessibilityIndicatorsTransport1979; @leonardiRandomUtilityDemand1984]."
+
+Our point with the historical review section is to demonstrate how even the papers that _do_ cite both Wilson and Hansen do not operationalise Wilson's balancing factors. Utility-based approaches take a different direction--not based on Newtonian gravitation--but also not based on Wilson's balancing factors. Indeed recent developments such as time-sensitive, network-based, or multi-modal accessibility models, as well as behavioral or utility-based approaches take on new approaches, but we believe these are tangential to our scope.
+
+Thoughts???
 
 \textcolor{blue}{5. The authors argue that the constrained models restore interpretability by attaching meaningful units (e.g., number of people or opportunities). However, this is not substantiated with user- or practitioner-oriented tests.}
 
+This is a very fair point. Inside of explaining results with an empirical example, we theoretical demonstrate this throughout the paper.
+
+First, this idea is brought up more concretely on page 5, when discussing Stewart (1948)'s use of his proportionality constant $G$: "In other words, the addition of $G$ shifts results from being abstract indicators of potential (i.e., $\frac{\text{people}^2}{\text{distance}^{2}}$) to having interpretable units grounded in consistent, albeit still abstract, quantities (i.e., units of demographic force)." 
+
+Later, we develop this point deeper when discussing Hansen-type accessibility, and the impact of not having a proportionality constant:
+pg. 6: "Furthermore, working with a proportional relationship generates fundamental issues in comparability between and, arguably within, studies. Namely, accessibility estimates have no fixed unit, rendering them sensitive to the choice of impedance functions. For instance, if travel cost $d_{ij}$ is measured in meters, then when the travel impedance function $f(d_{ij})$ equals $d_{ij}^{-\beta}$, the resulting $S_i$ has units of opportunities per $\text{metres}^{\beta}$. However, when $f(d_{ij})$ is set to equal $e^{-\beta d_{ij}}$, the units become opportunities per $e^{\beta \text{metres}}$. Such variation impairs comparability across analysis and obscures the meaning of accessibility scores, making them difficult to understand and communicate without post-hoc treatment."
+
+And to solidify this point, again more theoretically but still practically, we develop and solve the toy example.
+
+Regarding the unconstrained example:
+pg. 16: "For example, Table @tbl-simple-example-unconstrained-accessibility shows $V^0_{i}$ under each decay function. Comparing across decay types is meaningless in absolute terms. For instance, the difference in zone 1 (edge of urban core)’s accessibility under $f_3$ vs $f_1$ is 370.92, but in what units? These two values are a product of different impedance functions ( _physicians-minute$^{-3}$_ and _physicians-minute$^{-0.1}$_), making the comparison uninterpretable (and arguably incorrect). The fundamental uninterpretability of what is a _opportunity-weighted-travel-impedance_ unit remains."
+
+Regarding the total constrained example:
+pg. 18: "Compared to the unconstrained case, values now sum to the known regional total $D$, allowing interpretation of absolute and relative differences across zones and travel scenarios. For example, in the highest decay case, Zone 1 (Urban Edge) captures an intermediate number of physicians (172.06), like in the unconstrained accessibility case. However, unlike in the unconstrained case, we can say that this value is out of the 490 physicians in the region, which allows us also to deduce that zone 1 captures 1.31 and 0.92 times more than zone 2 and 3."
+
+pg. 18:"One can also directly compare values at a specific zone, across travel impedance scenarios, due to the consistent units. As the decay scenario decreases, all zones become more accessible to each other and the differences between pairs diminishes (i.e., in $f_3(c_{ij})$ each zone captures close to an average amount of physicians, a third of 490 or ~163). In terms of proportional magnitude, this can also be observed in the unconstrained measure for this scenario. However, for the total constrained measure, this plateauing of results have meaning. In fact, each zone is allocated an average of the total amount in the region, as a result of the total constrained proportional allocation factor."
+
 \textcolor{blue}{6. Some sections suffer from repetition and overly technical language without summarizing takeaways (e.g., Table 1 is helpful, but the text before and after it repeats much of the same information).}
+
+Excellent point. We've decided to remove Table 1 all together, and provide a more condensed version of it in text on pg 13/14. Namely:
+
+"The proportional allocation constant $\kappa$ takes the form of a balancing factor that varies depending on the constraints applied. Each member of the accessibility measure family is defined by the constraints used, and can be grouped into the following four cases:
+
+1. **Unconstrained Case ($V_i^0$, $M_j^0$)**
+- Equivalent to Hansen’s [@hansen1959] and Reilly’s [@reilly1929methods] original formulations; the status quo of accessibility modelling.
+- No balancing factors applied; units are in "opportunities-by-impedance" for $V_i^0$ or "population-by-impedance" for $M_j^0$.
+- No constraints are applied, so values reflect proportionality only and are not calibrated to known system totals.
+2. **Total Constrained Case ($V_i^T$, $M_j^T$)**
+- Applies a total proportional allocation factor ($\kappa_{ij}^T$, $\hat \kappa_{ji}^T$) based only on the total marginal (green box in @fig-analytical-device-conc-accessibility) i.e., total number of opportunities or population in the system. This ensures the sum of all values in the system match the total marginal.
+- Units of $V_i^T$: accessible opportunities from $i$, a value that is total constrained and linearly proportion to $V_i^0$.
+- Units of $M_j^T$: accessible population from $j$, a value that is total constrained and linearly proportion to $M_j^0$.
+3. **Singly Constrained Case ($V_i^S$, $M_j^S$)**
+- Applies singly-constrained proportional allocation factors ($\kappa_{ij}^S$, $\hat \kappa_{ji}^S$) based on Wilson's balancing factors ($B_j$, $A_i$) to preserve either the destination-side or origin-side marginal totals (blue and red boxes in @fig-analytical-device-conc-accessibility) i.e., the number of opportunities or population at each zone. Reflects how the literature calculates competitive accessibility.
+- Units of $V_i^S$: accessible opportunities from $i$, a value that is the sum of opportunity supply flows allocated proportionally based on demand at $i$. Mathematically equivalent in per-capita form to 2SFCA [@luo2003].
+- Units of  $M_j^S$: accessible population from $j$, a value that is the sum of population demand flows allocated proportionally based on supply at $j$.
+4. **Doubly Constrained Case ($V_{ij}^D$, $M_{ji}^D$)**
+- Constrained on both origin and destination sides using both $A_i$ and $B_j$ simultaneously, which can also be expressed as proportional allocation factors ($\kappa_{ij}^D$, $\hat \kappa_{ji}^D$); equivalent in interpretation to Wilson's [@wilson1971] doubly constrained spatial interaction model.
+- Simultaneous application ensures both the destination-side _and_ origin-side marginal totals are maintained (blue and red boxes in @fig-analytical-device-conc-accessibility).
+- Interpretable only as $ij$ and $ji$ flows, since aggregation at $i$ and $j$ simply reproduces known totals. Represents ‘interaction capacity’ or ‘realized access’ serving as predictions of real interaction flows."
+
+We hope this addresses your concern! As well, we've streamlined redundancies throughout the manuscript, especially in the "A family of accessibility measures" section.
