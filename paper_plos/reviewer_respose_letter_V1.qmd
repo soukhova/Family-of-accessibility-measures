@@ -3,7 +3,16 @@ title: Response to reviewers
 format: pdf
 ---
 
-Thank you for your responses. Below are replies, with our response in black font and the reviewers comments in \textcolor{blue}{blue}.
+Dear editors,
+
+We appreciate the valuable comments from the reviewers. We have done our best to address all comments and suggestions as much as possible, which we believe has significantly improved the paper. We address the individual comments of the reviewers one by one (list below), but we would also like to note three major points in response to the reviewers’ recommendations.
+
+- We have substantially shortened the paper from 34 to 28 pages. This involved streamlining the manuscript's text, removing equations and text redundancies where possible, especially in the "Family of Accessibility" section.
+- We have also edited the text to more clearly articulate the paper’s main contribution and to make each section’s purpose clearer.
+- While we agree with reviewer’s #2  that including an empirical example would demonstrate the real-world applicability of our proposed measures, we were not able to include an empirical case study in the paper due to manuscript length limits.
+
+
+As a whole, we believe the paper is more consistent after heeding the reviewer’s comments. We hope you and the reviewers will agree. Please see below the point-by-point replies, with our response in black font and the reviewers comments in \textcolor{blue}{blue}.
 
 # Review 1
 
@@ -19,7 +28,7 @@ Thank you for this point. We've significantly revised the manuscript to make it 
 - We've removed redundancies where possible, especially in the "Family of Accessibility" section. 
 - We've more clearly highlighted the paper's main contribution: namely, a review of the shared origins of spatial interaction modeling and accessibility, how their interpretations have diverged over time, and the introduction of a family of accessibility measures grounded in spatial interaction principles.
 
-The key contributions of the manuscript can be summarised as follows:
+The key contributions of the manuscript are highlighted in the introduction of the paper (see paragraph starting at line 48) and can be summarised as follows:
 - First, it explicitly links accessibility to spatial interaction through their shared intellectual foundations (pre- @hansen1959), highlighting how contemporary accessibility research has diverged and showing the mathematical, intuitive, and interpretative advantages of preserving units through constrained formulations, as done in spatial interaction modeling.
 - Second, it introduces 'constraints' to accessibility measures grounded in spatial interaction principles.
 <!-- First: the total constrained accessibility measure as an alternative to the Hansen-type formulation, producing zonal values that represent proportions of the known number of destination masses (i.e., opportunities) or origin masses (i.e., population) in the region. Second: the singly constrained accessibility measure as a competitive method that proportionally allocates opportunities from the destination based on population demand (from the origin), or in the case of market potential, proportional allocation of population from the origin based on the supply of opportunities at the destination. Its per-capita zonal rate is shown to be mathematically equivalent to the widely used two-step floating catchment area (2SFCA) method [@luo2003; @shen1998].-->
@@ -36,7 +45,7 @@ We've revised these sections, hopefully we've clarifed these points and the purp
 
 Good point. We now clearly summarize all four groups of constrained measures at the start of the “A Family of Accessibility Measures: From Proportionality to Equality” section. These definitions build on the preceding sections, which trace how spatial interaction modeling followed the Newtonian analogy while neglecting $G$, how Wilson shifted to an entropy-maximisation formulation without requiring an empirical $G$ (but instead, a constraint that functions to tether the results to system knowns), and how the place-based accessibility literature has largely overlooked this solution. The main section then presents the mathematical formulations and a toy example to illustrate the full family of measures.
 
-Furthermore, regarding the equations--many have now been removed when possible if they don't directly further the argument of the section or are redundant. For instance, some equations in "Early research on human spatial interaction" have been removed, and rewritings of Wilson's general formula from "Wilson's family of spatial interaction models" section have been removed.
+Furthermore, regarding the equations -- 10 equations have now been removed because they did not directly further the argument of the section or are redundant. For instance, some equations in "Early research on human spatial interaction" have been removed, and rewritings of Wilson's general formula from "Wilson's family of spatial interaction models" section have been removed.
 
 # Reviewer #2
 
@@ -56,22 +65,26 @@ Agreed, the use of these words--especially in the doubly constrained model subse
 
 \textcolor{blue}{3. The historical literature review is valuable but disproportionately long. Pages are devoted to recapping classical gravitational thinking, while the more innovative contributions of the paper (e.g., balancing factor reinterpretation) are condensed. The authors should also focus on more recent publications such as "Evaluating temporal variations in access to multi-tier hospitals using personal vehicles and public transit: Implications for healthcare equity" instead of older ones.}
 
-Thank you for this comment. The historical literature review section (Accessibility and spatial interaction modelling: two divergent research streams) covers upward of 76 papers citing Wilson and Hansen, condensed into about 3 pages. This section sets the stage by outlining Wilson’s balancing factors and highlighting how place-based accessibility literature (largely based on Hansen-type measures) has not adopted these balancing factors. This context is needed for the subsequent, more detailed 16-page section, which introduces the newly proposed family of accessibility measures which incorporate Wilson's balancing factors. We believe this structure balances breadth and depth appropriately; we've tried to reduce redundancies and improve when possible. We hope you find the revised manuscript easier to follow.
+Thank you for this comment.
+
+We’ve removed tangential details and minimized the equations where possible, particularly in the “Early Research” section. The historical literature review section (Accessibility and spatial interaction modelling: two divergent research streams) now covers upward of 76 papers citing Wilson and Hansen, condensed into about 3 pages. This section sets the stage by outlining Wilson’s balancing factors and highlighting how place-based accessibility literature (largely based on Hansen-type measures) has not adopted these balancing factors. This context is needed for the subsequent, more detailed 16-page section, which introduces the newly proposed family of accessibility measures which incorporate Wilson's balancing factors. We believe this structure balances breadth and depth appropriately; we've tried to reduce redundancies and improve when possible. We hope you find the revised manuscript easier to follow.
 
 \textcolor{blue}{4. The paper pays limited attention to recent methodological developments such as time-sensitive, network-based, or multi-modal accessibility models, as well as behavioral or utility-based approaches.}
 
 
-Thank you for this fair point. In the newly revised manuscript, we make it more clear that our focus is on place-based accessibility, which remains widely used by practitioners and prominent in the literature, as well as Wilson's spatial interaction model which is also popular in spatial interaction modeling still to this day. Given the broad scope and space constraints (the current manuscript is already quite long and conceptually broad), incorporating additional detailed discussions of novel approaches is challenging, and somewhat tangential. 
+Thank you for this fair point. In the revised manuscript, we state explicitly that our focus is on place-based accessibility, which remains widely used in practice and prominent in the literature, as well as Wilson's spatial interaction model which is also popular in spatial interaction modeling still to this day. Given the broad scope of the paper and space constraints, incorporating additional detailed discussions of novel approaches is challenging, and somewhat tangential. 
 
-However, we do acknowledge some utility-based approaches within the spatial interaction literature. For example, "The third subset of the spatial-interaction focused literature, depart from Hansen's [@hansen1959] definition, aligning instead with microeconomic or utility-based interpretations of potential spatial interaction e.g., [@morrisAccessibilityIndicatorsTransport1979; @leonardiRandomUtilityDemand1984]."
+However, we do acknowledge some utility-based approaches within the spatial interaction literature. For example, on page 11 "The third subset of the spatial-interaction focused literature, depart from Hansen's [@hansen1959] definition, aligning instead with microeconomic or utility-based interpretations of potential spatial interaction e.g., [@morrisAccessibilityIndicatorsTransport1979; @leonardiRandomUtilityDemand1984]."
 
 Our point with the historical review section is to demonstrate how even the papers that _do_ cite both Wilson and Hansen do not operationalise Wilson's balancing factors. Utility-based approaches take a different direction--not based on Newtonian gravitation--but also not based on Wilson's balancing factors. Indeed recent developments such as time-sensitive, network-based, or multi-modal accessibility models, as well as behavioral or utility-based approaches take on new approaches, but we believe these are tangential to our scope.
 
 Thoughts???
 
+\textcolor{red}{Rafa: perhaps we can add a sentence in the conclusion saying somehting like: "Recent developments in the literature include novel approaches to utility and person-based accessibility, including time-sensitive behavioral or utility-based approaches, that are not based on Newtonian gravitation nor on Wilson's balancing factors. Future studies could further explore how these ideas of balacing factors/spatial constraints could helo inform the new models."}
+
 \textcolor{blue}{5. The authors argue that the constrained models restore interpretability by attaching meaningful units (e.g., number of people or opportunities). However, this is not substantiated with user- or practitioner-oriented tests.}
 
-This is a very fair point. Inside of explaining results with an empirical example, we theoretical demonstrate this throughout the paper.
+Thank you for giving us the opportunity to clarify this point. The argument that constrained models attaches meaningful units to accessibility measure is theoretically demonstrated in the paper, and can be checked with careful examination of the equations. Nonetheless, we also believe this is demonstrated with the explanation of the toy example used in the paper.
 
 First, this idea is brought up more concretely on page 5, when discussing Stewart (1948)'s use of his proportionality constant $G$: "In other words, the addition of $G$ shifts results from being abstract indicators of potential (i.e., $\frac{\text{people}^2}{\text{distance}^{2}}$) to having interpretable units grounded in consistent, albeit still abstract, quantities (i.e., units of demographic force)." 
 
@@ -90,7 +103,9 @@ pg. 18:"One can also directly compare values at a specific zone, across travel i
 
 \textcolor{blue}{6. Some sections suffer from repetition and overly technical language without summarizing takeaways (e.g., Table 1 is helpful, but the text before and after it repeats much of the same information).}
 
-Excellent point. We've decided to remove Table 1 all together, and provide a more condensed version of it in text on pg 13/14. Namely:
+\textcolor{red}{Rafa: I actually liked table 1 and thought perhaps we should keep the table and remove the redundancy of the text around it. But I'm Ok with this solution below."}
+
+Excellent point. We've streamlined redundancies throughout the manuscript, especially in the "A family of accessibility measures" section. Specifically regarding table 1, we've decided to remove Table 1 all together, and provide a more condensed version of it in text on pg 13/14. Namely:
 
 "The proportional allocation constant $\kappa$ takes the form of a balancing factor that varies depending on the constraints applied. Each member of the accessibility measure family is defined by the constraints used, and can be grouped into the following four cases:
 
@@ -111,4 +126,4 @@ Excellent point. We've decided to remove Table 1 all together, and provide a mor
 - Simultaneous application ensures both the destination-side _and_ origin-side marginal totals are maintained (blue and red boxes in @fig-analytical-device-conc-accessibility).
 - Interpretable only as $ij$ and $ji$ flows, since aggregation at $i$ and $j$ simply reproduces known totals. Represents ‘interaction capacity’ or ‘realized access’ serving as predictions of real interaction flows."
 
-We hope this addresses your concern! As well, we've streamlined redundancies throughout the manuscript, especially in the "A family of accessibility measures" section.
+We hope this addresses your concern! 
