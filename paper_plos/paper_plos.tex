@@ -61,15 +61,17 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
 
@@ -194,9 +196,7 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
+
 \usepackage[numbers,square,comma]{natbib}
 \bibliographystyle{plos2015}
 \usepackage{bookmark}
@@ -208,6 +208,7 @@
   pdfauthor={Anastasia Soukhov; Rafael H. M. Pereira; Christopher D. Higgins; Antonio Páez},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
+
 
 
 
@@ -289,22 +290,20 @@ a clearer and more coherent basis for accessibility analysis.
 
 
 \linenumbers
+
 \section{Introduction}\label{introduction}
 
-In the early nineteenth century, rapid urbanisation driven by
-industrialisation expanded cities across Great Britain, Northern Europe,
-and North America. This expansion led to traffic congestion and the
-emergence of a transportation planning paradigm focused primarily on
-mobility. Within this new practice, access to destinations was treated
-as a by-product of movement. After World War II, major investments in
-automobile and transportation infrastructure cemented this
-mobility-oriented model, fostering flight from urban congested cities,
+In the early twentieth century, the emergence of a transportation
+planning paradigm focused primarily on mobility cemented major
+investments in automobile and transportation infrastructure, fostering
 lower-density sprawl, car-dependent development and entrenching
 automobility in planning practice
-\citep{miller_collaborative_2011, lavery_driving_2013}. Despite
-continued road and highway expansion, this automobility monoculture has
-proven ineffective at reducing travel costs or environmental burdens,
-and has not clearly improved people's ability to reach destinations
+\citep{miller_collaborative_2011, lavery_driving_2013}. Within this new
+practice, access to destinations was treated as a by-product of
+movement. Despite continued road and highway expansion, this
+automobility monoculture has proven ineffective at reducing travel costs
+or environmental burdens, and has not clearly improved people's ability
+to reach destinations
 \citep{farber_running_2011, handyACCESSIBILITYVSMOBILITYENHANCING2002, paez_healthcare_2010}.
 
 In response, transportation researchers have increasingly advocated for
@@ -357,8 +356,8 @@ FCA \citep{wan2012three}, Modified 2-Step FCA
 these methods are tailored to address specific research contexts,
 overall this diversity does not demystify existing questions like those
 raised in \citep{vanweeAccessible2016}: How should practitioners
-interpret difference in scores between modes, and how should results be
-communicated?
+interpret differences in accessibility scores between modes, and how
+should results be communicated?
 
 Rather than propose a new measure, this work argues for a return to the
 spatial interaction foundations of accessibility. Specifically, we show
@@ -447,12 +446,11 @@ Where \(G\) is the gravitational constant--an empirically calibrated
 value that ensures the model reflects observed forces. Newton's initial
 estimate of \(G\) was based on a speculation that the mean density of
 earth was between five or six times that of water, an assumption that
-received support after Hutton's experiments of 1778
-\citep[p.~783]{hutton_xxxiii_1778} and Cavendish's 1798 experiment
-\citep{cavendish_xxi_1798} to estimate of the proportionality constant
-to within 1\% accuracy. In sum: it took over a century from the
-publication of \emph{Principia} to refine the estimate of the
-proportionality constant.
+received support after Hutton's and Cavendish's experiments in the late
+1700s \citep{hutton_xxxiii_1778, cavendish_xxi_1798} to estimate of the
+proportionality constant to within 1\% accuracy. In sum: it took over a
+century from the publication of \emph{Principia} to refine the estimate
+of the proportionality constant.
 
 The Newtonian gravitational relationship laid the conceptual groundwork
 for later empirical studies of human spatial interaction, such as those
@@ -465,15 +463,14 @@ arbitrarily set to equality.
 (1889) to Stewart
 (1948)}\label{early-research-on-human-spatial-interaction-from-ravenstein-1889-to-stewart-1948}
 
-Following Carey's \emph{Principles of Social Science}
-\citep{careyPrinciplesSocialScience1858}, research into human spatial
-interaction continued in different contexts. Namely, since Carey to the
-1940s, a number of researchers theoretically and empirically attempted
-to characterise human spatial interaction as a force \(F\) directly
-proportional to the ``masses'' \(M_i\) and \(M_j\) of two locations, and
-inversely proportional to their separation distance--conceptually
-parallel to Newtonian gravity, but often omitting a proportionality
-constant.
+Following Carey's work \citep{careyPrinciplesSocialScience1858},
+research into human spatial interaction continued in different contexts.
+Namely, since Carey to the 1940s, a number of researchers theoretically
+and empirically attempted to characterise human spatial interaction as a
+force \(F\) directly proportional to the ``masses'' \(M_i\) and \(M_j\)
+of two locations, and inversely proportional to their separation
+distance--conceptually parallel to Newtonian gravity, but often omitting
+a proportionality constant.
 
 Beginning with Ravenstein in the late 1880s, his works proposed some
 ``Laws of Migration'' based on his empirical analysis of migration flows
@@ -497,11 +494,9 @@ The \(\frac{P_1P_2}{D}\) hypothesis stated that the magnitude of flows
 was proportional to the product of the populations of settlements, and
 inversely proportional to the distance between them.
 
-A common feature of these early investigations of human spatial
-interaction is that a proportionality constant, similar to \(G\) in
-Eq~\ref{eq-phys-grav} was never considered. Of the researchers cited
-above, only Reilly and Zipf expressed their hypotheses in mathematical
-terms. Reilly's hypothesis was presented in the following form:
+Of the researchers cited above, only Reilly and Zipf expressed their
+hypotheses in mathematical terms. Reilly's hypothesis was presented in
+the following form:
 
 \begin{equation}\phantomsection\label{eq-reilly}{
 B_a = \frac{(P_a P_T)^N}{D_{aT}^n}
@@ -526,20 +521,20 @@ and \(D_{12}\) is the distance between them.
 These early formulations (Eq~\ref{eq-reilly}, Eq~\ref{eq-zipf}) clearly
 reflect the influence of Newtonian gravity on human spatial interaction
 theory, revealing a shared mathematical structure across migration,
-trade, and communication models. However, none included a
-proportionality constant--highlighting a consistent omission of the
-empirical calibration necessary to convert these proportional
-relationships into measurable and comparable quantities.
+trade, and communication models.
 
-After Carey and folowing Reilly and Zipf, it is only in Stewart
+However, a common feature of these early investigations is that none of
+them included a proportionality constant (similar to \(G\) in
+Eq~\ref{eq-phys-grav}), a consistent omission of the empirical
+calibration necessary to convert these proportional relationships into
+measurable and comparable quantities. It is only in Stewart
 \citep{stewartDemographicGravitationEvidence1948} that we find the most
 explicit connection yet to Newton's Gravitational law and the use of a
-proportionality constant. Besides awareness of preceding research (i.e.,
-Stewart cites both Reilly and Zipf as predecessors in the analysis of
-human spatial interaction), Stewart appears to have been the first
-author to express his theorized relationships for human spatial
-interaction with a proportionality constant \(G\), enabling his
-formulation to be interpreted as a measurable `demographic' force:
+proportionality constant. While acknowledging predecessors like Reilly
+and Zipf, the physicist Stewart was likely the first author to formalize
+human spatial interaction using an explicit proportionality constant
+\(G\), enabling his formulation to be interpreted as a measurable
+`demographic' force:
 
 \begin{equation}\phantomsection\label{eq-stewart-force}{
 F = G\frac{(\mu_1N_1)(\mu_2N_2)}{d_{12}^2} = G\frac{M_1 M_2}{d_{12}^2} 
@@ -596,16 +591,16 @@ favour--due to inconsistent mathematical notation (e.g., \(G\) is used
 as both a proportionality constant p.~34 and then later as
 \emph{demographic energy} on p.~53.) and its racist and unscientific
 assumptions (e.g., view of humans as particles following physical laws
-and assumptions of the molecular weight \(\mu\) of the average American
-being one, but ``presumably\ldots much less than one\ldots.for an
-Australian aborigine'' {[}p.~35{]})--his introduction of a
-proportionality constant \(G\) in modeling demographic force marks an
-important conceptual step: recognizing that moving from proportionality
-to equality requires empirical calibration. In other words, the addition
-of \(G\) shifts results from being abstract indicators of potential
-(i.e., \(\frac{\text{people}^2}{\text{distance}^{2}}\)) to having
-interpretable units grounded in consistent, albeit still abstract,
-quantities (i.e., units of demographic force).
+and assumptions of the molecular weight of the average American being
+one, but ``presumably\ldots much less than one\ldots.for an Australian
+aborigine'' {[}p.~35{]})--his introduction of a proportionality constant
+\(G\) in modeling demographic force marks an important conceptual step:
+recognizing that moving from proportionality to equality requires
+empirical calibration. In other words, the addition of \(G\) shifts
+results from being abstract indicators of potential (i.e.,
+\(\frac{\text{people}^2}{\text{distance}^{2}}\)) to having interpretable
+units grounded in consistent, albeit still abstract, quantities (i.e.,
+units of demographic force).
 
 As will be discussed, when Hansen \citep{hansen1959} later adopted
 Stewart's formula (Eq~\ref{eq-stewart-population-potential-sum}) for
@@ -647,11 +642,13 @@ inverse power \(d^{-\beta}\) as follows:
 S_{i} = \sum_j O_j  f(d_{ij})
 }\end{equation}
 
+\textcolor{red}{Rafa: there is no $\beta$ in this equation. Check text in paragraph below.}
+
 \(S_{i}\) in Eq~\ref{eq-accessibility-general} is a measure of the
 accessibility from site \(i\). This is a function of \(O_j\) (the mass
 of opportunities at \(j\)), \(d_{ij}\) (the cost, e.g., distance or
-travel time, incurred to reach \(j\) from \(i\)), and \(\beta\) (a
-parameter that modulates the friction of cost). Today, Hansen is
+travel time, incurred to reach \(j\) from \(i\)), and \(f(d_{ij})\) (a
+function that modulates the friction of cost). Today, Hansen is
 frequently cited as the father of modern accessibility analysis
 \citep[e.g.,][]{reggianiGuestEditorialNew2011}, and Hansen-type
 accessibility is commonly referred to as the gravity-based accessibility
@@ -693,7 +690,8 @@ accessibility but lack cardinal meaning or consistent units
 \citep{millerAccessibilityMeasurementApplication2018}. The continued
 absence of a sort of proportionality constant \(G\) leaves a conceptual
 and practical gap in accessibility analysis: a missing link between
-theoretical form and empirical measurement.
+theoretical form and empirical measurement that hinders the
+interpretability of accessibility measures.
 
 \section{Wilson's family of spatial interaction
 models}\label{wilsons-family-of-spatial-interaction-models}
@@ -702,10 +700,10 @@ While accessibility research evolved in North America with Hansen
 \citep{hansen1959}, a parallel development was taking place across the
 Atlantic with Alan G. Wilson. Wilson's ground breaking paper
 \citep{wilson1971}, advanced a general framework for spatial interaction
-modeling--focused on modeling flows of interaction between places. This
-work was not focused on the `potential' concept as accessibility has
-been. Wilson \citep{wilson1971} formalized the general spatial
-interaction model through the following equation:
+modeling focused on flows of interaction between places. This work was
+not focused on the `potential' concept as accessibility has been. Wilson
+\citep{wilson1971} formalized the general spatial interaction model
+through the following equation:
 
 \begin{equation}\phantomsection\label{eq-phys-gravity-model}{
 T_{ij} = k W_i^{(1)} W_j^{(2)} f(c_{ij})
@@ -782,12 +780,13 @@ more useful as these factors not only preserve proportionality but also
 ensure that the predicted flows \(T_{ij}\) align with the known
 constraints considered in the system. In other words, the different
 balancing factors adjust the model so that flows become statistical
-averages consistent with observed origin and/or destination data. In the
-framework introduced and inferred from Wilson \citep{wilson1971}, three
-types of balancing factors are specified: (1) an unconstrained model
-that only matches the total volume of interaction \(K\), (2) a singly
-constrained model (either by origins \(A_i\) or destinations \(B_j\)),
-and (3) a doubly constrained model that satisfies both.
+averages consistent with observed origin and/or destination data.
+
+In the framework introduced and inferred from Wilson \citep{wilson1971},
+three types of balancing factors are specified: (1) an unconstrained
+model that only matches the total volume of interaction \(K\), (2) a
+singly constrained model (either by origins \(A_i\) or destinations
+\(B_j\)), and (3) a doubly constrained model that satisfies both.
 
 In the unconstrained model, constraints in
 Eq~\ref{eq-constraint1-gravitymodel} and
@@ -881,8 +880,8 @@ being modelled. In this way, spatial interaction modeling tradition can
 be seen to have succeeded where accessibility modeling stalled. While
 Wilson's model produces results that are in units of flow tethered to
 the system of analysis, Hansen-type measures (still widely used today)
-yield outputs that \emph{indicate} a proportional relationship and not
-one of equality nor yielding results without interpretable units.
+yield outputs that reflect proportional---not equal---relationships and
+typically lack interpretable units.
 
 As a preview for the work ahead: Wilson's balancing factors can be
 manipulated into \emph{proportional allocation factors} and equations
@@ -908,7 +907,7 @@ streams}\label{accessibility-and-spatial-interaction-modelling-two-divergent-res
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{paper_plos_files/figure-pdf/fig-docs-per-year-1.pdf}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{paper_plos_files/figure-pdf/fig-docs-per-year-1.pdf}
 
 }
 
@@ -1027,7 +1026,7 @@ Firstly, there is a group of articles within this stream that cite
 Wilson \citep{wilson1971} exclusively as attribution for using
 context-dependent travel cost functions. This trend is common: for
 instance it is done in
-\citep{weibullNumericalMeasurementAccessibility1980, handyMeasuringAccessibilityExploration1997, kwan1998space, shenLocationCharacteristicsInnercity1998, ashiru2003space, rau2012spatial, pan2013impacts, margaridacondecomelhoradoImpactMeasuringInternal2016, caschili2015accessibility, grengs2015nonwork, pan2020measuring, chia2020extending, roblot2021participation, sharifiasl2023incorporating, kharel2024examining}.
+\citep{handyMeasuringAccessibilityExploration1997, weibullNumericalMeasurementAccessibility1980, kwan1998space, shenLocationCharacteristicsInnercity1998, ashiru2003space, rau2012spatial, pan2013impacts, margaridacondecomelhoradoImpactMeasuringInternal2016, caschili2015accessibility, grengs2015nonwork, pan2020measuring, chia2020extending, roblot2021participation, sharifiasl2023incorporating, kharel2024examining}.
 However, these works do not engage with spatial interaction beyond this
 attribution.
 
@@ -1036,7 +1035,7 @@ interaction, as defined in Wilson \citep{wilson1971}, with
 accessibility's potential for spatial interaction--but only
 superficially. These works acknowledge the conceptual link, but do not
 go beyond this recognition in the scope of their works e.g.,
-\citep{millerMeasuringSpaceTimeAccessibility1999, giuliano2010accessibility, grengs2010intermetropolitan, grengs2010job, grengs2012equity, levine2012does, levinson2012positive, tong2015transportation, liu2015spatial, he2017measuring, wuUnifyingAccess2020, ng2022reflection, naqavi2023mobility, suel2024measuring}.
+\citep{grengs2010job, millerMeasuringSpaceTimeAccessibility1999, giuliano2010accessibility, grengs2010intermetropolitan, grengs2012equity, levine2012does, levinson2012positive, tong2015transportation, liu2015spatial, he2017measuring, wuUnifyingAccess2020, ng2022reflection, naqavi2023mobility, suel2024measuring}.
 Indeed, while accessibility can be seen as the \emph{potential} for
 spatial interaction--and Wilson \citep{wilson1971} briefly touches on
 this--such mentions have not resulted in deeper analytical integration
@@ -1072,7 +1071,7 @@ the relative travel impedance). This is to ensure that each zonal
 accessibility value is the sum of this proportional allocation from each
 destination, and that all zonal values ultimately sum to the total
 number of opportunities in the region. However, these balancing factors
-were deduced intuitively. These works do not explicitly state that the
+were deduced intuitively. These works did not explicitly state that the
 mathematical formulation of the equations are effectively equivalent to
 Wilson's singly constrained model (derived from entropy maximization).
 This equivalence is only discovered in hindsight, as will be
@@ -1080,18 +1079,18 @@ demonstrated in the following section. These two works also do not
 discuss other constrained cases that will also be addressed.
 
 In sum, despite the interpretative advantaged offered by the statistical
-logic of Wilson \citep{wilson1971}'s framework, the spatial
-interaction-oriented Hansen \citep{hansen1959} citing literature nor the
-accessibility-oriented literature that cite Wilson \citep{wilson1971}
-have yet to meaningfully adopt Wilson's constraint-based logic to the
-concept of accessibility. So, in the next section, we demonstrate how
-applying Wilson's framework enables accessibility to move from a
-proportional relationship to calibrated equality--tying outputs to
-tangible system knowns. This re-expression of accessibility using
-constraints yields interpretable, unit-consistent measures of
-opportunity. This approach takes the same path of entropy-maximisation
-as in Wilson \citep{wilson1971}, and does not rely on specifying some
-universal constant \(G\) like initially proposed in Stewart
+logic of Wilson \citep{wilson1971}'s framework, neither the spatial
+interaction literature that cites Hansen \citep{hansen1959} nor the
+accessibility literature citing Wilson \citep{wilson1971} has
+meaningfully applied Wilson's constraint-based logic to the concept of
+accessibility. So, in the next section, we demonstrate how applying
+Wilson's framework enables accessibility to move from a proportional
+relationship to calibrated equality--tying outputs to tangible system
+knowns. This re-expression of accessibility using constraints yields
+interpretable, unit-consistent measures of opportunity. This approach
+takes the same path of entropy-maximisation as in Wilson
+\citep{wilson1971}, and does not rely on specifying some universal
+constant \(G\) like initially proposed in Stewart
 \citep{stewartDemographicGravitationEvidence1948} (recall,
 Eq~\ref{eq-stewart-population-potential-sum} which Hansen
 \citep{hansen1959} operationalised).
@@ -1105,15 +1104,9 @@ constraint-based logic of the latter. This section introduces this
 reframing: defining a family of accessibility measures using Wilson's
 approach grounded in statistical mechanics, shifting place-based
 accessibility (a la Hansen \citep{hansen1959}) from a relationship
-describing proportionality to equality.
-
-This shift addresses the fundamental issue of interpretability
-associated with the proportional nature of Hansen-type accessibility
-indicators we previous outlined. Rather than relying on arbitrary or
-uncalibrated proportional relationships (or invoking a universal
-constant \(G\) as proposed in Stewart
-\citep{stewartDemographicGravitationEvidence1948}) we adopt Wilson's
-approach grounded in statistical mechanics.
+describing proportionality to equality. This shift addresses the
+fundamental issue of interpretability associated with the proportional
+nature of Hansen-type accessibility indicators we previous outlined.
 
 To do so, we propose a revised definition of accessibility considerate
 of the constraint-based spatial interaction model: the potential for
@@ -1163,7 +1156,7 @@ while the total marginal sums these values.
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/access-analytical-device.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/access-analytical-device.png}
 
 }
 
@@ -1596,13 +1589,18 @@ impedance scenarios, due to the consistent units. As the decay scenario
 decreases, all zones become more accessible to each other and the
 differences between pairs diminishes (i.e., in \(f_3(c_{ij})\) each zone
 captures close to an average amount of physicians, a third of 490 or
-\textasciitilde163). This averaging of the total amount is how the total
-constrained proportional allocation factor functions. However, what's
-notable is how Zones change between scenarios. For instance, Zone 1's
-share only declines slightly--these declines are outpaced by Zone 2's
-relative gains. This shift reflects how \(\kappa_{ij}^T\) redistributes
-opportunities in proportion to impedance under different travel
-behaviours.
+\textasciitilde163). In terms of proportional magnitude, this can also
+be observed in the unconstrained measure for this scenario. However, for
+the total constrained measure, this plateauing of results have meaning.
+In fact, each zone is allocated an average of the total amount in the
+region, as a result of the total constrained proportional allocation
+factor.
+
+However, what's notable is how Zones change between scenarios. For
+instance, Zone 1's share only declines slightly--these declines are
+outpaced by Zone 2's relative gains. This shift reflects how
+\(\kappa_{ij}^T\) redistributes opportunities in proportion to impedance
+under different travel behaviours.
 
 The total constrained accessibility measure resolves the
 interpretability issue of Hansen's accessibility (i.e., unconstrained
@@ -2418,5 +2416,6 @@ help advance the adoption of accessibility-oriented planning.
 
 \nolinenumbers
   \bibliography{bibliography.bib}
+
 
 \end{document}
