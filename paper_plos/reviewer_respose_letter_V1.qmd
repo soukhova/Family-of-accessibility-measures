@@ -1,6 +1,7 @@
 ---
 title: Response to reviewers
 format: pdf
+bibliography: bibliography.bib 
 ---
 
 Dear editors,
@@ -13,7 +14,7 @@ We appreciate the valuable comments from the reviewers. We have done our best to
 
 As a whole, we believe the paper is more consistent after heeding the reviewer's comments. We hope you and the reviewers will agree. Please see below the point-by-point replies, with our response in black font and the reviewers comments in \textcolor{blue}{blue}.
 
-# Response to Reviewer #1
+# Response to Reviewer 1
 
 \textcolor{blue}{Thanks for the opportunity to review a paper that handles an interesting topic. I think the major contribution of the paper lies in 1) combining the concept of accessibility and spatial interaction modeling and 2) classifying the numerous accessibility measures into four categories based on the constraints. While the topic is really interesting and handles the important topic, I would like to ask the authors to revise the paper due to the following reasons.}
 
@@ -45,7 +46,7 @@ Fair points, thank you for raising them. To assist with comprehension, we now cl
 
 Furthermore, regarding the equations -- 10 equations have now been removed because they did not directly further the argument of the section or are redundant. For instance, some equations in "Early research on human spatial interaction" have been removed, and rewritings of Wilson's general formula from "Wilson's family of spatial interaction models" section have been removed.
 
-# Response to Reviewer #2
+# Response to Reviewer 2
 
 \textcolor{blue}{This manuscript presents a theoretically motivated and conceptually rich framework that bridges spatial interaction modeling and accessibility measures. The authors introduce a family of accessibility metrics grounded in Wilson's spatial interaction models and argue convincingly for the reintroduction of interpretability and measurement units in accessibility analysis. The historical tracing of accessibility theory development and the synthesis of divergent literature streams are timely and valuable contributions to the field.}
 
@@ -94,20 +95,17 @@ pg. 6: "Furthermore, working with a proportional relationship generates fundamen
 
 And to solidify this point, again more theoretically but still practically, we develop and solve the toy example. We discuss the advantage of interpreting the units when constraints are used, and the challenge of doing so across toy example scenarios in the case of the unconstrained example. 
 
-Namely, concerning the unconstrained example on pg. 16 we write: "For example, Table 3 shows $V^0_{i}$ under each decay function. Comparing across decay types is meaningless in absolute terms. For instance, the difference in zone 1 (edge of urban core)'s accessibility under $f_3$ vs $f_1$ is 370.92, but in what units? These two values are a product of different impedance functions ( _physicians-minute$^{-3}$_ and _physicians-minute$^{-0.1}$_), making the comparison uninterpretable (and arguably incorrect). The fundamental uninterpretability of what is a _opportunity-weighted-travel-impedance_ unit remains."
+Namely, concerning the unconstrained example on pg. 17 we write: "For example, Table 4 shows $V^0_{i}$ under each decay function. Comparing across decay types is meaningless in absolute terms. For instance, the difference in zone 1 (edge of urban core)'s accessibility under $f_3$ vs $f_1$ is 370.92, but in what units? These two values are a product of different impedance functions ( _physicians-minute$^{-3}$_ and _physicians-minute$^{-0.1}$_), making the comparison uninterpretable (and arguably incorrect). The fundamental uninterpretability of what is a _opportunity-weighted-travel-impedance_ unit remains."
 
-Building on this idea, we discuss the interpretive clarity in the total constrained numeric example on pg. 18: "Compared to the unconstrained case, values now sum to the known regional total $D$, allowing interpretation of absolute and relative differences across zones and travel scenarios. For example, in the highest decay case, Zone 1 (Urban Edge) captures an intermediate number of physicians (172.06), like in the unconstrained accessibility case. However, unlike in the unconstrained case, we can say that this value is out of the 490 physicians in the region, which allows us also to deduce that zone 1 captures 1.31 and 0.92 times more than zone 2 and 3."
+Building on this idea, we discuss the interpretive clarity in the total constrained numeric example on pg. 19: "Compared to the unconstrained case, values now sum to the known regional total $D$, allowing interpretation of absolute and relative differences across zones and travel scenarios. For example, in the highest decay case, Zone 1 (Urban Edge) captures an intermediate number of physicians (172.06), like in the unconstrained accessibility case. However, unlike in the unconstrained case, we can say that this value is out of the 490 physicians in the region, which allows us also to deduce that zone 1 captures 1.31 and 0.92 times more than zone 2 and 3."
 
-We also go on to write on pg. 18: "One can also directly compare values at a specific zone, across travel impedance scenarios, due to the consistent units. As the decay scenario decreases, all zones become more accessible to each other and the differences between pairs diminishes (i.e., in $f_3(c_{ij})$ each zone captures close to an average amount of physicians, a third of 490 or ~163). In terms of proportional magnitude, this can also be observed in the unconstrained measure for this scenario. However, for the total constrained measure, this plateauing of results have meaning. In fact, each zone is allocated an average of the total amount in the region, as a result of the total constrained proportional allocation factor."
+We also go on to write on pg. 19: "One can also directly compare values at a specific zone, across travel impedance scenarios, due to the consistent units. As the decay scenario decreases, all zones become more accessible to each other and the differences between pairs diminishes (i.e., in $f_3(c_{ij})$ each zone captures close to an average amount of physicians, a third of 490 or ~163). In terms of proportional magnitude, this can also be observed in the unconstrained measure for this scenario. However, for the total constrained measure, this plateauing of results have meaning. In fact, each zone is allocated an average of the total amount in the region, as a result of the total constrained proportional allocation factor."
 
 Through the discussion of the toy example, we hope we make clear the interpretative clarity that using the constrained framework offers. 
 
 \textcolor{blue}{6. Some sections suffer from repetition and overly technical language without summarizing takeaways (e.g., Table 1 is helpful, but the text before and after it repeats much of the same information).}
 
-\textcolor{red}{Rafa: I actually liked table 1 and thought perhaps we should keep the table and remove the redundancy of the text around it. But I'm Ok with this solution below."}
-\textcolor{red}{Ana: What do you think Chris? I prefer my approach as opposed to the table, but I could easily add it back in. The Table looks a bit confusing in my eyes, I personally don't like reading text in tables, I like reading text in paragraphs.}
-
-Excellent point. We've streamlined redundancies throughout the manuscript, especially in the "A family of accessibility measures" section. Specifically regarding table 1, we've decided to remove Table 1 all together, and provide a more condensed version of it in text on pg 13/14. Namely:
+A fair point. We've streamlined redundancies throughout the manuscript, especially in the "A family of accessibility measures" section. Specifically regarding table 1, we've gone back-and-forth on it and ultimately opt to include it as a helpful and more plain-language summary. We also provide more condensed descriptions in text, namely:
 
 "The proportional allocation constant $\kappa$ takes the form of a balancing factor that varies depending on the constraints applied. Each member of the accessibility measure family is defined by the constraints used, and can be grouped into the following four cases:
 
@@ -116,16 +114,18 @@ Excellent point. We've streamlined redundancies throughout the manuscript, espec
 - No balancing factors applied; units are in "opportunities-by-impedance" for $V_i^0$ or "population-by-impedance" for $M_j^0$.
 - No constraints are applied, so values reflect proportionality only and are not calibrated to known system totals.
 2. **Total Constrained Case ($V_i^T$, $M_j^T$)**
-- Applies a total proportional allocation factor ($\kappa_{ij}^T$, $\hat \kappa_{ji}^T$) based only on the total marginal (green box in @fig-analytical-device-conc-accessibility) i.e., total number of opportunities or population in the system. This ensures the sum of all values in the system match the total marginal.
+- Applies a total proportional allocation factor ($\kappa_{ij}^T$, $\hat \kappa_{ji}^T$) based only on the total marginal (green box in Figure 2) i.e., total number of opportunities or population in the system. This ensures the sum of all values in the system match the total marginal.
 - Units of $V_i^T$: accessible opportunities from $i$, a value that is total constrained and linearly proportion to $V_i^0$.
 - Units of $M_j^T$: accessible population from $j$, a value that is total constrained and linearly proportion to $M_j^0$.
 3. **Singly Constrained Case ($V_i^S$, $M_j^S$)**
-- Applies singly-constrained proportional allocation factors ($\kappa_{ij}^S$, $\hat \kappa_{ji}^S$) based on Wilson's balancing factors ($B_j$, $A_i$) to preserve either the destination-side or origin-side marginal totals (blue and red boxes in @fig-analytical-device-conc-accessibility) i.e., the number of opportunities or population at each zone. Reflects how the literature calculates competitive accessibility.
+- Applies singly-constrained proportional allocation factors ($\kappa_{ij}^S$, $\hat \kappa_{ji}^S$) based on Wilson's balancing factors ($B_j$, $A_i$) to preserve either the destination-side or origin-side marginal totals (blue and red boxes in Figure 2) i.e., the number of opportunities or population at each zone. Reflects how the literature calculates competitive accessibility.
 - Units of $V_i^S$: accessible opportunities from $i$, a value that is the sum of opportunity supply flows allocated proportionally based on demand at $i$. Mathematically equivalent in per-capita form to 2SFCA [@luo2003].
 - Units of  $M_j^S$: accessible population from $j$, a value that is the sum of population demand flows allocated proportionally based on supply at $j$.
 4. **Doubly Constrained Case ($V_{ij}^D$, $M_{ji}^D$)**
 - Constrained on both origin and destination sides using both $A_i$ and $B_j$ simultaneously, which can also be expressed as proportional allocation factors ($\kappa_{ij}^D$, $\hat \kappa_{ji}^D$); equivalent in interpretation to Wilson's [@wilson1971] doubly constrained spatial interaction model.
-- Simultaneous application ensures both the destination-side _and_ origin-side marginal totals are maintained (blue and red boxes in @fig-analytical-device-conc-accessibility).
+- Simultaneous application ensures both the destination-side _and_ origin-side marginal totals are maintained (blue and red boxes in Figure 2).
 - Interpretable only as $ij$ and $ji$ flows, since aggregation at $i$ and $j$ simply reproduces known totals. Represents ‘interaction capacity' or ‘realized access' serving as predictions of real interaction flows."
 
 We hope this addresses your concern! 
+
+# References
