@@ -1,4 +1,5 @@
 % Options for packages loaded elsewhere
+% Options for packages loaded elsewhere
 \PassOptionsToPackage{unicode}{hyperref}
 \PassOptionsToPackage{hyphens}{url}
 %
@@ -10,21 +11,23 @@
   10pt,
   letterpaper,
 ]{article}
-
+\usepackage{xcolor}
+\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
 \usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 \usepackage{iftex}
 \ifPDFTeX
   \usepackage[T1]{fontenc}
   \usepackage[utf8]{inputenc}
   \usepackage{textcomp} % provide euro and other symbols
 \else % if luatex or xetex
-  \usepackage{unicode-math}
+  \usepackage{unicode-math} % this also loads fontspec
   \defaultfontfeatures{Scale=MatchLowercase}
   \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
 \fi
 \usepackage{lmodern}
-\ifPDFTeX\else  
-    % xetex/luatex font selection
+\ifPDFTeX\else
+  % xetex/luatex font selection
 \fi
 % Use upquote if available, for straight quotes in verbatim environments
 \IfFileExists{upquote.sty}{\usepackage{upquote}}{}
@@ -42,14 +45,9 @@
 }{% if KOMA class
   \KOMAoptions{parskip=half}}
 \makeatother
-\usepackage{xcolor}
-\usepackage[top=0.85in,left=2.75in,footskip=0.75in]{geometry}
-\setlength{\emergencystretch}{3em} % prevent overfull lines
-\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
 
 
-\providecommand{\tightlist}{%
-  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}\usepackage{longtable,booktabs,array}
+\usepackage{longtable,booktabs,array}
 \usepackage{calc} % for calculating minipage widths
 % Correct order of tables after \paragraph or \subparagraph
 \usepackage{etoolbox}
@@ -61,17 +59,35 @@
 \makesavenoteenv{longtable}
 \usepackage{graphicx}
 \makeatletter
-\def\maxwidth{\ifdim\Gin@nat@width>\linewidth\linewidth\else\Gin@nat@width\fi}
-\def\maxheight{\ifdim\Gin@nat@height>\textheight\textheight\else\Gin@nat@height\fi}
-\makeatother
-% Scale images if necessary, so that they will not overflow the page
-% margins by default, and it is still possible to overwrite the defaults
-% using explicit options in \includegraphics[width, height, ...]{}
-\setkeys{Gin}{width=\maxwidth,height=\maxheight,keepaspectratio}
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
 % Set default figure placement to htbp
-\makeatletter
 \def\fps@figure{htbp}
 \makeatother
+
+
+
+
+
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+
+
+
+ 
+\usepackage[numbers,square,comma]{natbib}
+\bibliographystyle{plos2015}
+
 
 % Use adjustwidth environment to exceed column width (see example table in text)
 \usepackage{changepage}
@@ -194,20 +210,15 @@
 \@ifpackageloaded{caption}{}{\usepackage{caption}}
 \@ifpackageloaded{subcaption}{}{\usepackage{subcaption}}
 \makeatother
-\ifLuaTeX
-  \usepackage{selnolig}  % disable illegal ligatures
-\fi
-\usepackage[numbers,square,comma]{natbib}
-\bibliographystyle{plos2015}
 \usepackage{bookmark}
-
 \IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
-\urlstyle{same} % disable monospaced font for URLs
+\urlstyle{same}
 \hypersetup{
   pdftitle={A family of accessibility measures derived from spatial interaction principles},
   pdfauthor={Anastasia Soukhov; Rafael H. M. Pereira; Christopher D. Higgins; Antonio Páez},
   hidelinks,
   pdfcreator={LaTeX via pandoc}}
+
 
 
 
@@ -289,6 +300,7 @@ a clearer and more coherent basis for accessibility analysis.
 
 
 \linenumbers
+
 \section{Introduction}\label{introduction}
 
 In the early twentieth century, the emergence of a transportation
@@ -397,29 +409,29 @@ actionable in planning.
 
 The remainder of this paper proceeds as follows. Sections 2-4 trace the
 historical development of spatial interaction and accessibility
-research, beginning with Newtonian gravitational analogies and
-\citet{careyPrinciplesSocialScience1858} (Section 2), moving through
-early researchers like \citet{ravensteinLawsMigration1885} to
-\citet{stewartDemographicGravitationEvidence1948} who theorised and
-formalized spatial interaction patterns (Section 3), and examining how
-the ``gravity-based'' accessibility approach in \citet{hansen1959}
-became the dominant approach in planning practice (Section 4). Section 5
-presents the entropy-based family of spatial interaction models in
-\citet{wilson1971}, explaining how the introduction of ``constraints''
-(based on top-down known information as part of entropy-maximisation)
-produce interpretable, unit-consistent flow estimates. Section 6
-explores why accessibility and spatial interaction literature diverged
-into separate branches despite their shared conceptual foundations.
-Section 7 constitutes the paper's core contribution: we derive a family
-of accessibility measures corresponding to different constraints
-applied--unconstrained, singly-constrained, and doubly-constrained
-cases--demonstrating how each yields zone-level accessibility values
-expressed in meaningful units (opportunities or population) rather than
-unit-inconsistent indices. We illustrate each measure with numerical
-examples that clarify the practical implications of different constraint
-assumptions. Section 8 concludes by discussing how these constrained
-measures can inform planning decisions and improve clarity in
-accessibility analysis.
+research, beginning with Newtonian gravitational analogies and Carey
+\citep{careyPrinciplesSocialScience1858} (Section 2), moving through
+early researchers like Ravenstein \citep{ravensteinLawsMigration1885} to
+Stewart \citep{stewartDemographicGravitationEvidence1948} who theorised
+and formalized spatial interaction patterns (Section 3), and examining
+how the ``gravity-based'' accessibility approach in Hansen
+\citep{hansen1959} became the dominant approach in planning practice
+(Section 4). Section 5 presents the entropy-based family of spatial
+interaction models in Wilson \citep{wilson1971}, explaining how the
+introduction of ``constraints'' (based on top-down known information as
+part of entropy-maximisation) produce interpretable, unit-consistent
+flow estimates. Section 6 explores why accessibility and spatial
+interaction literature diverged into separate branches despite their
+shared conceptual foundations. Section 7 constitutes the paper's core
+contribution: we derive a family of accessibility measures corresponding
+to different constraints applied--unconstrained, singly-constrained, and
+doubly-constrained cases--demonstrating how each yields zone-level
+accessibility values expressed in meaningful units (opportunities or
+population) rather than unit-inconsistent indices. We illustrate each
+measure with numerical examples that clarify the practical implications
+of different constraint assumptions. Section 8 concludes by discussing
+how these constrained measures can inform planning decisions and improve
+clarity in accessibility analysis.
 
 The key insight is that accessibility need not be unit-inconsistent. By
 building from spatial interaction theory's constraint framework rather
@@ -890,16 +902,17 @@ interpretable, balanced (given the constraints), and unit-consistent
 various interpretations--as terminal costs
 \citep{dieter1962distribution}, weighted mean values
 \citep{kirbyNormalizingFactorsGravity1970}, or as accessibility measures
-themselves \citep{cesario1977new} (as suggested in \citet{Wilson1971})
-and as rents \citep{morphetGravityModelCalibration2023}--reflecting
-ongoing efforts to understand what these mathematical constructs
-represent behaviourally. In this way, the spatial interaction modeling
-tradition can be seen to have succeeded where accessibility modeling
-stalled. While Wilson's model produces results that are in units of flow
-tethered to the system of analysis, which facilitates such
-interpretations, Hansen-type measures (still widely used today in
-accessibility work) yield outputs that reflect proportional -- not equal
--- relationships and typically lack interpretable units.
+themselves (\citep{cesario1977new}, as suggested in Wilson
+\citep{wilson1971}) and as rents
+\citep{morphetGravityModelCalibration2023}--reflecting ongoing efforts
+to understand what these mathematical constructs represent
+behaviourally. In this way, the spatial interaction modeling tradition
+can be seen to have succeeded where accessibility modeling stalled.
+While Wilson's model produces results that are in units of flow tethered
+to the system of analysis, which facilitates such interpretations,
+Hansen-type measures (still widely used today in accessibility work)
+yield outputs that reflect proportional -- not equal -- relationships
+and typically lack interpretable units.
 
 Before demonstrating the derivation of family of accessibility measures
 that are sensitive to constraints (Section 7), in the next section we
@@ -916,7 +929,7 @@ streams}\label{accessibility-and-spatial-interaction-modelling-two-divergent-res
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{paper_plos_V2_files/figure-pdf/fig-docs-per-year-1.pdf}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{paper_plos_V2_files/figure-pdf/fig-docs-per-year-1.pdf}
 
 }
 
@@ -1166,7 +1179,7 @@ while the total marginal sums these values.
 
 \centering{
 
-\includegraphics[width=0.7\textwidth,height=\textheight]{../figures/access-analytical-device.png}
+\includegraphics[width=0.7\linewidth,height=\textheight,keepaspectratio]{../figures/access-analytical-device.png}
 
 }
 
@@ -2441,5 +2454,6 @@ could also help inform these and other new modeling approaches.
 
 \nolinenumbers
   \bibliography{bibliography.bib}
+
 
 \end{document}
