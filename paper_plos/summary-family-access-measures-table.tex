@@ -1,12 +1,12 @@
 {\tiny
 \begin{longtable}{|p{2.5cm}|p{2.5cm}|p{2.5cm}|p{3cm}|p{3cm}|}
 \hline
-\textbf{Name of Member and Variant} & \textbf{Constraint Explanation and Balancing Factor} & \textbf{Proportional Allocation Factor} & \textbf{Measure Equation} & \textbf{Interpretation} \\
+\textbf{Name of Member and Variant} & \textbf{Constraint Explanation and Balancing Factor} & \textbf{Proportional Allocation Factor} & \textbf{Accessibility Measure Equation} & \textbf{Interpretation} \\
 \hline
 \endfirsthead
 
 \hline
-\textbf{Name of member and Variant} & \textbf{Constraint Explanation and Balancing Factor} & \textbf{Proportional Allocation Factor} & \textbf{Measure Equation} & \textbf{Interpretation} \\
+\textbf{Name of member and Variant} & \textbf{Constraint Explanation and Balancing Factor} & \textbf{Proportional Allocation Factor} & \textbf{Accessibility Measure Equation} & \textbf{Interpretation} \\
 \hline
 \endhead
 
@@ -17,7 +17,7 @@ Unconstrained Accessible Opportunities ($V_i^0$) and Unconstrained Accessibile P
 
 $M_j^0 = \sum_i O_i f(c_{ij})$
 
-& Values in various units depending on the impedance and destination-mass (e.g., "opportunities x decay") for $V_i^0$ andimpedance and origin-mass (e.g., "population x decay"); no total or marginal constraint \\
+& Values in various units depending on the impedance and destination-mass (e.g., "opportunities x decay") for $V_i^0$ and impedance and origin-mass (e.g., "population x decay") for $M_j^0$; no total or marginal constraint \\
 \hline
 
 Total Constrained Accessible Opportunities ($V_i^T$) and Total Constrained Accessibile Population ($M_j^T$)
@@ -34,7 +34,7 @@ $\hat{K}^T = \frac{O}{\sum_j M_j^0}$
 $M_j^T =  \sum_i \hat{\kappa}_{ji}^T O$
 
 
-& Values reflect a share of total regional opportunities ($V^T_i$) or population ($M^T_j$). \\
+& Values reflect a share of the total opportunities in the region $D$ for $V^T_i$ or total population in the region $O$ for $M^T_j$. \\
 \hline
 
 Singly Constrained Accessible Opportunities ($V_i^S$) and Singly Constrained Accessible Population ($M_j^S$)
@@ -50,7 +50,7 @@ $A_i = \frac{1}{\sum_j W_j^{(2)} f(c_{ij})}$
 
 $M_j^S =  \sum_i \hat \kappa^S_{ji} O_i$
 
-& $V^S_i$ values reflect a share of the opportunities at each destination based on origin population 'demand' and impedance; $M^S_j$ values reflect a share of the population at each origin based on destination opportunities 'supply' and impedance.\\
+& $V^S_i$ values reflect a share of the opportunities at each destination $D_j$ based on origin population 'demand' and impedance; $M^S_j$ values reflect a share of the population at each origin $O_i$ based on destination opportunities 'supply' and impedance.\\
 \hline
 
 Doubly Constrained Access ($V_{ij}^D$ or $M_{ij}^D$)
